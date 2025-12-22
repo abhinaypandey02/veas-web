@@ -14,17 +14,57 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format. */
+  DateTimeISO: { input: any; output: any; }
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  onboardUser: Scalars['Boolean']['output'];
+};
+
+
+export type MutationOnboardUserArgs = {
+  input: OnboardUserInput;
+};
+
+export type OnboardUserInput = {
+  dateOfBirth: Scalars['DateTimeISO']['input'];
+  name: Scalars['String']['input'];
+  placeOfBirthLat: Scalars['Float']['input'];
+  placeOfBirthLong: Scalars['Float']['input'];
+  timezone: Scalars['Float']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  getUser: Scalars['String']['output'];
+  getCurrentUser: User;
 };
 
-export type TestQueryVariables = Exact<{ [key: string]: never; }>;
+export type User = {
+  __typename?: 'User';
+  dateOfBirth?: Maybe<Scalars['Float']['output']>;
+  email: Scalars['String']['output'];
+  id: Scalars['Float']['output'];
+  isOnboarded: Scalars['Boolean']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  placeOfBirthLat?: Maybe<Scalars['Float']['output']>;
+  placeOfBirthLong?: Maybe<Scalars['Float']['output']>;
+  timezone?: Maybe<Scalars['Float']['output']>;
+};
+
+export type OnboardUserMutationVariables = Exact<{
+  input: OnboardUserInput;
+}>;
 
 
-export type TestQuery = { __typename?: 'Query', getUser: string };
+export type OnboardUserMutation = { __typename?: 'Mutation', onboardUser: boolean };
+
+export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export const TestDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Test"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getUser"}}]}}]} as unknown as DocumentNode<TestQuery, TestQueryVariables>;
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: number, email: string, name?: string | null, dateOfBirth?: number | null, placeOfBirthLat?: number | null, placeOfBirthLong?: number | null, timezone?: number | null, isOnboarded: boolean } };
+
+
+export const OnboardUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"OnboardUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OnboardUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"onboardUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<OnboardUserMutation, OnboardUserMutationVariables>;
+export const GetCurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dateOfBirth"}},{"kind":"Field","name":{"kind":"Name","value":"placeOfBirthLat"}},{"kind":"Field","name":{"kind":"Name","value":"placeOfBirthLong"}},{"kind":"Field","name":{"kind":"Name","value":"timezone"}},{"kind":"Field","name":{"kind":"Name","value":"isOnboarded"}}]}}]}}]} as unknown as DocumentNode<GetCurrentUserQuery, GetCurrentUserQueryVariables>;

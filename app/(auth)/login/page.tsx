@@ -1,5 +1,5 @@
 import React from "react";
-import SignUpForm from "@/app/(auth)/signup/components/form";
+import LoginForm from "@/app/(auth)/login/components/form";
 
 export default function Page() {
   return (
@@ -7,12 +7,17 @@ export default function Page() {
       <div className="w-full max-w-lg">
         <div className="mb-8 text-center">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-            Welcome
+            Welcome back
           </h2>
-          <p className="mt-1 text-3xl font-semibold text-gray-900">Join Veas</p>
+          <p className="mt-1 text-3xl font-semibold text-gray-900">
+            Log in to Veas
+          </p>
         </div>
-        <SignUpForm />
+        <LoginForm />
       </div>
     </main>
   );
 }
+
+
+

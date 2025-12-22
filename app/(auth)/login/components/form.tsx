@@ -2,10 +2,10 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSignUp } from "@/app/(auth)/utils";
+import { useLogin } from "@/app/(auth)/utils";
 
-export default function SignUpForm() {
-  const signUp = useSignUp();
+export default function LoginForm() {
+  const login = useLogin();
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -19,12 +19,12 @@ export default function SignUpForm() {
     setMessage(null);
 
     try {
-      await signUp({ email, password });
-      // Redirect to onboard page after successful signup
+      await login({ email, password });
+      // Redirect to onboard page after successful login
       router.push("/onboard");
     } catch (error) {
       console.error(error);
-      setMessage("Something went wrong. Please try again.");
+      setMessage("Invalid credentials or an error occurred.");
       setIsSubmitting(false);
     }
   };
@@ -32,9 +32,9 @@ export default function SignUpForm() {
   return (
     <div className="w-full max-w-md rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
       <div className="mb-6 text-center">
-        <h1 className="text-2xl font-semibold text-gray-900">Create account</h1>
+        <h1 className="text-2xl font-semibold text-gray-900">Log in</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Sign up with your email and a secure password.
+          Enter your email and password to continue.
         </p>
       </div>
 
@@ -80,7 +80,7 @@ export default function SignUpForm() {
           disabled={isSubmitting}
           className="flex w-full items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-black disabled:cursor-not-allowed disabled:bg-gray-400"
         >
-          {isSubmitting ? "Signing up..." : "Sign up"}
+          {isSubmitting ? "Logging in..." : "Log in"}
         </button>
       </form>
 
@@ -90,3 +90,6 @@ export default function SignUpForm() {
     </div>
   );
 }
+
+
+

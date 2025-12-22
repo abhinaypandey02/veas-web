@@ -1,6 +1,7 @@
 import { initGraphQLServer } from "naystack/graphql";
+
 import { NextRequest } from "next/server";
-import UserResolvers from "./User/graphql";
+import { UserResolvers, UserFieldResolvers } from "./User/graphql";
 import { getUserIdFromRequest } from "@/app/api/(auth)/email";
 
 export const { GET, POST } = await initGraphQLServer({
@@ -16,5 +17,5 @@ export const { GET, POST } = await initGraphQLServer({
       return { userId: res.accessUserId };
     }
   },
-  resolvers: [UserResolvers],
+  resolvers: [UserResolvers, UserFieldResolvers],
 });
