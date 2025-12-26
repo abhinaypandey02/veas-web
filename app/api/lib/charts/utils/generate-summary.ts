@@ -25,6 +25,8 @@ export async function generateSummaryForKey(
     // Get the appropriate prompt for this key
     const prompt = getPromptForKey(key);
 
+    if (!prompt) return;
+
     // Generate summary using AI
     const { text } = await generateText({
       model: GROQ_MODEL,
