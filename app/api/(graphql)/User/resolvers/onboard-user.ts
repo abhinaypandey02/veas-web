@@ -59,14 +59,12 @@ export default query(
 
           // Then, trigger summary generation for D1 and DASHA
           // This will extract raw data and start background jobs to generate summaries
-          await getChartData(ctx.userId, [ChartKey.D1, ChartKey.DASHA]).catch(
-            (error) => {
-              console.error(
-                "Failed to get chart data for D1 and DASHA:",
-                error,
-              );
-            },
-          );
+          await getChartData(ctx.userId, [
+            ChartKey.D1,
+            ChartKey.CURRENT_AND_NEXT_DASHA,
+          ]).catch((error) => {
+            console.error("Failed to get chart data for D1 and DASHA:", error);
+          });
         } catch (error) {
           console.error("Failed to update raw chart:", error);
         }

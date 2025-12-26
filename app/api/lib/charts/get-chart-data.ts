@@ -25,7 +25,6 @@ export async function getChartData(
   userId: number,
   keys: ChartKey[],
 ): Promise<ChartDataResult[]> {
-  console.log(keys);
   // Fetch all available summaries for the requested keys
   let availableSummaries: UserChartSummaryDB[] = [];
   if (
@@ -94,8 +93,6 @@ export async function getChartData(
       }
     }
   }
-
-  console.log(JSON.stringify(results, null, 2));
 
   return results;
 }
