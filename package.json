@@ -21,6 +21,7 @@
     "ai": "^5.0.116",
     "drizzle-kit": "^0.31.8",
     "drizzle-orm": "^0.45.1",
+    "framer-motion": "^12.23.26",
     "graphql": "^16.12.0",
     "graphql-tag": "^2.12.6",
     "naystack": "^1.2.14",
