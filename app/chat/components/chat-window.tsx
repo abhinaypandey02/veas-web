@@ -27,7 +27,7 @@ export function ChatWindow({
     const userMessage = message.trim();
     setMessage("");
     setIsLoading(true);
-    const assistantMessageId = Date.now();
+    const assistantMessageId = Date.now() - 1;
 
     setChats((prev) => [
       ...prev,

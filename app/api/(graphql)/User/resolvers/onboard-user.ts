@@ -28,7 +28,6 @@ export default query(
     if (!ctx.userId) {
       throw new Error("Unauthorized");
     }
-    console.log(input.dateOfBirth);
     const [updatedUser] = await db
       .update(UserTable)
       .set({
