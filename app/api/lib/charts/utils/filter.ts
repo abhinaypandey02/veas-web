@@ -1,3 +1,4 @@
+import { Dashas, DashasObject } from "../types";
 import type { GetChartsResponse } from "./fetch";
 
 /**
@@ -108,6 +109,53 @@ export function filterChart(chart: unknown): unknown {
   return filtered;
 }
 
+function filterMahadashas(dashas: DashasObject) {
+  return {
+    mahadashas: Object.entries(dashas.mahadashas).reduce(
+      (acc, [key, value]) => ({ ...acc, [key]: filterAntardashas(value) }),
+      {},
+    ),
+  };
+}
+
+function filterAntardashas(dashas: {
+  antardashas: Record<string, { start: string; end: string }>;
+}) {
+  return {
+    ...dashas,
+    antardashas: Object.entries(dashas.antardashas).reduce(
+      (acc, [key, value]) => ({
+        ...acc,
+        [key]: { start: value.start, end: value.end },
+      }),
+      {},
+    ),
+  };
+}
+function filterDashas(dashas: Dashas) {
+  return {
+    ...dashas,
+    upcoming: filterMahadashas(dashas.upcoming),
+    all: filterMahadashas(dashas.all),
+  };
+}
+
+export function filterDashaByStartEnd(
+  dashas: DashasObject,
+  start: Date | null,
+  end: Date | null,
+) {
+  return {
+    mahadashas: Object.entries(dashas.mahadashas)
+      .filter(
+        ([, value]) =>
+          (!end || new Date(value.end) < end) &&
+          (!start || new Date(value.start) > start),
+      )
+      .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {}),
+  };
+}
+
 /**
  * Filters the entire chart response to remove unnecessary technical details
  * while preserving all data that LLMs can meaningfully interpret
@@ -128,12 +176,15 @@ export function filterRawChart(
     filteredDivisionalCharts[key] = filterChart(divisionalCharts[key]);
   });
 
+  // Filter dashas to remove pratyantardashas
+  const filteredDashas = filterDashas(chartData.dashas);
+
   // Return filtered chart data - keep everything else as is
-  // (dashas, panchanga, ayanamsa, person, ashtakavarga are all useful for LLMs)
+  // (panchanga, ayanamsa, person, ashtakavarga are all useful for LLMs)
   return {
     d1_chart: filteredD1Chart,
     divisional_charts: filteredDivisionalCharts,
-    dashas: chartData.dashas, // Keep dashas - important for predictions
+    dashas: filteredDashas, // Filtered dashas without pratyantardashas
     panchanga: chartData.panchanga, // Keep panchanga - useful context
     ayanamsa: chartData.ayanamsa, // Keep ayanamsa - important reference
     person: chartData.person, // Keep person data - birth details

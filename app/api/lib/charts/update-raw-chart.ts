@@ -11,7 +11,7 @@ import { filterRawChart } from "./utils/filter";
  * @param userId - The user ID to update charts for
  * @throws Error if user not found or missing birth data
  */
-export async function updateRawChart(userId: number): Promise<void> {
+export async function updateRawChart(userId: number) {
   // Get user data
   const [user] = await db
     .select()
@@ -70,5 +70,5 @@ export async function updateRawChart(userId: number): Promise<void> {
         updatedAt: new Date(),
       },
     });
+  return filteredRawChart;
 }
-

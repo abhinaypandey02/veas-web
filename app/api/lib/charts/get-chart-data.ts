@@ -1,5 +1,8 @@
 import { db } from "@/app/api/lib/db";
-import { UserChartSummaryTable } from "@/app/api/(graphql)/User/db";
+import {
+  UserChartSummaryDB,
+  UserChartSummaryTable,
+} from "@/app/api/(graphql)/User/db";
 import { eq, and, inArray } from "drizzle-orm";
 import { ChartKey, extractChartDataByKey } from "./keys";
 import { getRawChart } from "./utils/get-raw";
@@ -22,25 +25,32 @@ export async function getChartData(
   userId: number,
   keys: ChartKey[],
 ): Promise<ChartDataResult[]> {
+  console.log(keys);
   // Fetch all available summaries for the requested keys
-  const availableSummaries = await db
-    .select()
-    .from(UserChartSummaryTable)
-    .where(
-      and(
-        eq(UserChartSummaryTable.userId, userId),
-        inArray(
-          UserChartSummaryTable.key,
-          keys.map((k) => k as string),
+  let availableSummaries: UserChartSummaryDB[] = [];
+  if (
+    keys.some(
+      (key) => key !== ChartKey.PAST_DASHA && key !== ChartKey.FUTURE_DASHA,
+    )
+  ) {
+    availableSummaries = await db
+      .select()
+      .from(UserChartSummaryTable)
+      .where(
+        and(
+          eq(UserChartSummaryTable.userId, userId),
+          inArray(
+            UserChartSummaryTable.key,
+            keys.map((k) => k as string),
+          ),
         ),
-      ),
-    );
+      );
+  }
 
   const availableKeys = new Set(
     availableSummaries.map((s) => s.key as ChartKey),
   );
   const missingKeys = keys.filter((k) => !availableKeys.has(k));
-
   // Build results for available summaries
   const results: ChartDataResult[] = keys.map((key) => {
     const summary = availableSummaries.find((s) => s.key === key);
@@ -59,11 +69,9 @@ export async function getChartData(
       isAvailable: false,
     };
   });
-
   // If there are missing keys, fetch raw chart and extract data
   if (missingKeys.length > 0) {
     const rawChart = await getRawChart(userId);
-
     if (!rawChart) {
       // No raw chart available - return results as is
       return results;
@@ -86,6 +94,8 @@ export async function getChartData(
       }
     }
   }
+
+  console.log(JSON.stringify(results, null, 2));
 
   return results;
 }

@@ -1,3 +1,6 @@
+import { Dashas } from "./types";
+import { filterDashaByStartEnd } from "./utils/filter";
+
 /**
  * Chart keys enum - defines all available chart types that can be summarized
  */
@@ -18,7 +21,9 @@ export enum ChartKey {
   D40 = "D40",
   D45 = "D45",
   D60 = "D60",
-  DASHA = "DASHA",
+  CURRENT_AND_NEXT_DASHA = "CURRENT_AND_NEXT_DASHA",
+  FUTURE_DASHA = "FUTURE_DASHA",
+  PAST_DASHA = "PAST_DASHA",
   ASHTAKAVARGA = "ASHTAKAVARGA",
   PANCHANGA = "PANCHANGA",
 }
@@ -43,7 +48,9 @@ export const CHART_KEY_TO_FIELD: Record<ChartKey, string> = {
   [ChartKey.D40]: "divisional_charts.d40",
   [ChartKey.D45]: "divisional_charts.d45",
   [ChartKey.D60]: "divisional_charts.d60",
-  [ChartKey.DASHA]: "dashas",
+  [ChartKey.CURRENT_AND_NEXT_DASHA]: "dashas",
+  [ChartKey.FUTURE_DASHA]: "dashas",
+  [ChartKey.PAST_DASHA]: "dashas",
   [ChartKey.ASHTAKAVARGA]: "ashtakavarga",
   [ChartKey.PANCHANGA]: "panchanga",
 };
@@ -69,11 +76,25 @@ export function extractChartDataByKey(
   }
 
   // Special handling for DASHA - return only current and upcoming
-  if (key === ChartKey.DASHA && current && typeof current === "object") {
-    const dashas = current as Record<string, unknown>;
+  if (key === ChartKey.CURRENT_AND_NEXT_DASHA) {
+    const dashas = current as Dashas;
     return {
       current: dashas.current || null,
       upcoming: dashas.upcoming || null,
+    };
+  }
+  // Special handling for DASHA - return only current and upcoming
+  if (key === ChartKey.FUTURE_DASHA) {
+    const dashas = current as Dashas;
+    return {
+      future: filterDashaByStartEnd(dashas.all, new Date(), null),
+    };
+  }
+  // Special handling for DASHA - return only current and upcoming
+  if (key === ChartKey.PAST_DASHA) {
+    const dashas = current as Dashas;
+    return {
+      past: filterDashaByStartEnd(dashas.all, null, new Date()),
     };
   }
 

@@ -13,17 +13,23 @@ export const getAstrologerAssistant = (id: number) =>
     model: GROQ_MODEL as unknown as string,
     tools: {
       getChartData: {
-        description: "",
+        description:
+          "Fetch chart or dasha data. Keys are literal enum VALUES, not permissions. " +
+          "The `keys` field MUST be an ARRAY, even if requesting a single item.",
+
         inputSchema: z.object({
-          keys: z.array(
-            z.enum(Object.values(ChartKey) as [string, ...string[]]),
-          ),
+          keys: z
+            .array(z.enum(ChartKey))
+            .min(1)
+            .max(4)
+            .describe(
+              "Array of chart keys. MUST be an array. " +
+                'Example: { "keys": ["PAST_DASHA"] }',
+            ),
         }),
-        execute: async ({ keys }: { keys: ChartKey[] }) => {
-          console.log(keys);
-          const chartData = await getChartData(id, keys);
-          return chartData;
-        },
+
+        execute: async ({ keys }: { keys: ChartKey[] }) =>
+          getChartData(id, keys),
       },
     },
     instructions: CHAT_SYSTEM_PROMPT,

@@ -2,6 +2,7 @@ import { db } from "@/app/api/lib/db";
 import { UserRawChartTable } from "@/app/api/(graphql)/User/db";
 import { eq } from "drizzle-orm";
 import { decompressChartData } from "./compress";
+import { updateRawChart } from "../update-raw-chart";
 
 /**
  * Retrieves and decompresses the raw chart data for a user
@@ -17,7 +18,7 @@ export async function getRawChart(
     .where(eq(UserRawChartTable.userId, userId));
 
   if (!chartRecord || !chartRecord.rawChart) {
-    return null;
+    return updateRawChart(userId);
   }
 
   // rawChart is stored as JSONB with a base64-encoded compressed string
@@ -28,6 +29,5 @@ export async function getRawChart(
   }
 
   // Decompress the stored base64-encoded compressed data
-  const decompressed = decompressChartData(chartData.compressed);
-  return decompressed;
+  return decompressChartData(chartData.compressed);
 }

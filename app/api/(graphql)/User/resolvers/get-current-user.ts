@@ -16,5 +16,8 @@ export default query(
   },
   {
     output: User,
+    outputOptions: {
+      nullable: true,
+    },
   },
 );

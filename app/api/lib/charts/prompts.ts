@@ -108,7 +108,7 @@ Chart Data:
 /**
  * Gets the appropriate prompt for a chart key
  */
-export function getPromptForKey(key: ChartKey): string {
+export function getPromptForKey(key: ChartKey): string | null {
   switch (key) {
     case ChartKey.D1:
       return D1_PROMPT;
@@ -116,7 +116,10 @@ export function getPromptForKey(key: ChartKey): string {
       return D9_PROMPT;
     case ChartKey.D10:
       return D10_PROMPT;
-    case ChartKey.DASHA:
+    case ChartKey.PAST_DASHA:
+    case ChartKey.FUTURE_DASHA:
+      return null;
+    case ChartKey.CURRENT_AND_NEXT_DASHA:
       return DASHA_PROMPT;
     case ChartKey.ASHTAKAVARGA:
       return ASHTAKAVARGA_PROMPT;

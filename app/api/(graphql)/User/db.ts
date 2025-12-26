@@ -48,6 +48,7 @@ export const UserChartSummaryTable = pgTable(
     unique().on(table.userId, table.key),
   ],
 );
+export type UserChartSummaryDB = typeof UserChartSummaryTable.$inferSelect;
 
 export const UserRawChartTable = pgTable(
   "user_raw_charts",

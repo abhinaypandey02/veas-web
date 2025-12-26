@@ -4,12 +4,11 @@ import { db } from "@/app/api/lib/db";
 import { ChatRole, ChatTable } from "../../db";
 import { and, eq } from "drizzle-orm";
 import { waitUntil } from "@vercel/functions";
+import { getContext } from "../../../route";
 
 export const POST = async (req: NextRequest) => {
-  const ctx = { userId: 4 };
-  //   const ctx = await getContext(req);
+  const ctx = await getContext(req);
   if (!ctx?.userId) return new NextResponse("Unauthorized", { status: 401 });
-
   const message = await req.text();
 
   const chats = await db

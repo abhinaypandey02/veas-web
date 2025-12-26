@@ -19,7 +19,7 @@ export interface D1Chart {
   [key: string]: unknown;
 }
 
-interface DashasObject {
+export interface DashasObject {
   mahadashas: {
     [key: string]: {
       start: string;
