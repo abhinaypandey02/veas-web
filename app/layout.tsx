@@ -22,7 +22,6 @@ export const metadata: Metadata = {
   title: "Veas | Your True Vedic Chart",
   description: "Discover your true zodiac sign with authentic Vedic astrology.",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{

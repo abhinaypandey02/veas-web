@@ -18,19 +18,19 @@
     "@ai-sdk/groq": "^2.0.33",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@vercel/functions": "^3.3.4",
-    "ai": "^5.0.116",
-    "astronomy-engine": "^2.1.19",
+    "ai": "^6",
     "drizzle-kit": "^0.31.8",
     "drizzle-orm": "^0.45.1",
     "framer-motion": "^12.23.26",
     "graphql": "^16.12.0",
     "graphql-tag": "^2.12.6",
-    "naystack": "^1.2.14",
+    "naystack": "^1.2.15",
     "next": "16.0.10",
     "postgres": "^3.4.7",
     "react": "19.2.1",
     "react-dom": "19.2.1",
-    "type-graphql": "2.0.0-rc.2"
+    "type-graphql": "2.0.0-rc.2",
+    "zod": "^4"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^6.1.0",

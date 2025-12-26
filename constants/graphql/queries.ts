@@ -1,8 +1,28 @@
 import { gql } from "@/__generated__";
 
-export const GET_USER = gql(`
+export const GET_CURRENT_USER = gql(`
   #graphql
-  query Test{
-    getUser
+  query GetCurrentUser {
+    getCurrentUser {
+      id
+      email
+      name
+      dateOfBirth
+      placeOfBirthLat
+      placeOfBirthLong
+      timezone
+      isOnboarded
+    }
   }
-  `);
+`);
+
+export const GET_CHATS = gql(`
+  #graphql
+  query GetChats {
+    getChats {
+      message
+      role
+      createdAt
+    }
+  }
+`);
