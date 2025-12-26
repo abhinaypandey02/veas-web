@@ -15,3 +15,14 @@ export const GET_CURRENT_USER = gql(`
     }
   }
 `);
+
+export const GET_CHATS = gql(`
+  #graphql
+  query GetChats {
+    getChats {
+      message
+      role
+      createdAt
+    }
+  }
+`);

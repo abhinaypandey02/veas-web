@@ -1,5 +1,5 @@
-import React from "react";
 import LogoutButton from "./components/logout-button";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -16,35 +16,18 @@ export default function Page() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Chart Overview
-            </h2>
-            <p className="mt-2 text-sm text-gray-600">
-              View your astrological charts and insights
-            </p>
-          </div>
-
-          <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Current Dasha
-            </h2>
-            <p className="mt-2 text-sm text-gray-600">
-              Your current planetary period
-            </p>
-          </div>
-
-          <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Predictions
-            </h2>
-            <p className="mt-2 text-sm text-gray-600">
-              Personalized astrological predictions
-            </p>
-          </div>
+          <Link href="/chat">
+            <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+              <h2 className="text-lg font-semibold text-gray-900">
+                Start Chat with AI Astrologer
+              </h2>
+              <p className="mt-2 text-sm text-gray-600">
+                View your astrological charts and insights
+              </p>
+            </div>
+          </Link>
         </div>
       </div>
     </main>
   );
 }
-
