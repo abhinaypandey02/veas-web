@@ -10,7 +10,6 @@ export const GET_CURRENT_USER = gql(`
       dateOfBirth
       placeOfBirthLat
       placeOfBirthLong
-      timezone
       isOnboarded
     }
   }

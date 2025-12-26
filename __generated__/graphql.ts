@@ -46,13 +46,12 @@ export type OnboardUserInput = {
   name: Scalars['String']['input'];
   placeOfBirthLat: Scalars['Float']['input'];
   placeOfBirthLong: Scalars['Float']['input'];
-  timezone: Scalars['Float']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
   getChats: Array<Chat>;
-  getCurrentUser: User;
+  getCurrentUser?: Maybe<User>;
 };
 
 export type User = {
@@ -64,7 +63,6 @@ export type User = {
   name?: Maybe<Scalars['String']['output']>;
   placeOfBirthLat?: Maybe<Scalars['Float']['output']>;
   placeOfBirthLong?: Maybe<Scalars['Float']['output']>;
-  timezone?: Maybe<Scalars['Float']['output']>;
 };
 
 export type OnboardUserMutationVariables = Exact<{
@@ -77,7 +75,7 @@ export type OnboardUserMutation = { __typename?: 'Mutation', onboardUser: boolea
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser: { __typename?: 'User', id: number, email: string, name?: string | null, dateOfBirth?: number | null, placeOfBirthLat?: number | null, placeOfBirthLong?: number | null, timezone?: number | null, isOnboarded: boolean } };
+export type GetCurrentUserQuery = { __typename?: 'Query', getCurrentUser?: { __typename?: 'User', id: number, email: string, name?: string | null, dateOfBirth?: number | null, placeOfBirthLat?: number | null, placeOfBirthLong?: number | null, isOnboarded: boolean } | null };
 
 export type GetChatsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -86,5 +84,5 @@ export type GetChatsQuery = { __typename?: 'Query', getChats: Array<{ __typename
 
 
 export const OnboardUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"OnboardUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OnboardUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"onboardUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<OnboardUserMutation, OnboardUserMutationVariables>;
-export const GetCurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dateOfBirth"}},{"kind":"Field","name":{"kind":"Name","value":"placeOfBirthLat"}},{"kind":"Field","name":{"kind":"Name","value":"placeOfBirthLong"}},{"kind":"Field","name":{"kind":"Name","value":"timezone"}},{"kind":"Field","name":{"kind":"Name","value":"isOnboarded"}}]}}]}}]} as unknown as DocumentNode<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
+export const GetCurrentUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getCurrentUser"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"dateOfBirth"}},{"kind":"Field","name":{"kind":"Name","value":"placeOfBirthLat"}},{"kind":"Field","name":{"kind":"Name","value":"placeOfBirthLong"}},{"kind":"Field","name":{"kind":"Name","value":"isOnboarded"}}]}}]}}]} as unknown as DocumentNode<GetCurrentUserQuery, GetCurrentUserQueryVariables>;
 export const GetChatsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetChats"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getChats"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"message"}},{"kind":"Field","name":{"kind":"Name","value":"role"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<GetChatsQuery, GetChatsQueryVariables>;

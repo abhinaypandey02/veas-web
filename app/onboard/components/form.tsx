@@ -12,7 +12,6 @@ export default function OnboardForm() {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [placeOfBirthLat, setPlaceOfBirthLat] = useState("");
   const [placeOfBirthLong, setPlaceOfBirthLong] = useState("");
-  const [timezone, setTimezone] = useState("");
   const [message, setMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,7 +25,6 @@ export default function OnboardForm() {
           dateOfBirth: new Date(dateOfBirth),
           placeOfBirthLat: parseFloat(placeOfBirthLat),
           placeOfBirthLong: parseFloat(placeOfBirthLong),
-          timezone: parseFloat(timezone),
         },
       });
 
@@ -125,28 +123,6 @@ export default function OnboardForm() {
               placeholder="77.8498"
             />
           </div>
-        </div>
-
-        <div className="space-y-1">
-          <label
-            htmlFor="timezone"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Timezone Offset (hours)
-          </label>
-          <input
-            id="timezone"
-            type="number"
-            step="0.5"
-            value={timezone}
-            onChange={(e) => setTimezone(e.target.value)}
-            required
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
-            placeholder="5.5 (e.g., IST)"
-          />
-          <p className="mt-1 text-xs text-gray-500">
-            Enter timezone offset from UTC (e.g., 5.5 for IST, -5 for EST)
-          </p>
         </div>
 
         <button

@@ -254,12 +254,11 @@ input OnboardUserInput {
   name: String!
   placeOfBirthLat: Float!
   placeOfBirthLong: Float!
-  timezone: Float!
 }
 
 type Query {
   getChats: [Chat!]!
-  getCurrentUser: User!
+  getCurrentUser: User
   __schema: __Schema!
   __type(name: String!): __Type
 }
@@ -272,5 +271,4 @@ type User {
   name: String
   placeOfBirthLat: Float
   placeOfBirthLong: Float
-  timezone: Float
 }

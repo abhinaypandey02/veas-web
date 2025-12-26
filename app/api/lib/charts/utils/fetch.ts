@@ -2,7 +2,6 @@ import type { GetChartsResponse } from "../types";
 
 export interface GetChartsParams {
   datetime: Date | string;
-  timezone: number;
   lat: number;
   lon: number;
 }
@@ -26,7 +25,7 @@ export async function getCharts(
 
   const requestBody = {
     datetime: datetimeString,
-    timezone: params.timezone,
+    timezone: 0,
     lat: params.lat,
     lon: params.lon,
   };

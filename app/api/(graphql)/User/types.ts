@@ -19,7 +19,4 @@ export class User {
 
   @Field(() => Number, { nullable: true })
   placeOfBirthLong: number | null;
-
-  @Field(() => Number, { nullable: true })
-  timezone: number | null;
 }
