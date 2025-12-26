@@ -35,8 +35,8 @@ export const getAstrologerAssistant = (id: number) =>
     instructions: CHAT_SYSTEM_PROMPT,
   });
 
-const MAXIMUM_MESSAGES = 5;
-const MESSAGE_THRESHOLD = 5;
+const MAXIMUM_MESSAGES = 15;
+const MESSAGE_THRESHOLD = 10;
 
 export async function processChat(
   userId: number,
