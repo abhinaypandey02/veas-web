@@ -1,5 +1,3 @@
-import { groq } from "@ai-sdk/groq";
+import { google } from "@ai-sdk/google";
 
-export const GROQ_MODEL = groq(
-  "meta-llama/llama-4-scout-17b-16e-instruct",
-) as unknown as string;
+export const GROQ_MODEL = google("gemini-2.5-flash") as unknown as string;
