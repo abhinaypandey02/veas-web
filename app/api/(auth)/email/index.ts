@@ -6,9 +6,8 @@ import { eq } from "drizzle-orm";
 export const { GET, POST, PUT, DELETE, getUserIdFromRequest } =
   getEmailAuthRoutes({
     createUser: async (data) => {
-      return undefined;
-      // const [user] = await db.insert(UserTable).values(data).returning();
-      // return user;
+      const [user] = await db.insert(UserTable).values(data).returning();
+      return user;
     },
     getUser: async (email) => {
       const [user] = await db
