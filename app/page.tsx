@@ -121,7 +121,7 @@ export default function Home() {
                     Current Position
                   </span>
                   <span className="font-serif text-3xl text-slate-900 italic">
-                    23° 04'
+                    23° 04&apos;
                   </span>
                 </div>
 
@@ -157,7 +157,8 @@ export default function Home() {
 
               <div className="relative z-10">
                 <p className="font-serif text-sm text-slate-600 italic text-center">
-                  "I always felt too sensitive for a Leo. Now I know why."
+                  &quot;I always felt too sensitive for a Leo. Now I know
+                  why.&quot;
                 </p>
               </div>
             </div>
