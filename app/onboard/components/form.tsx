@@ -20,12 +20,10 @@ export default function OnboardForm() {
 
     try {
       const result = await onboardUser({
-        input: {
-          name,
-          dateOfBirth: new Date(dateOfBirth),
-          placeOfBirthLat: parseFloat(placeOfBirthLat),
-          placeOfBirthLong: parseFloat(placeOfBirthLong),
-        },
+        name,
+        dateOfBirth: new Date(dateOfBirth),
+        placeOfBirthLat: parseFloat(placeOfBirthLat),
+        placeOfBirthLong: parseFloat(placeOfBirthLong),
       });
 
       if (result.data) {

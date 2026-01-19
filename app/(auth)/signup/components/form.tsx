@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSignUp } from "@/app/(auth)/utils";
+import { useSignUp } from "naystack/auth/email/client";
 
 export default function SignUpForm() {
   const signUp = useSignUp();

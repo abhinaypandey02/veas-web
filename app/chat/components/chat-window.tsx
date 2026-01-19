@@ -1,7 +1,7 @@
 "use client";
 
 import { ChatRole, GetChatsQuery } from "@/__generated__/graphql";
-import { useToken } from "naystack/graphql/client";
+import { useToken } from "naystack/auth/email/client";
 import { useState, useRef, useEffect } from "react";
 
 export function ChatWindow({

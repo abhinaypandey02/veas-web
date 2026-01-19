@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useLogout } from "@/app/(auth)/utils";
+import { useLogout } from "naystack/auth/email/client";
 
 export default function LogoutButton() {
   const logout = useLogout();

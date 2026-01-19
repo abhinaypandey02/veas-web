@@ -1,12 +1,10 @@
 import OnboardForm from "@/app/onboard/components/form";
-import { query } from "@/app/lib/gql-server";
 import { GET_CURRENT_USER } from "@/constants/graphql/queries";
+import { query } from "naystack/graphql/server";
 import { redirect } from "next/navigation";
 
 export default async function Page() {
-  const data = await query(GET_CURRENT_USER, {
-    revalidate: 0,
-  });
+  const data = await query(GET_CURRENT_USER);
 
   if (data?.getCurrentUser?.isOnboarded) {
     redirect("/dashboard");

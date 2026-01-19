@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { ApolloWrapper } from "@/app/lib/gql-client";
+import { ApolloWrapper } from "naystack/graphql/client";
+import { AuthWrapper } from "naystack/auth/email/client";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,7 +33,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased`}
       >
-        <ApolloWrapper>{children}</ApolloWrapper>
+        <AuthWrapper>
+          <ApolloWrapper>{children}</ApolloWrapper>
+        </AuthWrapper>
       </body>
     </html>
   );

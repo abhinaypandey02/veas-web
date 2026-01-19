@@ -4,7 +4,7 @@ import { db } from "@/app/api/lib/db";
 import { ChatRole, ChatTable } from "../../db";
 import { and, eq } from "drizzle-orm";
 import { waitUntil } from "@vercel/functions";
-import { getContext } from "../../../route";
+import { getContext } from "naystack/auth";
 
 export const POST = async (req: NextRequest) => {
   const ctx = await getContext(req);
@@ -43,7 +43,7 @@ export const POST = async (req: NextRequest) => {
         while (true) {
           const { done, value } = await reader.read();
 
-          if (done) {
+          if (done && ctx.userId) {
             waitUntil(processChat(ctx.userId, chats, message, response));
             controller.close();
             break;

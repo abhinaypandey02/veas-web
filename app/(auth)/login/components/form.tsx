@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useLogin } from "@/app/(auth)/utils";
+import { useLogin } from "naystack/auth/email/client";
 
 export default function LoginForm() {
   const login = useLogin();
@@ -90,6 +90,3 @@ export default function LoginForm() {
     </div>
   );
 }
-
-
-
