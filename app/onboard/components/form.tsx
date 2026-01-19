@@ -19,9 +19,6 @@ interface FormType {
 export default function OnboardForm() {
   const router = useRouter();
   const [onboardUser, { loading }] = useAuthMutation(ONBOARD_USER);
-  const [placeOfBirthLat, setPlaceOfBirthLat] = useState("");
-  const [placeOfBirthLong, setPlaceOfBirthLong] = useState("");
-  const [message, setMessage] = useState<string | null>(null);
   const [places, setPlaces] = useState<SearchPlaceResponse[]>([]);
   const form = useForm<FormType>();
 
@@ -30,10 +27,11 @@ export default function OnboardForm() {
     const sub = form.watch(({ place }) => {
       if (timeout) clearTimeout(timeout);
       if (!place || place.length <= 3) return;
-      console.log(places, place);
       if (places.some((p) => p.place_id === Number(place))) return;
       timeout = setTimeout(() => {
-        searchLocation(place).then(setPlaces);
+        searchLocation(place)
+          .then((res) => res.filter((p) => p.type === "city"))
+          .then(setPlaces);
       }, 500);
     });
     return () => {
@@ -43,23 +41,30 @@ export default function OnboardForm() {
   }, [form, places]);
 
   const handleSubmit = async (data: FormType) => {
-    setMessage(null);
-
+    const selectedPlace = places.find((p) => p.place_id === Number(data.place));
+    if (!selectedPlace) {
+      form.setError("place", {
+        message: "Please select a valid place",
+      });
+      return;
+    }
     try {
       const result = await onboardUser({
         name: data.name,
         dateOfBirth: new Date(data.dob),
-        placeOfBirthLat: parseFloat(placeOfBirthLat),
-        placeOfBirthLong: parseFloat(placeOfBirthLong),
+        placeOfBirthLat: parseFloat(selectedPlace.lat),
+        placeOfBirthLong: parseFloat(selectedPlace.lon),
       });
 
       if (result.data) {
-        setMessage("Onboarding completed successfully!");
         router.push("/dashboard");
       }
     } catch (error) {
       console.error(error);
-      setMessage("Something went wrong. Please try again.");
+      form.setError("place", {
+        message:
+          (error as Error).message || "Something went wrong. Please try again.",
+      });
     }
   };
 
@@ -90,7 +95,7 @@ export default function OnboardForm() {
         />
         <Input
           name="place"
-          label="Place of Birth"
+          label="City of Birth"
           rules={{ required: true }}
           placeholder="New York"
           options={places.map((place) => ({
@@ -103,10 +108,6 @@ export default function OnboardForm() {
           Complete Onboarding
         </Button>
       </Form>
-
-      {message && (
-        <p className="mt-4 text-center text-xs text-gray-600">{message}</p>
-      )}
     </div>
   );
 }

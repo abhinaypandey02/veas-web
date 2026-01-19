@@ -8,6 +8,7 @@ export async function searchLocation(query: string) {
 
 export interface SearchPlaceResponse {
   lat: string;
+  type: string;
   lon: string;
   place_id: number;
   name: string;
