@@ -1,27 +1,54 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthMutation } from "naystack/graphql/client";
 import { ONBOARD_USER } from "@/constants/graphql/mutations";
 import { useRouter } from "next/navigation";
+import { Input } from "@/components/input";
+import { searchLocation, SearchPlaceResponse } from "@/utils/location";
+import { useForm } from "react-hook-form";
+import Form from "@/components/form";
+import { Button } from "@/components/button";
+
+interface FormType {
+  name: string;
+  dob: string;
+  place: string;
+}
 
 export default function OnboardForm() {
   const router = useRouter();
   const [onboardUser, { loading }] = useAuthMutation(ONBOARD_USER);
-  const [name, setName] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
   const [placeOfBirthLat, setPlaceOfBirthLat] = useState("");
   const [placeOfBirthLong, setPlaceOfBirthLong] = useState("");
   const [message, setMessage] = useState<string | null>(null);
+  const [places, setPlaces] = useState<SearchPlaceResponse[]>([]);
+  const form = useForm<FormType>();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    const sub = form.watch(({ place }) => {
+      if (timeout) clearTimeout(timeout);
+      if (!place || place.length <= 3) return;
+      console.log(places, place);
+      if (places.some((p) => p.place_id === Number(place))) return;
+      timeout = setTimeout(() => {
+        searchLocation(place).then(setPlaces);
+      }, 500);
+    });
+    return () => {
+      if (timeout) clearTimeout(timeout);
+      sub.unsubscribe();
+    };
+  }, [form, places]);
+
+  const handleSubmit = async (data: FormType) => {
     setMessage(null);
 
     try {
       const result = await onboardUser({
-        name,
-        dateOfBirth: new Date(dateOfBirth),
+        name: data.name,
+        dateOfBirth: new Date(data.dob),
         placeOfBirthLat: parseFloat(placeOfBirthLat),
         placeOfBirthLong: parseFloat(placeOfBirthLong),
       });
@@ -37,100 +64,45 @@ export default function OnboardForm() {
   };
 
   return (
-    <div className="w-full max-w-md rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
+    <div className="">
       <div className="mb-6 text-center">
-        <h1 className="text-2xl font-semibold text-gray-900">
-          Complete Your Profile
+        <h1 className="text-4xl font-semibold font-serif text-gray-900">
+          About you
         </h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Please provide your birth details for accurate astrological charts.
+        <p className="mt-1 text-sm text-faded">
+          Enter your basic details so we can know you better.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-1">
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Full Name
-          </label>
-          <input
-            id="name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
-            placeholder="John Doe"
-          />
-        </div>
+      <Form form={form} onSubmit={handleSubmit} className="space-y-4 px-4">
+        <Input
+          name="name"
+          label="Full name"
+          rules={{ required: true }}
+          placeholder="John Doe"
+        />
+        <Input
+          name="dob"
+          label="Date of Birth"
+          rules={{ required: true }}
+          placeholder="2000-01-01"
+          type="datetime-local"
+        />
+        <Input
+          name="place"
+          label="Place of Birth"
+          rules={{ required: true }}
+          placeholder="New York"
+          options={places.map((place) => ({
+            label: place.name,
+            value: place.place_id,
+          }))}
+        />
 
-        <div className="space-y-1">
-          <label
-            htmlFor="dateOfBirth"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Date & Time of Birth
-          </label>
-          <input
-            id="dateOfBirth"
-            type="datetime-local"
-            value={dateOfBirth}
-            onChange={(e) => setDateOfBirth(e.target.value)}
-            required
-            className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-1">
-            <label
-              htmlFor="placeOfBirthLat"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Latitude
-            </label>
-            <input
-              id="placeOfBirthLat"
-              type="number"
-              step="any"
-              value={placeOfBirthLat}
-              onChange={(e) => setPlaceOfBirthLat(e.target.value)}
-              required
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
-              placeholder="28.4070"
-            />
-          </div>
-
-          <div className="space-y-1">
-            <label
-              htmlFor="placeOfBirthLong"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Longitude
-            </label>
-            <input
-              id="placeOfBirthLong"
-              type="number"
-              step="any"
-              value={placeOfBirthLong}
-              onChange={(e) => setPlaceOfBirthLong(e.target.value)}
-              required
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-gray-900 focus:outline-none focus:ring-1 focus:ring-gray-900"
-              placeholder="77.8498"
-            />
-          </div>
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="flex w-full items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-black disabled:cursor-not-allowed disabled:bg-gray-400"
-        >
-          {loading ? "Submitting..." : "Complete Onboarding"}
-        </button>
-      </form>
+        <Button className="w-full" loading={loading}>
+          Complete Onboarding
+        </Button>
+      </Form>
 
       {message && (
         <p className="mt-4 text-center text-xs text-gray-600">{message}</p>

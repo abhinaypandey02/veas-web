@@ -1,22 +1,30 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ApolloWrapper } from "naystack/graphql/client";
 import { AuthWrapper } from "naystack/auth/email/client";
+import localFont from "next/font/local";
+import Navbar from "./_components/navbar";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const serif = localFont({
+  src: [
+    {
+      path: "../fonts/serif.woff2",
+      style: "normal",
+    },
+    {
+      path: "../fonts/serif-italic.woff2",
+      style: "italic",
+    },
+  ],
+  variable: "--font-serif",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
+const sans = localFont({
+  src: [
+    {
+      path: "../fonts/sans.woff2",
+    },
+  ],
 });
 
 export const metadata: Metadata = {
@@ -30,11 +38,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased`}
-      >
+      <body className={`${sans.className} ${serif.variable} antialiased`}>
         <AuthWrapper>
-          <ApolloWrapper>{children}</ApolloWrapper>
+          <ApolloWrapper>
+            <Navbar />
+            {children}
+          </ApolloWrapper>
         </AuthWrapper>
       </body>
     </html>

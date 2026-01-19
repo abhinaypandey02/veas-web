@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 
@@ -13,7 +12,7 @@ export default function Home() {
   return (
     <div
       ref={containerRef}
-      className="relative min-h-screen bg-[#FDFBF7] text-slate-900 overflow-hidden font-sans selection:bg-black selection:text-white"
+      className="relative text-slate-900 overflow-hidden font-sans selection:bg-black selection:text-white"
     >
       {/* --- Dynamic Living Background --- */}
       <div className="fixed inset-0 z-0 pointer-events-none">
@@ -43,40 +42,8 @@ export default function Home() {
         <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-50 mix-blend-multiply" />
       </div>
 
-      <main className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col px-6 pb-20 pt-8 sm:px-12 sm:pt-12">
+      <main className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 pb-20 pt-4 sm:px-12 sm:pt-8">
         {/* Navigation */}
-        <motion.header
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex items-center justify-between pb-6"
-        >
-          <div className="flex items-center gap-4">
-            <div className="relative h-12 w-12 overflow-hidden rounded-full border border-slate-900/10 shadow-sm">
-              <Image
-                src="/logo.jpeg"
-                alt="Veas Logo"
-                fill
-                className="object-cover grayscale"
-              />
-            </div>
-            <span className="font-serif text-2xl font-bold tracking-tight text-slate-900">
-              Veas
-            </span>
-          </div>
-          <nav className="hidden md:flex gap-8 text-xs font-mono font-medium uppercase tracking-widest text-slate-500">
-            {["The Shift", "The Method", "The Truth"].map((item) => (
-              <a
-                key={item}
-                href="#"
-                className="hover:text-slate-900 transition-colors relative group"
-              >
-                {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-slate-900 transition-all group-hover:w-full" />
-              </a>
-            ))}
-          </nav>
-        </motion.header>
 
         {/* Hero Content */}
         <section className="mt-12 lg:mt-24 grid grid-cols-1 gap-16 lg:grid-cols-12">
