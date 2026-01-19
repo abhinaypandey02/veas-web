@@ -41,7 +41,7 @@ export default function RootLayout({
       <body className={`${sans.className} ${serif.variable} antialiased`}>
         <AuthWrapper>
           <ApolloWrapper>
-            {/* <Navbar /> */}
+            <Navbar />
             {children}
           </ApolloWrapper>
         </AuthWrapper>

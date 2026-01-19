@@ -8,8 +8,8 @@ export default function Navbar() {
   const logout = useLogout();
   return (
     <>
-      <nav className="fixed top-0 z-50 flex justify-between px-4 py-2 w-full items-center">
-        <Logo className="text-2xl" />
+      <nav className="fixed top-0 z-50 flex justify-between px-4 sm:px-10 py-2 sm:py-4 w-full items-center">
+        <Logo className="text-2xl sm:text-4xl" />
         <div className="flex items-center text-sm gap-4">
           {token ? (
             <>
