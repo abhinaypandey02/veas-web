@@ -2,8 +2,152 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { CourseCard } from "@/components/CourseCard";
+
+// Live Timer Component for Hero
+function LiveTimer() {
+  const [time, setTime] = useState({ hours: "00", minutes: "00", seconds: "00" });
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      setTime({
+        hours: now.getHours().toString().padStart(2, "0"),
+        minutes: now.getMinutes().toString().padStart(2, "0"),
+        seconds: now.getSeconds().toString().padStart(2, "0"),
+      });
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="font-mono text-lg sm:text-xl tracking-wider text-foreground tabular-nums">
+      {time.hours}:{time.minutes}:<span className="text-cosmic-cobalt">{time.seconds}</span>
+    </div>
+  );
+}
+
+// Constellation nodes data
+const constellationNodes = [
+  { id: 1, x: 5, y: 10 }, { id: 2, x: 12, y: 15 }, { id: 3, x: 8, y: 25 },
+  { id: 4, x: 18, y: 8 }, { id: 5, x: 25, y: 20 }, { id: 6, x: 15, y: 35 },
+  { id: 7, x: 30, y: 12 }, { id: 8, x: 35, y: 28 }, { id: 9, x: 22, y: 40 },
+  { id: 10, x: 45, y: 15 }, { id: 11, x: 50, y: 5 }, { id: 12, x: 55, y: 22 },
+  { id: 13, x: 42, y: 35 }, { id: 14, x: 60, y: 10 }, { id: 15, x: 65, y: 30 },
+  { id: 16, x: 70, y: 18 }, { id: 17, x: 75, y: 8 }, { id: 18, x: 80, y: 25 },
+  { id: 19, x: 85, y: 12 }, { id: 20, x: 90, y: 22 }, { id: 21, x: 95, y: 15 },
+  { id: 22, x: 10, y: 50 }, { id: 23, x: 20, y: 55 }, { id: 24, x: 5, y: 65 },
+  { id: 25, x: 25, y: 70 }, { id: 26, x: 35, y: 55 }, { id: 27, x: 40, y: 68 },
+  { id: 28, x: 50, y: 60 }, { id: 29, x: 55, y: 75 }, { id: 30, x: 65, y: 55 },
+  { id: 31, x: 70, y: 70 }, { id: 32, x: 78, y: 58 }, { id: 33, x: 85, y: 65 },
+  { id: 34, x: 92, y: 55 }, { id: 35, x: 8, y: 80 }, { id: 36, x: 18, y: 88 },
+  { id: 37, x: 28, y: 82 }, { id: 38, x: 38, y: 90 }, { id: 39, x: 48, y: 85 },
+  { id: 40, x: 58, y: 92 }, { id: 41, x: 68, y: 85 }, { id: 42, x: 78, y: 90 },
+  { id: 43, x: 88, y: 82 }, { id: 44, x: 95, y: 88 },
+];
+
+// Pre-defined connections that will animate
+const constellationConnections = [
+  [1, 2], [2, 3], [2, 4], [4, 5], [5, 6], [3, 6],
+  [4, 7], [7, 8], [8, 9], [5, 8], [6, 9],
+  [7, 10], [10, 11], [10, 12], [11, 14], [12, 13], [12, 15],
+  [14, 16], [16, 17], [16, 18], [17, 19], [18, 20], [19, 20], [20, 21],
+  [22, 23], [22, 24], [23, 25], [24, 25], [23, 26], [26, 27], [25, 27],
+  [26, 28], [28, 29], [28, 30], [29, 31], [30, 31], [30, 32], [32, 33], [33, 34],
+  [35, 36], [36, 37], [37, 38], [38, 39], [39, 40], [40, 41], [41, 42], [42, 43], [43, 44],
+  [3, 22], [6, 23], [9, 25], [13, 27], [15, 30], [18, 32], [21, 34],
+  [24, 35], [25, 37], [27, 38], [29, 39], [31, 41], [33, 43],
+];
+
+function ConstellationField() {
+  return (
+    <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
+      <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+        {/* Animated connection lines */}
+        {constellationConnections.map(([from, to], index) => {
+          const fromNode = constellationNodes.find(n => n.id === from);
+          const toNode = constellationNodes.find(n => n.id === to);
+          if (!fromNode || !toNode) return null;
+          
+          return (
+            <motion.line
+              key={`line-${index}`}
+              x1={fromNode.x}
+              y1={fromNode.y}
+              x2={toNode.x}
+              y2={toNode.y}
+              stroke="currentColor"
+              className="text-foreground"
+              strokeWidth="0.08"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ 
+                pathLength: [0, 1, 1, 0],
+                opacity: [0, 0.4, 0.4, 0],
+              }}
+              transition={{
+                duration: 8,
+                delay: (index % 15) * 0.5,
+                repeat: Infinity,
+                repeatDelay: 2,
+                ease: "easeInOut",
+              }}
+            />
+          );
+        })}
+        
+        {/* Star nodes */}
+        {constellationNodes.map((node, index) => (
+          <motion.circle
+            key={`node-${node.id}`}
+            cx={node.x}
+            cy={node.y}
+            r="0.4"
+            fill="currentColor"
+            className="text-foreground"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ 
+              scale: [0, 1.2, 1, 1.2, 0],
+              opacity: [0, 0.8, 0.6, 0.8, 0],
+            }}
+            transition={{
+              duration: 6,
+              delay: (index % 20) * 0.3,
+              repeat: Infinity,
+              repeatDelay: 3,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+
+        {/* Extra twinkling stars */}
+        {[...Array(30)].map((_, i) => (
+          <motion.circle
+            key={`twinkle-${i}`}
+            cx={Math.random() * 100}
+            cy={Math.random() * 100}
+            r="0.15"
+            fill="currentColor"
+            className="text-foreground"
+            animate={{
+              opacity: [0, 0.7, 0],
+              scale: [0.5, 1.5, 0.5],
+            }}
+            transition={{
+              duration: 2 + Math.random() * 3,
+              delay: Math.random() * 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </svg>
+    </div>
+  );
+}
 
 const pricingPlans = [
   {
@@ -74,7 +218,7 @@ function PricingSection() {
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">("monthly");
 
   return (
-    <section className="py-24 border-t border-foreground/10">
+    <section className="py-24 px-24 border-t border-foreground/10">
       {/* Header */}
       <div className="text-center mb-12">
         <motion.div
@@ -258,7 +402,7 @@ function TestimonialsSection() {
   };
 
   return (
-    <section className="relative z-10 py-24 sm:py-32">
+    <section className="relative z-10 py-24 sm:py-32 bg-background">
       {/* Curved Container with Gradient */}
       <div className="mx-4 sm:mx-8 lg:mx-12 rounded-[3rem] sm:rounded-[4rem] overflow-hidden relative">
         {/* Gradient Background */}
@@ -530,12 +674,26 @@ export default function Home() {
   return (
     <div className="relative font-sans selection:bg-cosmic-lavender selection:text-foreground">
       {/* Hero Section - Fixed Background */}
-      <section className="fixed inset-0 flex items-center justify-center overflow-hidden">
-        {/* Background Image Placeholder - Add your image here */}
-        <div className="absolute inset-0 z-0">
-          {/* Replace this div with your background image */}
-          {/* Example: <Image src="/hero-bg.jpg" alt="" fill className="object-cover" /> */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#e8e4d9] via-[#d4cfc4] to-[#c9d4c5]" />
+      <section className="fixed inset-0 flex items-center justify-center overflow-hidden bg-background p-4 sm:p-6 lg:p-8">
+        {/* Rounded Background Container */}
+        <div className="absolute inset-4 sm:inset-6 lg:inset-8 rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] overflow-hidden shadow-2xl">
+          {/* Background Image */}
+          <img src="/landingsectionbg.png" alt="Background" className="object-cover w-full h-full" />
+          
+          {/* Edge Blur Overlays */}
+          {/* Top edge blur */}
+          <div className="absolute inset-x-0 top-0 h-24 backdrop-blur-xl [mask-image:linear-gradient(to_bottom,black,transparent)] pointer-events-none" />
+          {/* Bottom edge blur */}
+          <div className="absolute inset-x-0 bottom-0 h-24 backdrop-blur-xl [mask-image:linear-gradient(to_top,black,transparent)] pointer-events-none" />
+          {/* Left edge blur */}
+          <div className="absolute inset-y-0 left-0 w-24 backdrop-blur-xl [mask-image:linear-gradient(to_right,black,transparent)] pointer-events-none" />
+          {/* Right edge blur */}
+          <div className="absolute inset-y-0 right-0 w-24 backdrop-blur-xl [mask-image:linear-gradient(to_left,black,transparent)] pointer-events-none" />
+        </div>
+
+        {/* Animated Floating Constellations - inside the rounded area */}
+        <div className="absolute inset-4 sm:inset-6 lg:inset-8 rounded-[2rem] sm:rounded-[2.5rem] lg:rounded-[3rem] overflow-hidden">
+          <ConstellationField />
         </div>
 
         {/* Content */}
@@ -568,13 +726,48 @@ export default function Home() {
             </Link>
           </motion.div>
         </div>
+
+        {/* Bottom Left - Coordinates */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="absolute bottom-12 left-12 sm:bottom-16 sm:left-16 lg:bottom-20 lg:left-20 z-10"
+        >
+          <div className="flex flex-col gap-1">
+            <span className="font-mono text-[10px] sm:text-xs tracking-[0.3em] text-foreground/80 uppercase">Location</span>
+            <span className="font-mono text-lg sm:text-xl tracking-wider text-foreground font-medium">42°21&apos;N</span>
+            <span className="font-mono text-lg sm:text-xl tracking-wider text-foreground font-medium">71°03&apos;W</span>
+          </div>
+        </motion.div>
+
+        {/* Bottom Right - Live Cosmic Timer */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="absolute bottom-12 right-12 sm:bottom-16 sm:right-16 lg:bottom-20 lg:right-20 z-10"
+        >
+          <div className="flex items-center gap-3">
+            {/* Saturn SVG Icon */}
+            <svg className="w-8 h-8 sm:w-10 sm:h-10 text-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <circle cx="12" cy="12" r="5" />
+              <ellipse cx="12" cy="12" rx="10" ry="3" transform="rotate(-20 12 12)" />
+            </svg>
+            <div className="flex flex-col items-end">
+              <span className="font-mono text-[10px] sm:text-xs tracking-[0.3em] text-foreground/80 uppercase">Cosmic Time</span>
+              <LiveTimer />
+            </div>
+          </div>
+        </motion.div>
       </section>
 
       {/* Spacer to push content below the fixed hero */}
       <div className="h-screen" />
 
-      {/* Main Content - Scrolls over the hero */}
-      <main className="relative z-10 mx-auto flex max-w-7xl flex-col px-6 pb-20 sm:px-12 bg-background rounded-t-[3rem] shadow-2xl">
+      {/* Main Content Wrapper - Scrolls over the hero */}
+      <div className="relative z-10 bg-background rounded-t-[3rem] shadow-2xl">
+        <main className="mx-auto flex max-w-7xl flex-col px-6 pb-20 sm:px-12">
 
         {/* Bento Grid Section */}
         <section className="py-24">
@@ -736,7 +929,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Feature Grid / Philosophy */}
+        {/* Feature Grid / Philosophy 
         <section className="py-24 border-t border-foreground/10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="p-8 rounded-2xl bg-white/70 border border-cosmic-lavender/50 backdrop-blur-sm">
@@ -768,6 +961,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+        */}
 
         {/* Big Feature Section with Background Text */}
         <section className="relative py-32 sm:py-40 overflow-hidden">
@@ -876,8 +1070,43 @@ export default function Home() {
         </section>
 
       </main>
-
+      {/* Scrolling Text Banner */}
+      <PricingSection />
+      <ScrollingTextBanner />
       {/* Bold Vedic Section - Full Width */}
+   
+
+      <div className="bg-background">
+      <main className="relative z-10 mx-auto max-w-7xl px-6 sm:px-12">
+
+        {/* Courses Section 
+        <section className="py-24">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+            <div>
+              <h2 className="font-editorial text-4xl sm:text-5xl mb-4 text-foreground">Curated Paths</h2>
+              <p className="text-muted max-w-md">Deepen your understanding with our expert-led courses.</p>
+            </div>
+            <Link href="/courses" className="text-cosmic-cobalt hover:text-foreground transition-colors border-b border-transparent hover:border-foreground pb-0.5 text-sm uppercase tracking-widest">
+              View All Academy ⟶
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {courses.map((course, i) => (
+              <CourseCard key={i} {...course} />
+            ))}
+          </div>
+        </section>
+*/}
+        {/* Pricing Section */}
+     
+
+      </main>
+      </div>
+
+      {/* Testimonials Section - Full Width with Gradient */}
+      <TestimonialsSection />
+
       <section className="relative z-10 bg-cosmic-lavender overflow-hidden">
         {/* Scrolling Announcement Bar */}
         <div className="bg-foreground text-white py-3 overflow-hidden">
@@ -975,38 +1204,6 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-
-      <main className="relative z-10 mx-auto max-w-7xl px-6 sm:px-12">
-
-        {/* Courses Section */}
-        <section className="py-24">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-            <div>
-              <h2 className="font-editorial text-4xl sm:text-5xl mb-4 text-foreground">Curated Paths</h2>
-              <p className="text-muted max-w-md">Deepen your understanding with our expert-led courses.</p>
-            </div>
-            <Link href="/courses" className="text-cosmic-cobalt hover:text-foreground transition-colors border-b border-transparent hover:border-foreground pb-0.5 text-sm uppercase tracking-widest">
-              View All Academy ⟶
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {courses.map((course, i) => (
-              <CourseCard key={i} {...course} />
-            ))}
-          </div>
-        </section>
-
-        {/* Pricing Section */}
-        <PricingSection />
-
-      </main>
-
-      {/* Testimonials Section - Full Width with Gradient */}
-      <TestimonialsSection />
-
-      {/* Scrolling Text Banner */}
-      <ScrollingTextBanner />
 
       {/* FAQ Section */}
       <FAQSection />
@@ -1146,6 +1343,7 @@ export default function Home() {
           </div>
         </div>
       </footer>
+      </div>{/* End of content wrapper */}
     </div>
   );
 }
