@@ -1,35 +1,55 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #1a1a1a;
-  --background: #ffffff;
-  --foreground: var(--primary);
-  --faded: #484848;
-  --danger: #ad7070;
+  /* Light Theme Backgrounds */
+  --background: #F9F5FF; /* Lavender Mist */
+  --surface: #ffffff;
+  --surface-highlight: #f0ebf8;
+
+  /* Text Colors */
+  --foreground: #28262C; /* Shadow Grey - primary text */
+  --muted: #5c5a61; /* Darker muted for readability on light */
+  --accent: #998FC7; /* Soft Periwinkle */
+
+  /* Cosmic / Astrology Colors */
+  --cosmic-purple: #998FC7; /* Soft Periwinkle */
+  --cosmic-lavender: #D4C2FC; /* Periwinkle */
+  --cosmic-cobalt: #14248A; /* True Cobalt */
+  --cosmic-gold: #b8a06e;
+
+  --border: #D4C2FC;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-highlight: var(--surface-highlight);
   --color-foreground: var(--foreground);
-  --color-primary: var(--primary);
-  --color-faded: var(--faded);
-  --color-danger: var(--danger);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-cosmic-purple: var(--cosmic-purple);
+  --color-cosmic-lavender: var(--cosmic-lavender);
+  --color-cosmic-cobalt: var(--cosmic-cobalt);
+  --color-cosmic-gold: var(--cosmic-gold);
+  --color-border: var(--border);
+  
   --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+  overflow-x: hidden;
 }
 
-@utility font-text {
-  font-variation-settings: "opsz" 12;
+/* Utilities for editorial look */
+@utility font-editorial {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  letter-spacing: -0.02em;
 }
 
-@utility font-subhead {
-  font-variation-settings: "opsz" 24;
-}
-
-@utility font-display {
-  font-variation-settings: "opsz" 36;
+@utility text-balance {
+  text-wrap: balance;
 }

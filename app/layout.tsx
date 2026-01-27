@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ApolloWrapper } from "naystack/graphql/client";
-import { AuthWrapper } from "naystack/auth/email/client";
+// import { ApolloWrapper } from "naystack/graphql/client";
+// import { AuthWrapper } from "naystack/auth/email/client";
 import localFont from "next/font/local";
 import Navbar from "./_components/navbar";
 
@@ -39,12 +39,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${sans.className} ${serif.variable} antialiased`}>
-        <AuthWrapper>
-          <ApolloWrapper>
-            <Navbar />
-            {children}
-          </ApolloWrapper>
-        </AuthWrapper>
+        <Navbar />
+        {children}
       </body>
     </html>
   );
