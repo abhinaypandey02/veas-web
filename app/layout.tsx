@@ -4,6 +4,7 @@ import { ApolloWrapper } from "naystack/graphql/client";
 import { AuthWrapper } from "naystack/auth/email/client";
 import localFont from "next/font/local";
 import Navbar from "./_components/navbar";
+import SmoothScroll from "./_components/smooth-scroll";
 
 const serif = localFont({
   src: [
@@ -41,8 +42,10 @@ export default function RootLayout({
       <body className={`${sans.className} ${serif.variable} antialiased`}>
         <AuthWrapper>
           <ApolloWrapper>
-            <Navbar />
-            {children}
+            <SmoothScroll>
+              <Navbar />
+              {children}
+            </SmoothScroll>
           </ApolloWrapper>
         </AuthWrapper>
       </body>

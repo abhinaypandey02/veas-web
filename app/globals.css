@@ -37,16 +37,36 @@
   --font-sans: var(--font-sans);
 }
 
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   overflow-x: hidden;
-  cursor: url('/cursor-saturn.png') 16 16, auto;
+  cursor: url('/cursor-default.png') 64 64, auto;
 }
 
 /* Custom cursor for interactive elements */
 a, button, [role="button"] {
-  cursor: url('/cursor-saturn.png') 16 16, pointer;
+  cursor: url('/cursor-pointer.png') 64 64, pointer;
 }
 
 /* Utilities for editorial look */
