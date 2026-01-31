@@ -1,45 +1,57 @@
 "use client";
 
-import { ChatRole, GetChatsQuery } from "@/__generated__/graphql";
 import { useToken } from "naystack/auth/email/client";
 import { useState, useRef, useEffect } from "react";
-
+import { QueryResponseType } from "naystack/graphql";
+import getChats from "@/app/api/(graphql)/Chat/resolvers/get-chats";
+import { ChatRole } from "@/app/api/(graphql)/Chat/db";
+import { Input } from "@/components/input";
+import { useForm } from "react-hook-form";
+import Form from "@/components/form";
+import { ArrowRightIcon } from "@phosphor-icons/react";
+import { cn } from "@/components/utils";
 export function ChatWindow({
-  previousChats,
+  data,
 }: {
-  previousChats: GetChatsQuery["getChats"];
+  data?: QueryResponseType<typeof getChats>;
 }) {
+  const previousChats = data || [];
   const token = useToken();
-  const [chats, setChats] = useState(previousChats);
-  const [message, setMessage] = useState("");
+  const [chats, setChats] = useState<
+    {
+      message: string;
+      createdAt: Date;
+      role: ChatRole;
+    }[]
+  >(previousChats);
+  const form = useForm<{ message: string }>();
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
-
+  const { message } = form.watch();
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chats]);
 
-  const handleSendMessage = () => {
-    if (!message.trim() || isLoading) return;
+  const handleSendMessage = (data: { message: string }) => {
+    if (!data.message.trim() || isLoading) return;
+    form.reset({ message: "" });
 
-    const userMessage = message.trim();
-    setMessage("");
+    const userMessage = data.message.trim();
     setIsLoading(true);
-    const assistantMessageId = Date.now() - 1;
+    const assistantMessageId = new Date(Date.now() - 1);
 
     setChats((prev) => [
       ...prev,
       {
         message: userMessage,
-        createdAt: Date.now(),
-        role: ChatRole.User,
+        createdAt: new Date(),
+        role: ChatRole.user,
       },
       {
         message: "",
         createdAt: assistantMessageId,
-        role: ChatRole.Assistant,
+        role: ChatRole.assistant,
       },
     ]);
 
@@ -92,12 +104,10 @@ export function ChatWindow({
           );
         } finally {
           reader.releaseLock();
-          setIsLoading(false);
         }
       })
       .catch((error) => {
         console.error("Request error:", error);
-        setIsLoading(false);
         setChats((prev) =>
           prev.map((chat) =>
             chat.createdAt === assistantMessageId
@@ -105,22 +115,18 @@ export function ChatWindow({
               : chat,
           ),
         );
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendMessage();
-    }
-  };
-
   return (
-    <div className="flex flex-col h-screen max-h-screen bg-background">
+    <div className="flex flex-col grow min-h-0">
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+      <div className="grow flex flex-col overflow-y-auto px-4 pt-6 space-y-4">
         {chats.length === 0 ? (
-          <div className="flex items-center justify-center h-full">
+          <div className="flex grow items-center justify-center ">
             <div className="text-center text-foreground/60">
               <p className="text-lg font-medium mb-2">Start a conversation</p>
               <p className="text-sm">Ask me anything about your Vedic chart!</p>
@@ -131,22 +137,29 @@ export function ChatWindow({
             <div
               key={chat.createdAt + chat.role}
               className={`flex ${
-                chat.role === ChatRole.User ? "justify-end" : "justify-start"
+                chat.role === ChatRole.user ? "justify-end" : "justify-start"
               }`}
             >
               <div
-                className={`max-w-[80%] md:max-w-[70%] rounded-2xl px-4 py-3 ${
-                  chat.role === ChatRole.User
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 dark:bg-gray-800 text-foreground"
+                className={`max-w-[80%] md:max-w-[70%] px-3 py-1 text-sm ${
+                  chat.role !== ChatRole.user
+                    ? "bg-white text-foreground border "
+                    : "bg-primary/90 text-white "
                 }`}
               >
-                <div className="whitespace-pre-wrap wrap-break-word">
+                <div
+                  className={cn(
+                    "whitespace-pre-wrap wrap-break-word ",
+                    chat.role !== ChatRole.user
+                      ? "font-serif text-s3m"
+                      : "text-white text-sm3",
+                  )}
+                >
                   {chat.message || (
                     <span className="inline-flex items-center gap-1">
-                      <span className="w-2 h-2 bg-current rounded-full animate-pulse" />
-                      <span className="w-2 h-2 bg-current rounded-full animate-pulse delay-75" />
-                      <span className="w-2 h-2 bg-current rounded-full animate-pulse delay-150" />
+                      <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse" />
+                      <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse delay-75" />
+                      <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse delay-150" />
                     </span>
                   )}
                 </div>
@@ -157,46 +170,29 @@ export function ChatWindow({
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="border-t border-gray-200 dark:border-gray-800 bg-background">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSendMessage();
-          }}
-          className="p-4"
-        >
-          <div className="flex items-end gap-2 max-w-4xl mx-auto">
-            <div className="flex-1 relative">
-              <textarea
-                ref={inputRef}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Type your message..."
-                rows={1}
-                className="w-full px-4 py-3 pr-12 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-foreground placeholder:text-foreground/50 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                style={{
-                  maxHeight: "120px",
-                  minHeight: "48px",
-                }}
-                onInput={(e) => {
-                  const target = e.target as HTMLTextAreaElement;
-                  target.style.height = "auto";
-                  target.style.height = `${Math.min(target.scrollHeight, 120)}px`;
-                }}
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={!message.trim() || isLoading}
-              className="px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-            >
-              Send
-            </button>
+      <Form form={form} onSubmit={handleSendMessage} className="p-4">
+        <div className="flex items-end gap-2 max-w-4xl mx-auto relative">
+          <div className="flex-1 relative">
+            <Input
+              disabled={isLoading}
+              autoFocus
+              name="message"
+              placeholder="Type your message..."
+              rows={1}
+              className="ring-primary bg-gray-50"
+            />
           </div>
-        </form>
-      </div>
+          {message?.trim() && (
+            <button
+              className=" absolute right-4 top-1/2 -translate-y-1/2"
+              type="submit"
+              disabled={isLoading}
+            >
+              <ArrowRightIcon size={24} weight="light" />
+            </button>
+          )}
+        </div>
+      </Form>
     </div>
   );
 }

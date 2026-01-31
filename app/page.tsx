@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import LandingNavbar from "./_components/landing-navbar";
+import SmoothScroll from "./_components/smooth-scroll";
 
 // Live Timer Component for Hero
 function LiveTimer() {
@@ -841,335 +842,336 @@ function FAQSection() {
 
 export default function Home() {
   return (
-    <div className="relative font-sans selection:bg-cosmic-lavender selection:text-foreground">
-      {/* Hero Section - Fixed Background */}
-      <section className="fixed inset-0 flex items-center justify-center overflow-hidden bg-background p-2 sm:p-4 lg:p-6">
-        {/* Rounded Background Container */}
-        <div className="absolute inset-2 sm:inset-4 lg:inset-6 rounded-[1.25rem] sm:rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden shadow-2xl">
-          {/* Background Image */}
-          <img
-            src="/landingsectionbg.png"
-            alt="Background"
-            className="object-cover w-full h-full"
-          />
-        </div>
-
-        {/* Animated Floating Constellations - inside the rounded area */}
-        <div className="absolute inset-2 sm:inset-4 lg:inset-6 rounded-[1.25rem] sm:rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden">
-          <ConstellationField />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-10 text-center px-6">
-          <motion.h1
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="font-editorial font-medium text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1] text-white tracking-[-0.04em]"
-          >
-            See the Sky
-            <br />
-            <span className="italic">as It Truly Was</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="mt-4 text-sm sm:text-base text-white/80 max-w-md mx-auto"
-          >
-            Sidereal astrology mapped to the real positions of the stars.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8"
-          >
-            <Link href="/signup">
-              <button className="h-12 px-8 rounded-full bg-white text-foreground hover:bg-white/90 transition-colors text-base font-medium">
-                Get Your Free Chart
-              </button>
-            </Link>
-            <Link href="/pricing">
-              <button className="h-12 px-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 text-white hover:bg-white/20 transition-colors text-base">
-                See Plans
-              </button>
-            </Link>
-          </motion.div>
-        </div>
-
-        {/* Bottom Left - Coordinates */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="absolute bottom-12 left-12 sm:bottom-16 sm:left-16 lg:bottom-20 lg:left-20 z-10"
-        >
-          <div className="flex flex-col gap-1">
-            <span className="font-mono text-[10px] sm:text-xs tracking-[0.3em] text-white/70 uppercase">
-              Location
-            </span>
-            <span className="font-mono text-lg sm:text-xl tracking-wider text-white font-medium">
-              42°21&apos;N
-            </span>
-            <span className="font-mono text-lg sm:text-xl tracking-wider text-white font-medium">
-              71°03&apos;W
-            </span>
+    <SmoothScroll>
+      <div className="relative font-sans selection:bg-cosmic-lavender selection:text-foreground">
+        {/* Hero Section - Fixed Background */}
+        <section className="fixed inset-0 flex items-center justify-center overflow-hidden bg-background p-2 sm:p-4 lg:p-6">
+          {/* Rounded Background Container */}
+          <div className="absolute inset-2 sm:inset-4 lg:inset-6 rounded-[1.25rem] sm:rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden shadow-2xl">
+            {/* Background Image */}
+            <img
+              src="/landingsectionbg.png"
+              alt="Background"
+              className="object-cover w-full h-full"
+            />
           </div>
-        </motion.div>
 
-        {/* Bottom Right - Live Cosmic Timer */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="absolute bottom-12 right-12 sm:bottom-16 sm:right-16 lg:bottom-20 lg:right-20 z-10"
-        >
-          <div className="flex items-center gap-3">
-            {/* Saturn SVG Icon */}
-            <svg
-              className="w-8 h-8 sm:w-10 sm:h-10 text-white"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            >
-              <circle cx="12" cy="12" r="5" />
-              <ellipse
-                cx="12"
-                cy="12"
-                rx="10"
-                ry="3"
-                transform="rotate(-20 12 12)"
-              />
-            </svg>
-            <div className="flex flex-col items-end">
-              <span className="font-mono text-[10px] sm:text-xs tracking-[0.3em] text-white/70 uppercase">
-                Cosmic Time
-              </span>
-              <LiveTimer />
-            </div>
+          {/* Animated Floating Constellations - inside the rounded area */}
+          <div className="absolute inset-2 sm:inset-4 lg:inset-6 rounded-[1.25rem] sm:rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden">
+            <ConstellationField />
           </div>
-        </motion.div>
-      </section>
 
-      {/* Spacer to push content below the fixed hero */}
-      <div className="h-screen" />
-
-      {/* Main Content Wrapper - Scrolls over the hero */}
-      <div className="relative z-10 bg-background rounded-t-[3rem] shadow-2xl">
-        <main className="mx-auto flex max-w-7xl flex-col px-6 pb-20 sm:px-12">
-          {/* Bento Grid Section */}
-          <section className="py-24">
-            {/* Header */}
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-foreground mb-12 max-w-md"
+          {/* Content */}
+          <div className="relative z-10 text-center px-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="font-editorial font-medium text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1] text-white tracking-[-0.04em]"
             >
-              What You&apos;ll Explore
-            </motion.h2>
+              See the Sky
+              <br />
+              <span className="italic">as It Truly Was</span>
+            </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="text-muted max-w-xl mb-12"
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="mt-4 text-sm sm:text-base text-white/80 max-w-md mx-auto"
             >
-              A modern guide to the real sky: timeless wisdom, precise
-              calculations, and clear, grounded language you can use.
+              Sidereal astrology mapped to the real positions of the stars.
             </motion.p>
 
-            {/* Bento Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {/* Large Card - Top Left (spans 2 rows on lg) */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="md:col-span-2 lg:col-span-2 lg:row-span-2 relative rounded-3xl overflow-hidden group cursor-pointer min-h-[400px] lg:min-h-[500px]"
-              >
-                {/* Background Image */}
-                <img
-                  src="/section1image1.jpg"
-                  alt="Lunar Cycles"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-8">
-                  <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-4">
-                    Lunar Cycles
-                  </span>
-                  <h3 className="text-2xl sm:text-3xl font-serif text-white mb-2">
-                    Understand how moon phases
-                    <br />
-                    shape your emotional rhythm
-                  </h3>
-                  <p className="text-white/60 text-sm">Emotional alignment</p>
-                </div>
-              </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8"
+            >
+              <Link href="/signup">
+                <button className="h-12 px-8 rounded-full bg-white text-foreground hover:bg-white/90 transition-colors text-base font-medium">
+                  Get Your Free Chart
+                </button>
+              </Link>
+              <Link href="/pricing">
+                <button className="h-12 px-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 text-white hover:bg-white/20 transition-colors text-base">
+                  See Plans
+                </button>
+              </Link>
+            </motion.div>
+          </div>
 
-              {/* Top Right Card */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                viewport={{ once: true }}
-                className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[240px]"
-              >
-                {/* Background Image */}
-                <img
-                  src="/section1image2.jpg"
-                  alt="Transits"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
-                    Planetary Transits
-                  </span>
-                  <h3 className="text-xl font-serif text-white mb-2">
-                    Navigate major life cycles
-                    <br />
-                    with awareness and grace
-                  </h3>
-                  <p className="text-white/60 text-sm">
-                    Saturn Return and beyond
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* Bottom Right Card (next to large card on lg) */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                viewport={{ once: true }}
-                className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[240px]"
-              >
-                {/* Background Image */}
-                <img
-                  src="/section1image3.jpg"
-                  alt="Birth Chart"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
-                    Birth Charts
-                  </span>
-                  <h3 className="text-xl font-serif text-white mb-2">
-                    Decode your Rising sign,
-                    <br />
-                    planetary placements, and blueprint
-                  </h3>
-                  <p className="text-white/60 text-sm">Inner architecture</p>
-                </div>
-              </motion.div>
-
-              {/* Bottom Row - 3 Cards */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                viewport={{ once: true }}
-                className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[280px]"
-              >
-                {/* Background Image */}
-                <img
-                  src="/section1image4.webp"
-                  alt="Planets"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
-                    Compatibility
-                  </span>
-                  <h3 className="text-xl font-serif text-white mb-2">
-                    Explore relationship dynamics
-                    <br />
-                    through Synastry and Vedic principles
-                  </h3>
-                  <p className="text-white/60 text-sm">Connection insights</p>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                viewport={{ once: true }}
-                className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[280px]"
-              >
-                {/* Background Image */}
-                <img
-                  src="/section1image5.jpg"
-                  alt="Compatibility"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
-                    Nakshatras
-                  </span>
-                  <h3 className="text-xl font-serif text-white mb-2">
-                    Dive deeper than zodiac signs
-                    <br />
-                    with the 27 lunar mansions
-                  </h3>
-                  <p className="text-white/60 text-sm">Lunar wisdom</p>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                viewport={{ once: true }}
-                className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[280px]"
-              >
-                {/* Background Image */}
-                <img
-                  src="/section1image2.jpg"
-                  alt="Nakshatras"
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                {/* Content */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
-                    True Chart
-                  </span>
-                  <h3 className="text-xl font-serif text-white mb-2">
-                    See your Sun, Moon & Rising
-                    <br />
-                    in the real sky
-                  </h3>
-                  <p className="text-white/60 text-sm">Core alignment</p>
-                </div>
-              </motion.div>
+          {/* Bottom Left - Coordinates */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="absolute bottom-12 left-12 sm:bottom-16 sm:left-16 lg:bottom-20 lg:left-20 z-10"
+          >
+            <div className="flex flex-col gap-1">
+              <span className="font-mono text-[10px] sm:text-xs tracking-[0.3em] text-white/70 uppercase">
+                Location
+              </span>
+              <span className="font-mono text-lg sm:text-xl tracking-wider text-white font-medium">
+                42°21&apos;N
+              </span>
+              <span className="font-mono text-lg sm:text-xl tracking-wider text-white font-medium">
+                71°03&apos;W
+              </span>
             </div>
-          </section>
+          </motion.div>
 
-          {/* Feature Grid / Philosophy 
+          {/* Bottom Right - Live Cosmic Timer */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="absolute bottom-12 right-12 sm:bottom-16 sm:right-16 lg:bottom-20 lg:right-20 z-10"
+          >
+            <div className="flex items-center gap-3">
+              {/* Saturn SVG Icon */}
+              <svg
+                className="w-8 h-8 sm:w-10 sm:h-10 text-white"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
+                <circle cx="12" cy="12" r="5" />
+                <ellipse
+                  cx="12"
+                  cy="12"
+                  rx="10"
+                  ry="3"
+                  transform="rotate(-20 12 12)"
+                />
+              </svg>
+              <div className="flex flex-col items-end">
+                <span className="font-mono text-[10px] sm:text-xs tracking-[0.3em] text-white/70 uppercase">
+                  Cosmic Time
+                </span>
+                <LiveTimer />
+              </div>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* Spacer to push content below the fixed hero */}
+        <div className="h-screen" />
+
+        {/* Main Content Wrapper - Scrolls over the hero */}
+        <div className="relative z-10 bg-background rounded-t-[3rem] shadow-2xl">
+          <main className="mx-auto flex max-w-7xl flex-col px-6 pb-20 sm:px-12">
+            {/* Bento Grid Section */}
+            <section className="py-24">
+              {/* Header */}
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-foreground mb-12 max-w-md"
+              >
+                What You&apos;ll Explore
+              </motion.h2>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="text-muted max-w-xl mb-12"
+              >
+                A modern guide to the real sky: timeless wisdom, precise
+                calculations, and clear, grounded language you can use.
+              </motion.p>
+
+              {/* Bento Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* Large Card - Top Left (spans 2 rows on lg) */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  viewport={{ once: true }}
+                  className="md:col-span-2 lg:col-span-2 lg:row-span-2 relative rounded-3xl overflow-hidden group cursor-pointer min-h-[400px] lg:min-h-[500px]"
+                >
+                  {/* Background Image */}
+                  <img
+                    src="/section1image1.jpg"
+                    alt="Lunar Cycles"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-8">
+                    <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-4">
+                      Lunar Cycles
+                    </span>
+                    <h3 className="text-2xl sm:text-3xl font-serif text-white mb-2">
+                      Understand how moon phases
+                      <br />
+                      shape your emotional rhythm
+                    </h3>
+                    <p className="text-white/60 text-sm">Emotional alignment</p>
+                  </div>
+                </motion.div>
+
+                {/* Top Right Card */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[240px]"
+                >
+                  {/* Background Image */}
+                  <img
+                    src="/section1image2.jpg"
+                    alt="Transits"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
+                      Planetary Transits
+                    </span>
+                    <h3 className="text-xl font-serif text-white mb-2">
+                      Navigate major life cycles
+                      <br />
+                      with awareness and grace
+                    </h3>
+                    <p className="text-white/60 text-sm">
+                      Saturn Return and beyond
+                    </p>
+                  </div>
+                </motion.div>
+
+                {/* Bottom Right Card (next to large card on lg) */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[240px]"
+                >
+                  {/* Background Image */}
+                  <img
+                    src="/section1image3.jpg"
+                    alt="Birth Chart"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
+                      Birth Charts
+                    </span>
+                    <h3 className="text-xl font-serif text-white mb-2">
+                      Decode your Rising sign,
+                      <br />
+                      planetary placements, and blueprint
+                    </h3>
+                    <p className="text-white/60 text-sm">Inner architecture</p>
+                  </div>
+                </motion.div>
+
+                {/* Bottom Row - 3 Cards */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  viewport={{ once: true }}
+                  className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[280px]"
+                >
+                  {/* Background Image */}
+                  <img
+                    src="/section1image4.webp"
+                    alt="Planets"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
+                      Compatibility
+                    </span>
+                    <h3 className="text-xl font-serif text-white mb-2">
+                      Explore relationship dynamics
+                      <br />
+                      through Synastry and Vedic principles
+                    </h3>
+                    <p className="text-white/60 text-sm">Connection insights</p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  viewport={{ once: true }}
+                  className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[280px]"
+                >
+                  {/* Background Image */}
+                  <img
+                    src="/section1image5.jpg"
+                    alt="Compatibility"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
+                      Nakshatras
+                    </span>
+                    <h3 className="text-xl font-serif text-white mb-2">
+                      Dive deeper than zodiac signs
+                      <br />
+                      with the 27 lunar mansions
+                    </h3>
+                    <p className="text-white/60 text-sm">Lunar wisdom</p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  viewport={{ once: true }}
+                  className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[280px]"
+                >
+                  {/* Background Image */}
+                  <img
+                    src="/section1image2.jpg"
+                    alt="Nakshatras"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
+                      True Chart
+                    </span>
+                    <h3 className="text-xl font-serif text-white mb-2">
+                      See your Sun, Moon & Rising
+                      <br />
+                      in the real sky
+                    </h3>
+                    <p className="text-white/60 text-sm">Core alignment</p>
+                  </div>
+                </motion.div>
+              </div>
+            </section>
+
+            {/* Feature Grid / Philosophy 
         <section className="py-24 border-t border-foreground/10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="p-8 rounded-2xl bg-white/70 border border-cosmic-lavender/50 backdrop-blur-sm">
@@ -1203,140 +1205,141 @@ export default function Home() {
         </section>
         */}
 
-          {/* Big Feature Section with Background Text */}
-          <section className="relative py-32 sm:py-40 overflow-hidden">
-            {/* Large Background Text */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-              <span className="font-editorial text-[20rem] sm:text-[28rem] lg:text-[36rem] text-foreground/[0.03] leading-none tracking-tighter">
-                Sidereal
-              </span>
-            </div>
+            {/* Big Feature Section with Background Text */}
+            <section className="relative py-32 sm:py-40 overflow-hidden">
+              {/* Large Background Text */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+                <span className="font-editorial text-[20rem] sm:text-[28rem] lg:text-[36rem] text-foreground/[0.03] leading-none tracking-tighter">
+                  Sidereal
+                </span>
+              </div>
 
-            {/* Content */}
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              {/* Left Column */}
-              <div className="lg:col-span-5">
-                <motion.h2
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  viewport={{ once: true }}
-                  className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-foreground leading-[1.1] mb-8"
-                >
-                  Your true sign
-                  <br />
-                  <span className="italic text-cosmic-purple">revealed.</span>
-                </motion.h2>
+              {/* Content */}
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                {/* Left Column */}
+                <div className="lg:col-span-5">
+                  <motion.h2
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-foreground leading-[1.1] mb-8"
+                  >
+                    Your true sign
+                    <br />
+                    <span className="italic text-cosmic-purple">revealed.</span>
+                  </motion.h2>
 
-                {/* Social Proof */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  className="flex items-center gap-4"
-                >
-                  {/* Avatars */}
-                  <div className="flex -space-x-3">
-                    {["E", "M", "P", "J"].map((letter, i) => (
-                      <div
-                        key={i}
-                        className="w-10 h-10 rounded-full bg-gradient-to-br from-cosmic-purple to-cosmic-lavender flex items-center justify-center text-white text-sm font-medium border-2 border-background"
-                      >
-                        {letter}
-                      </div>
-                    ))}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-1 mb-0.5">
-                      {[...Array(5)].map((_, i) => (
-                        <span key={i} className="text-cosmic-gold text-sm">
-                          ★
-                        </span>
+                  {/* Social Proof */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    viewport={{ once: true }}
+                    className="flex items-center gap-4"
+                  >
+                    {/* Avatars */}
+                    <div className="flex -space-x-3">
+                      {["E", "M", "P", "J"].map((letter, i) => (
+                        <div
+                          key={i}
+                          className="w-10 h-10 rounded-full bg-gradient-to-br from-cosmic-purple to-cosmic-lavender flex items-center justify-center text-white text-sm font-medium border-2 border-background"
+                        >
+                          {letter}
+                        </div>
                       ))}
                     </div>
-                    <p className="text-sm text-muted">
-                      12,000+ charts generated
-                    </p>
-                  </div>
-                </motion.div>
-              </div>
-
-              {/* Center - Visual Element */}
-              <div className="lg:col-span-3 flex justify-center">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  className="relative"
-                >
-                  {/* Zodiac Wheel Visual */}
-                  <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-full border-2 border-cosmic-purple/20 flex items-center justify-center relative">
-                    <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full border border-cosmic-lavender/40 flex items-center justify-center">
-                      <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-cosmic-lavender/30 to-cosmic-purple/20 flex items-center justify-center">
-                        <span className="text-4xl sm:text-5xl">☉</span>
+                    <div>
+                      <div className="flex items-center gap-1 mb-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <span key={i} className="text-cosmic-gold text-sm">
+                            ★
+                          </span>
+                        ))}
                       </div>
+                      <p className="text-sm text-muted">
+                        12,000+ charts generated
+                      </p>
                     </div>
-                    {/* Orbiting dots */}
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      className="absolute inset-0"
-                    >
-                      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 w-3 h-3 bg-cosmic-purple rounded-full" />
-                    </motion.div>
-                    <motion.div
-                      animate={{ rotate: -360 }}
-                      transition={{
-                        duration: 30,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                      className="absolute inset-2"
-                    >
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1 w-2 h-2 bg-cosmic-lavender rounded-full" />
-                    </motion.div>
-                  </div>
-                </motion.div>
-              </div>
+                  </motion.div>
+                </div>
 
-              {/* Right Column */}
-              <div className="lg:col-span-4">
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  viewport={{ once: true }}
-                  className="text-right"
-                >
-                  <p className="text-xl sm:text-2xl text-foreground leading-relaxed font-light">
-                    What makes Veas different:
-                  </p>
-                  <ul className="mt-4 space-y-3 text-base sm:text-lg text-foreground/80">
-                    <li>
-                      Aligned with the actual sky using NASA JPL ephemeris data
-                    </li>
-                    <li>Rooted in 5,000 years of Jyotish wisdom</li>
-                    <li>Designed for the modern mind, clear and grounded</li>
-                  </ul>
-                </motion.div>
-              </div>
-            </div>
-          </section>
-        </main>
-        {/* Scrolling Text Banner */}
-        <PricingSection />
-        <ScrollingTextBanner />
-        {/* Bold Vedic Section - Full Width */}
+                {/* Center - Visual Element */}
+                <div className="lg:col-span-3 flex justify-center">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    viewport={{ once: true }}
+                    className="relative"
+                  >
+                    {/* Zodiac Wheel Visual */}
+                    <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-full border-2 border-cosmic-purple/20 flex items-center justify-center relative">
+                      <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full border border-cosmic-lavender/40 flex items-center justify-center">
+                        <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-cosmic-lavender/30 to-cosmic-purple/20 flex items-center justify-center">
+                          <span className="text-4xl sm:text-5xl">☉</span>
+                        </div>
+                      </div>
+                      {/* Orbiting dots */}
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{
+                          duration: 20,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
+                        className="absolute inset-0"
+                      >
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 w-3 h-3 bg-cosmic-purple rounded-full" />
+                      </motion.div>
+                      <motion.div
+                        animate={{ rotate: -360 }}
+                        transition={{
+                          duration: 30,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
+                        className="absolute inset-2"
+                      >
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1 w-2 h-2 bg-cosmic-lavender rounded-full" />
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                </div>
 
-        <div className="bg-background">
-          <main className="relative z-10 mx-auto max-w-7xl px-6 sm:px-12">
-            {/* Courses Section 
+                {/* Right Column */}
+                <div className="lg:col-span-4">
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    viewport={{ once: true }}
+                    className="text-right"
+                  >
+                    <p className="text-xl sm:text-2xl text-foreground leading-relaxed font-light">
+                      What makes Veas different:
+                    </p>
+                    <ul className="mt-4 space-y-3 text-base sm:text-lg text-foreground/80">
+                      <li>
+                        Aligned with the actual sky using NASA JPL ephemeris
+                        data
+                      </li>
+                      <li>Rooted in 5,000 years of Jyotish wisdom</li>
+                      <li>Designed for the modern mind, clear and grounded</li>
+                    </ul>
+                  </motion.div>
+                </div>
+              </div>
+            </section>
+          </main>
+          {/* Scrolling Text Banner */}
+          <PricingSection />
+          <ScrollingTextBanner />
+          {/* Bold Vedic Section - Full Width */}
+
+          <div className="bg-background">
+            <main className="relative z-10 mx-auto max-w-7xl px-6 sm:px-12">
+              {/* Courses Section 
         <section className="py-24">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div>
@@ -1355,406 +1358,410 @@ export default function Home() {
           </div>
         </section>
 */}
-            {/* Pricing Section */}
-          </main>
-        </div>
-
-        {/* Testimonials Section - Full Width with Gradient */}
-        <TestimonialsSection />
-
-        <section className="relative z-10 bg-cosmic-lavender overflow-hidden">
-          {/* Scrolling Announcement Bar */}
-          <div className="bg-foreground text-white py-3 overflow-hidden">
-            <motion.div
-              animate={{ x: [0, -1000] }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="flex items-center gap-8 whitespace-nowrap"
-            >
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="flex items-center gap-8">
-                  <span className="text-sm tracking-wide">
-                    The precession shifts 1° every 72 years
-                  </span>
-                  <span className="text-cosmic-purple">✦</span>
-                  <span className="text-sm tracking-wide">
-                    Your true sign awaits discovery
-                  </span>
-                  <span className="text-cosmic-purple">✦</span>
-                  <span className="text-sm tracking-wide">
-                    5,000 years of Vedic wisdom
-                  </span>
-                  <span className="text-cosmic-purple">✦</span>
-                  <span className="text-sm tracking-wide">
-                    Aligned with NASA JPL ephemeris data
-                  </span>
-                  <span className="text-cosmic-purple">✦</span>
-                </div>
-              ))}
-            </motion.div>
+              {/* Pricing Section */}
+            </main>
           </div>
 
-          {/* Main Content */}
-          <div className="relative min-h-[80vh] flex flex-col justify-between py-12 px-6 sm:px-12">
-            {/* Center - Large Typography */}
-            <div className="flex-1 flex items-center justify-center relative">
-              {/* Background Zodiac Wheel */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none">
-                <div className="w-[500px] h-[500px] sm:w-[600px] sm:h-[600px] lg:w-[700px] lg:h-[700px] rounded-full border-2 border-foreground/30 relative">
-                  <div className="absolute inset-8 rounded-full border border-foreground/20" />
-                  <div className="absolute inset-16 rounded-full border border-dashed border-foreground/20" />
-                  {/* Zodiac symbols around the wheel */}
-                  {[
-                    "♈",
-                    "♉",
-                    "♊",
-                    "♋",
-                    "♌",
-                    "♍",
-                    "♎",
-                    "♏",
-                    "♐",
-                    "♑",
-                    "♒",
-                    "♓",
-                  ].map((symbol, i) => (
-                    <div
-                      key={i}
-                      className="absolute text-2xl text-foreground/40"
-                      style={{
-                        top: `${50 - 45 * Math.cos(((i * 30 - 90) * Math.PI) / 180)}%`,
-                        left: `${50 + 45 * Math.sin(((i * 30 - 90) * Math.PI) / 180)}%`,
-                        transform: "translate(-50%, -50%)",
-                      }}
-                    >
-                      {symbol}
-                    </div>
-                  ))}
-                </div>
-              </div>
+          {/* Testimonials Section - Full Width with Gradient */}
+          <TestimonialsSection />
 
-              {/* Main Text */}
+          <section className="relative z-10 bg-cosmic-lavender overflow-hidden">
+            {/* Scrolling Announcement Bar */}
+            <div className="bg-foreground text-white py-3 overflow-hidden">
               <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="relative z-10 text-center"
+                animate={{ x: [0, -1000] }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="flex items-center gap-8 whitespace-nowrap"
               >
-                <h2 className="font-editorial text-[4rem] sm:text-[7rem] lg:text-[10rem] xl:text-[12rem] leading-[0.85] text-foreground tracking-tight">
-                  Jyotish
-                </h2>
-                <p className="font-serif italic text-2xl sm:text-3xl lg:text-4xl text-foreground/60 mt-4">
-                  The Science of Light
-                </p>
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="flex items-center gap-8">
+                    <span className="text-sm tracking-wide">
+                      The precession shifts 1° every 72 years
+                    </span>
+                    <span className="text-cosmic-purple">✦</span>
+                    <span className="text-sm tracking-wide">
+                      Your true sign awaits discovery
+                    </span>
+                    <span className="text-cosmic-purple">✦</span>
+                    <span className="text-sm tracking-wide">
+                      5,000 years of Vedic wisdom
+                    </span>
+                    <span className="text-cosmic-purple">✦</span>
+                    <span className="text-sm tracking-wide">
+                      Aligned with NASA JPL ephemeris data
+                    </span>
+                    <span className="text-cosmic-purple">✦</span>
+                  </div>
+                ))}
               </motion.div>
             </div>
 
-            {/* Bottom Info Row */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="flex flex-col sm:flex-row justify-between items-center gap-8 pt-12"
-            >
-              <div className="text-center sm:text-left">
-                <p className="font-mono text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
-                  ~24°
-                </p>
-                <p className="text-sm text-foreground/60 uppercase tracking-widest mt-1">
-                  Ayanamsa Shift
-                </p>
+            {/* Main Content */}
+            <div className="relative min-h-[80vh] flex flex-col justify-between py-12 px-6 sm:px-12">
+              {/* Center - Large Typography */}
+              <div className="flex-1 flex items-center justify-center relative">
+                {/* Background Zodiac Wheel */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-20 pointer-events-none">
+                  <div className="w-[500px] h-[500px] sm:w-[600px] sm:h-[600px] lg:w-[700px] lg:h-[700px] rounded-full border-2 border-foreground/30 relative">
+                    <div className="absolute inset-8 rounded-full border border-foreground/20" />
+                    <div className="absolute inset-16 rounded-full border border-dashed border-foreground/20" />
+                    {/* Zodiac symbols around the wheel */}
+                    {[
+                      "♈",
+                      "♉",
+                      "♊",
+                      "♋",
+                      "♌",
+                      "♍",
+                      "♎",
+                      "♏",
+                      "♐",
+                      "♑",
+                      "♒",
+                      "♓",
+                    ].map((symbol, i) => (
+                      <div
+                        key={i}
+                        className="absolute text-2xl text-foreground/40"
+                        style={{
+                          top: `${50 - 45 * Math.cos(((i * 30 - 90) * Math.PI) / 180)}%`,
+                          left: `${50 + 45 * Math.sin(((i * 30 - 90) * Math.PI) / 180)}%`,
+                          transform: "translate(-50%, -50%)",
+                        }}
+                      >
+                        {symbol}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Main Text */}
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                  className="relative z-10 text-center"
+                >
+                  <h2 className="font-editorial text-[4rem] sm:text-[7rem] lg:text-[10rem] xl:text-[12rem] leading-[0.85] text-foreground tracking-tight">
+                    Jyotish
+                  </h2>
+                  <p className="font-serif italic text-2xl sm:text-3xl lg:text-4xl text-foreground/60 mt-4">
+                    The Science of Light
+                  </p>
+                </motion.div>
               </div>
 
-              <div className="text-center">
-                <p className="font-mono text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
-                  5000+
-                </p>
-                <p className="text-sm text-foreground/60 uppercase tracking-widest mt-1">
-                  Years of Tradition
-                </p>
-              </div>
+              {/* Bottom Info Row */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+                className="flex flex-col sm:flex-row justify-between items-center gap-8 pt-12"
+              >
+                <div className="text-center sm:text-left">
+                  <p className="font-mono text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
+                    ~24°
+                  </p>
+                  <p className="text-sm text-foreground/60 uppercase tracking-widest mt-1">
+                    Ayanamsa Shift
+                  </p>
+                </div>
 
-              <div className="text-center sm:text-right">
-                <p className="font-mono text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
-                  Bharat
-                </p>
-                <p className="text-sm text-foreground/60 uppercase tracking-widest mt-1">
-                  Origin
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+                <div className="text-center">
+                  <p className="font-mono text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
+                    5000+
+                  </p>
+                  <p className="text-sm text-foreground/60 uppercase tracking-widest mt-1">
+                    Years of Tradition
+                  </p>
+                </div>
 
-        {/* FAQ Section */}
-        <FAQSection />
+                <div className="text-center sm:text-right">
+                  <p className="font-mono text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight">
+                    Bharat
+                  </p>
+                  <p className="text-sm text-foreground/60 uppercase tracking-widest mt-1">
+                    Origin
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </section>
 
-        {/* CTA Section - Add liquid bg here */}
-        <section className="relative z-10 py-32 px-6 sm:px-12 overflow-hidden">
-          {/* Background placeholder for liquid effect */}
-          <div className="absolute inset-0 bg-foreground" />
+          {/* FAQ Section */}
+          <FAQSection />
 
-          <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm mb-8"
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-cosmic-purple animate-pulse" />
-              <span className="text-[11px] uppercase tracking-[0.2em] text-white/70">
-                The sky hasn&apos;t changed — only our understanding
-              </span>
-            </motion.div>
+          {/* CTA Section - Add liquid bg here */}
+          <section className="relative z-10 py-32 px-6 sm:px-12 overflow-hidden">
+            {/* Background placeholder for liquid effect */}
+            <div className="absolute inset-0 bg-foreground" />
 
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="font-editorial text-4xl sm:text-6xl lg:text-7xl leading-[1] text-white mb-6"
-            >
-              Ready to see{" "}
-              <span className="italic text-cosmic-lavender">the real you?</span>
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              className="text-lg text-white/60 mb-10 max-w-xl"
-            >
-              The sky hasn&apos;t changed — only our understanding of it has.
-              Discover what the heavens actually looked like when you were born.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
-              <Link href="/signup">
-                <button className="h-14 px-10 rounded-full bg-cosmic-purple text-white font-medium hover:bg-cosmic-lavender hover:text-foreground transition-colors tracking-wide text-sm uppercase">
-                  Get Your Chart Free
-                </button>
-              </Link>
-              <Link href="/pricing">
-                <button className="h-14 px-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition-colors tracking-wide text-sm uppercase">
-                  See Plans
-                </button>
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Detailed Footer */}
-        <footer className="relative z-10 bg-foreground text-white">
-          {/* Main Footer Content */}
-          <div className="max-w-7xl mx-auto px-6 sm:px-12 py-16">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
-              {/* Brand Column */}
-              <div className="lg:col-span-2">
-                <span className="font-serif italic text-3xl text-white mb-4 block">
-                  veas
+            <div className="relative z-10 max-w-4xl mx-auto flex flex-col items-center text-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-sm mb-8"
+              >
+                <div className="w-1.5 h-1.5 rounded-full bg-cosmic-purple animate-pulse" />
+                <span className="text-[11px] uppercase tracking-[0.2em] text-white/70">
+                  The sky hasn&apos;t changed — only our understanding
                 </span>
-                <p className="text-white/50 text-sm leading-relaxed max-w-sm mb-6">
-                  Veas — Authentic Vedic astrology, aligned with the true sky.
-                  Based on NASA JPL Ephemeris data.
-                </p>
-                <div className="flex gap-4">
-                  <a
-                    href="#"
-                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-                  >
-                    <span className="text-sm">𝕏</span>
-                  </a>
-                  <a
-                    href="#"
-                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-                  >
-                    <span className="text-sm">in</span>
-                  </a>
-                  <a
-                    href="#"
-                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-                  >
-                    <span className="text-sm">IG</span>
-                  </a>
+              </motion.div>
+
+              <motion.h2
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="font-editorial text-4xl sm:text-6xl lg:text-7xl leading-[1] text-white mb-6"
+              >
+                Ready to see{" "}
+                <span className="italic text-cosmic-lavender">
+                  the real you?
+                </span>
+              </motion.h2>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="text-lg text-white/60 mb-10 max-w-xl"
+              >
+                The sky hasn&apos;t changed — only our understanding of it has.
+                Discover what the heavens actually looked like when you were
+                born.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+                className="flex flex-col sm:flex-row gap-4"
+              >
+                <Link href="/signup">
+                  <button className="h-14 px-10 rounded-full bg-cosmic-purple text-white font-medium hover:bg-cosmic-lavender hover:text-foreground transition-colors tracking-wide text-sm uppercase">
+                    Get Your Chart Free
+                  </button>
+                </Link>
+                <Link href="/pricing">
+                  <button className="h-14 px-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition-colors tracking-wide text-sm uppercase">
+                    See Plans
+                  </button>
+                </Link>
+              </motion.div>
+            </div>
+          </section>
+
+          {/* Detailed Footer */}
+          <footer className="relative z-10 bg-foreground text-white">
+            {/* Main Footer Content */}
+            <div className="max-w-7xl mx-auto px-6 sm:px-12 py-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
+                {/* Brand Column */}
+                <div className="lg:col-span-2">
+                  <span className="font-serif italic text-3xl text-white mb-4 block">
+                    veas
+                  </span>
+                  <p className="text-white/50 text-sm leading-relaxed max-w-sm mb-6">
+                    Veas — Authentic Vedic astrology, aligned with the true sky.
+                    Based on NASA JPL Ephemeris data.
+                  </p>
+                  <div className="flex gap-4">
+                    <a
+                      href="#"
+                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                    >
+                      <span className="text-sm">𝕏</span>
+                    </a>
+                    <a
+                      href="#"
+                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                    >
+                      <span className="text-sm">in</span>
+                    </a>
+                    <a
+                      href="#"
+                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                    >
+                      <span className="text-sm">IG</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Navigation */}
+                <div>
+                  <h4 className="text-xs uppercase tracking-widest text-white/40 mb-4">
+                    Navigate
+                  </h4>
+                  <ul className="space-y-3">
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Home
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        About Sidereal
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Get Your Chart
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Academy
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Pricing
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Resources */}
+                <div>
+                  <h4 className="text-xs uppercase tracking-widest text-white/40 mb-4">
+                    Resources
+                  </h4>
+                  <ul className="space-y-3">
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Blog
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Planetary Calendar
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Free Birth Chart
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Manifesto
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        FAQ
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Legal */}
+                <div>
+                  <h4 className="text-xs uppercase tracking-widest text-white/40 mb-4">
+                    Legal
+                  </h4>
+                  <ul className="space-y-3">
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Privacy Policy
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Terms of Service
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Cookie Policy
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Refund Policy
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Contact
+                      </a>
+                    </li>
+                  </ul>
                 </div>
               </div>
-
-              {/* Navigation */}
-              <div>
-                <h4 className="text-xs uppercase tracking-widest text-white/40 mb-4">
-                  Navigate
-                </h4>
-                <ul className="space-y-3">
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Home
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      About Sidereal
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Get Your Chart
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Academy
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Pricing
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Resources */}
-              <div>
-                <h4 className="text-xs uppercase tracking-widest text-white/40 mb-4">
-                  Resources
-                </h4>
-                <ul className="space-y-3">
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Blog
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Planetary Calendar
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Free Birth Chart
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Manifesto
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      FAQ
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Legal */}
-              <div>
-                <h4 className="text-xs uppercase tracking-widest text-white/40 mb-4">
-                  Legal
-                </h4>
-                <ul className="space-y-3">
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Privacy Policy
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Terms of Service
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Cookie Policy
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Refund Policy
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="text-sm text-white/70 hover:text-white transition-colors"
-                    >
-                      Contact
-                    </a>
-                  </li>
-                </ul>
-              </div>
             </div>
-          </div>
 
-          {/* Bottom Bar */}
-          <div className="border-t border-white/10">
-            <div className="max-w-7xl mx-auto px-6 sm:px-12 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-              <span className="text-xs text-white/40">
-                © 2024 Veas Astrology. All rights reserved.
-              </span>
-              <div className="flex items-center gap-6 text-xs text-white/40">
-                <span>Made with ✧ for the cosmos</span>
-                <span className="hidden sm:inline">•</span>
-                <span className="hidden sm:inline">
-                  Based on NASA JPL Ephemeris data
+            {/* Bottom Bar */}
+            <div className="border-t border-white/10">
+              <div className="max-w-7xl mx-auto px-6 sm:px-12 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <span className="text-xs text-white/40">
+                  © 2024 Veas Astrology. All rights reserved.
                 </span>
+                <div className="flex items-center gap-6 text-xs text-white/40">
+                  <span>Made with ✧ for the cosmos</span>
+                  <span className="hidden sm:inline">•</span>
+                  <span className="hidden sm:inline">
+                    Based on NASA JPL Ephemeris data
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        </footer>
+          </footer>
+        </div>
+        {/* End of content wrapper */}
       </div>
-      {/* End of content wrapper */}
-    </div>
+    </SmoothScroll>
   );
 }

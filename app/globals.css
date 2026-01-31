@@ -11,8 +11,8 @@
   --surface-highlight: #f0ebf8;
 
   /* Text Colors */
-  --foreground: #28262C; /* Shadow Grey - primary text */
-  --muted: #5c5a61; /* Darker muted for readability on light */
+  --foreground: (var(--primary)); /* Shadow Grey - primary text */
+  --muted: #706e77; /* Darker muted for readability on light */
   --accent: #998FC7; /* Soft Periwinkle */
 
   /* Cosmic / Astrology Colors */

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-gray-50 px-4 py-8">
+    <main className="grow bg-gray-50 px-4 py-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex items-center justify-between">
           <div>
@@ -12,7 +12,6 @@ export default function Page() {
               Welcome to your dashboard
             </p>
           </div>
-          <LogoutButton />
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
