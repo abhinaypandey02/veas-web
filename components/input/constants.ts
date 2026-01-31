@@ -3,18 +3,21 @@ import { cn } from "@/components/utils";
 
 export const getBaseClassName = (
   variant: Variants | undefined,
-  isSuffixed: boolean,
-  isPrefixed: boolean,
   isCheckbox: boolean,
+  isDate: boolean,
 ) =>
   cn(
-    `focus:ring-primary m-px accent-primary block py-2.5 px-4  shadow-xs ring-gray-300 placeholder:text-gray-400 outline-0 text-base sm:leading-6`,
+    `m-px accent-primary block py-2.5 px-4  shadow-xs placeholder:text-gray-400 outline-0 text-base sm:leading-6`,
     {
-      "w-full focus:ring-2 ring-1": !isCheckbox,
+      "w-full ": !isCheckbox,
     },
     {
-      "focus:ring-primary": variant === Variants.PRIMARY,
-      "focus:ring-danger": variant === Variants.DANGER,
+      "border-gray-300 border focus:border-2": isDate,
+      "ring-gray-300 focus:ring-2 ring-1": !isCheckbox && !isDate,
+    },
+    {
+      "focus:ring-primary focus:border-primary": variant === Variants.PRIMARY,
+      "focus:ring-danger focus:border-danger": variant === Variants.DANGER,
     },
   );
 

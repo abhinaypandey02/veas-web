@@ -3,7 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { CourseCard } from "@/components/CourseCard";
+import LandingNavbar from "./_components/landing-navbar";
 
 // Live Timer Component for Hero
 function LiveTimer() {
@@ -347,162 +347,165 @@ function PricingSection() {
   );
 
   return (
-    <section className="py-24 px-24 border-t border-foreground/10">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cosmic-purple/30 bg-white/60 backdrop-blur-sm mb-6"
-        >
-          <span className="text-[11px] uppercase tracking-[0.2em] text-muted">
-            Pricing
-          </span>
-        </motion.div>
-
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          viewport={{ once: true }}
-          className="font-editorial text-4xl sm:text-5xl lg:text-6xl mb-4 text-foreground"
-        >
-          Simple, <span className="italic">Flexible</span> Pricing
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="text-muted max-w-md mx-auto mb-8"
-        >
-          Astrology for every stage of your journey.
-        </motion.p>
-
-        {/* Billing Toggle */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          viewport={{ once: true }}
-          className="inline-flex items-center p-1 rounded-full bg-white border border-foreground/10"
-        >
-          <button
-            onClick={() => setBillingPeriod("monthly")}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-              billingPeriod === "monthly"
-                ? "bg-foreground text-white"
-                : "text-muted hover:text-foreground"
-            }`}
-          >
-            Monthly
-          </button>
-          <button
-            onClick={() => setBillingPeriod("yearly")}
-            className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-              billingPeriod === "yearly"
-                ? "bg-foreground text-white"
-                : "text-muted hover:text-foreground"
-            }`}
-          >
-            Yearly
-          </button>
-        </motion.div>
-        {billingPeriod === "yearly" && (
-          <p className="text-xs text-cosmic-cobalt mt-2">
-            Save up to 30% with yearly billing
-          </p>
-        )}
-      </div>
-
-      {/* Pricing Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-        {pricingPlans.map((plan, i) => (
+    <>
+      <LandingNavbar />
+      <section className="py-24 px-24 border-t border-foreground/10">
+        {/* Header */}
+        <div className="text-center mb-12">
           <motion.div
-            key={plan.name}
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 * i }}
+            transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className={`relative p-8 rounded-2xl ${
-              plan.isPopular
-                ? "bg-gradient-to-br from-cosmic-lavender/20 to-cosmic-purple/10 border-2 border-cosmic-purple/30"
-                : "bg-white border border-foreground/10"
-            }`}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-cosmic-purple/30 bg-white/60 backdrop-blur-sm mb-6"
           >
-            {/* Popular Badge */}
-            {plan.isPopular && (
-              <div className="absolute -top-3 left-8">
-                <span className="px-3 py-1 rounded-full bg-foreground text-white text-[10px] uppercase tracking-widest">
-                  Popular
-                </span>
-              </div>
-            )}
+            <span className="text-[11px] uppercase tracking-[0.2em] text-muted">
+              Pricing
+            </span>
+          </motion.div>
 
-            {/* Icon & Name */}
-            <div className="flex items-center gap-3 mb-2">
-              <span
-                className={`text-2xl ${plan.isPopular ? "text-cosmic-purple" : "text-cosmic-cobalt"}`}
-              >
-                {plan.icon}
-              </span>
-              <h3 className="text-xl font-medium text-foreground">
-                {plan.name}
-              </h3>
-            </div>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="font-editorial text-4xl sm:text-5xl lg:text-6xl mb-4 text-foreground"
+          >
+            Simple, <span className="italic">Flexible</span> Pricing
+          </motion.h2>
 
-            <p className="text-sm text-muted mb-6">{plan.description}</p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="text-muted max-w-md mx-auto mb-8"
+          >
+            Astrology for every stage of your journey.
+          </motion.p>
 
-            {/* Price */}
-            <div className="mb-6">
-              <span className="text-4xl font-serif text-foreground">
-                {plan.price[billingPeriod]}
-              </span>
-              {plan.price[billingPeriod] !== "Free" && (
-                <span className="text-sm text-muted ml-1">
-                  /{billingPeriod === "monthly" ? "month" : "year"}
-                </span>
-              )}
-            </div>
-
-            {/* CTA Button */}
+          {/* Billing Toggle */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center p-1 rounded-full bg-white border border-foreground/10"
+          >
             <button
-              className={`w-full h-12 rounded-full font-medium text-sm uppercase tracking-wide transition-colors mb-8 ${
-                plan.isPopular
-                  ? "bg-foreground text-white hover:bg-cosmic-cobalt"
-                  : "border border-foreground/20 text-foreground hover:bg-foreground/5"
+              onClick={() => setBillingPeriod("monthly")}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                billingPeriod === "monthly"
+                  ? "bg-foreground text-white"
+                  : "text-muted hover:text-foreground"
               }`}
             >
-              Get Started
+              Monthly
             </button>
-
-            {/* Features */}
-            <div>
-              <p className="text-xs uppercase tracking-widest text-muted mb-4">
-                What&apos;s Included
-              </p>
-              <ul className="space-y-3">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3">
-                    <span
-                      className={`text-sm ${plan.isPopular ? "text-cosmic-purple" : "text-cosmic-cobalt"}`}
-                    >
-                      ✦
-                    </span>
-                    <span className="text-sm text-foreground/80">
-                      {feature}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <button
+              onClick={() => setBillingPeriod("yearly")}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                billingPeriod === "yearly"
+                  ? "bg-foreground text-white"
+                  : "text-muted hover:text-foreground"
+              }`}
+            >
+              Yearly
+            </button>
           </motion.div>
-        ))}
-      </div>
-    </section>
+          {billingPeriod === "yearly" && (
+            <p className="text-xs text-cosmic-cobalt mt-2">
+              Save up to 30% with yearly billing
+            </p>
+          )}
+        </div>
+
+        {/* Pricing Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {pricingPlans.map((plan, i) => (
+            <motion.div
+              key={plan.name}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 * i }}
+              viewport={{ once: true }}
+              className={`relative p-8 rounded-2xl ${
+                plan.isPopular
+                  ? "bg-gradient-to-br from-cosmic-lavender/20 to-cosmic-purple/10 border-2 border-cosmic-purple/30"
+                  : "bg-white border border-foreground/10"
+              }`}
+            >
+              {/* Popular Badge */}
+              {plan.isPopular && (
+                <div className="absolute -top-3 left-8">
+                  <span className="px-3 py-1 rounded-full bg-foreground text-white text-[10px] uppercase tracking-widest">
+                    Popular
+                  </span>
+                </div>
+              )}
+
+              {/* Icon & Name */}
+              <div className="flex items-center gap-3 mb-2">
+                <span
+                  className={`text-2xl ${plan.isPopular ? "text-cosmic-purple" : "text-cosmic-cobalt"}`}
+                >
+                  {plan.icon}
+                </span>
+                <h3 className="text-xl font-medium text-foreground">
+                  {plan.name}
+                </h3>
+              </div>
+
+              <p className="text-sm text-muted mb-6">{plan.description}</p>
+
+              {/* Price */}
+              <div className="mb-6">
+                <span className="text-4xl font-serif text-foreground">
+                  {plan.price[billingPeriod]}
+                </span>
+                {plan.price[billingPeriod] !== "Free" && (
+                  <span className="text-sm text-muted ml-1">
+                    /{billingPeriod === "monthly" ? "month" : "year"}
+                  </span>
+                )}
+              </div>
+
+              {/* CTA Button */}
+              <button
+                className={`w-full h-12 rounded-full font-medium text-sm uppercase tracking-wide transition-colors mb-8 ${
+                  plan.isPopular
+                    ? "bg-foreground text-white hover:bg-cosmic-cobalt"
+                    : "border border-foreground/20 text-foreground hover:bg-foreground/5"
+                }`}
+              >
+                Get Started
+              </button>
+
+              {/* Features */}
+              <div>
+                <p className="text-xs uppercase tracking-widest text-muted mb-4">
+                  What&apos;s Included
+                </p>
+                <ul className="space-y-3">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3">
+                      <span
+                        className={`text-sm ${plan.isPopular ? "text-cosmic-purple" : "text-cosmic-cobalt"}`}
+                      >
+                        ✦
+                      </span>
+                      <span className="text-sm text-foreground/80">
+                        {feature}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }
 

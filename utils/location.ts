@@ -12,4 +12,5 @@ export interface SearchPlaceResponse {
   lon: string;
   place_id: number;
   name: string;
+  addresstype: string;
 }

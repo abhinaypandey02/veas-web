@@ -8,7 +8,7 @@ export const { GET, POST, PUT, DELETE } = getEmailAuthRoutes({
     const [user] = await db.insert(UserTable).values(data).returning();
     return user;
   },
-  getUser: async (email) => {
+  getUser: async ({ email }) => {
     const [user] = await db
       .select()
       .from(UserTable)

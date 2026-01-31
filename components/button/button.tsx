@@ -14,7 +14,6 @@ function Button({
   square = false,
   children,
   className,
-  type,
   loading,
   disabled,
   compact,

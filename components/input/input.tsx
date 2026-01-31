@@ -8,6 +8,7 @@ import { cn } from "@/components/utils";
 
 import { getBaseClassName, getInputErrorMessages } from "./constants";
 import type { InputProps } from "./types";
+import { Variants } from "../constants";
 function InputWrapper({
   label,
   error,
@@ -73,10 +74,9 @@ function Input({
     getInputErrorMessages(formError?.type?.toString());
   const className = cn(
     getBaseClassName(
-      rest.variant,
-      Boolean(suffix),
-      Boolean(prefix),
+      rest.variant || Variants.PRIMARY,
       rest.type === "checkbox" || rest.type === "radio",
+      !!rest.type?.startsWith("date"),
     ),
     rest.className,
   );

@@ -9,6 +9,8 @@ import { searchLocation, SearchPlaceResponse } from "@/utils/location";
 import { useForm } from "react-hook-form";
 import Form from "@/components/form";
 import { Button } from "@/components/button";
+import { useLogout } from "naystack/auth/email/client";
+import { SignOutIcon } from "@phosphor-icons/react";
 
 interface FormType {
   name: string;
@@ -18,10 +20,11 @@ interface FormType {
 
 export default function OnboardForm() {
   const router = useRouter();
+  const logout = useLogout();
   const [onboardUser, { loading }] = useAuthMutation(ONBOARD_USER);
   const [places, setPlaces] = useState<SearchPlaceResponse[]>([]);
   const form = useForm<FormType>();
-
+  console.log(places);
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     const sub = form.watch(({ place }) => {
@@ -30,7 +33,7 @@ export default function OnboardForm() {
       if (places.some((p) => p.place_id === Number(place))) return;
       timeout = setTimeout(() => {
         searchLocation(place)
-          .then((res) => res.filter((p) => p.type === "city"))
+          .then((res) => res.filter((p) => p.addresstype === "city"))
           .then(setPlaces);
       }, 500);
     });
@@ -84,7 +87,7 @@ export default function OnboardForm() {
           name="name"
           label="Full name"
           rules={{ required: true }}
-          placeholder="John Doe"
+          placeholder=""
         />
         <Input
           name="dob"
@@ -106,6 +109,17 @@ export default function OnboardForm() {
 
         <Button className="w-full" loading={loading}>
           Complete Onboarding
+        </Button>
+        <Button
+          invert
+          type="button"
+          className="w-full flex gap-2"
+          onClick={() => {
+            router.push("/");
+            logout();
+          }}
+        >
+          <SignOutIcon className="rotate-y-180" /> Signout
         </Button>
       </Form>
     </div>

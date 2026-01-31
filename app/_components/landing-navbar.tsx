@@ -11,7 +11,7 @@ const navLinks = [
   { href: "/blog", label: "Blog" },
 ];
 
-export default function Navbar() {
+export default function LandingNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
