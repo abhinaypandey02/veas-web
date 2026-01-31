@@ -11,6 +11,7 @@ import Form from "@/components/form";
 import { Button } from "@/components/button";
 import { useLogout } from "naystack/auth/email/client";
 import { SignOutIcon } from "@phosphor-icons/react";
+import Link from "next/link";
 
 interface FormType {
   name: string;
@@ -18,7 +19,7 @@ interface FormType {
   place: string;
 }
 
-export default function OnboardForm() {
+export default function OnboardForm({ data }: { data?: true }) {
   const router = useRouter();
   const logout = useLogout();
   const [onboardUser, { loading }] = useAuthMutation(ONBOARD_USER);
@@ -60,7 +61,7 @@ export default function OnboardForm() {
       });
 
       if (result.data) {
-        router.push("/dashboard");
+        router.replace("/dashboard");
       }
     } catch (error) {
       console.error(error);
@@ -107,20 +108,19 @@ export default function OnboardForm() {
           }))}
         />
 
-        <Button className="w-full" loading={loading}>
+        <Button className="w-full" loading={loading || !data}>
           Complete Onboarding
         </Button>
-        <Button
-          invert
+        <Link
+          href="/"
           type="button"
-          className="w-full flex gap-2"
+          className="w-full flex justify-center underline underline-offset-2 items-center gap-2"
           onClick={() => {
-            router.push("/");
             logout();
           }}
         >
           <SignOutIcon className="rotate-y-180" /> Signout
-        </Button>
+        </Link>
       </Form>
     </div>
   );

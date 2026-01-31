@@ -1,4 +1,5 @@
 import LogoutButton from "../dashboard/components/logout-button";
+import ProfileInfo from "./profile-info";
 
 export default function ProfilePage() {
   return (
@@ -13,6 +14,7 @@ export default function ProfilePage() {
           </div>
           <LogoutButton />
         </div>
+        <ProfileInfo />
       </div>
     </main>
   );

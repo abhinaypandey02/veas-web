@@ -15,7 +15,7 @@ interface FormType {
   password: string;
 }
 
-export default function SignUpForm() {
+export default function SignUpForm({ data }: { data?: true }) {
   const signUp = useSignUp();
   const router = useRouter();
   const token = useToken();
@@ -31,14 +31,13 @@ export default function SignUpForm() {
   const [message, setMessage] = useState<string | null>(null);
 
   const handleSubmit = async (data: FormType) => {
-    console.log(data);
     setIsSubmitting(true);
     setMessage(null);
 
     try {
       await signUp(data);
       // Redirect to onboard page after successful signup
-      router.push("/onboard");
+      router.replace("/onboard");
     } catch (error) {
       console.error(error);
       setMessage("Something went wrong. Please try again.");
@@ -85,12 +84,12 @@ export default function SignUpForm() {
           type="password"
           placeholder="Confirm your password"
         />
-        <Button loading={isSubmitting} className="w-full mt-6">
+        <Button loading={isSubmitting || !data} className="w-full mt-6">
           {isSubmitting ? "Signing up..." : "Sign up"}
         </Button>
         <div className="text-faded text-sm mt-4 text-center">
           Already have an account?{" "}
-          <Link href="/login" className="underline">
+          <Link replace href="/login" className="underline">
             Login
           </Link>
         </div>

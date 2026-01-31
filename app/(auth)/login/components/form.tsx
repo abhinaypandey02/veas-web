@@ -14,7 +14,7 @@ interface FormType {
   password: string;
 }
 
-export default function LoginForm() {
+export default function LoginForm({ data }: { data?: true }) {
   const login = useLogin();
   const router = useRouter();
   const token = useToken();
@@ -34,7 +34,7 @@ export default function LoginForm() {
     try {
       const message = await login(data);
       if (!message) {
-        router.push("/onboard");
+        router.replace("/onboard");
       } else {
         form.setError("password", { message });
       }
@@ -68,13 +68,13 @@ export default function LoginForm() {
           type="password"
           placeholder="Enter your password"
         />
-        <Button loading={isSubmitting} className="w-full mt-6">
-          {isSubmitting ? "Signing up..." : "Sign up"}
+        <Button loading={isSubmitting || !data} className="w-full mt-6">
+          {isSubmitting ? "Signing in..." : "Sign in"}
         </Button>
         <div className="text-faded text-sm mt-4 text-center">
           Don{"'"}t have an account?{" "}
-          <Link href="/signup" className="underline">
-            Sign up
+          <Link replace href="/signup" className="underline">
+            Sign in
           </Link>
         </div>
       </Form>
