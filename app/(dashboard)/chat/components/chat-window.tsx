@@ -30,7 +30,9 @@ export function ChatWindow({
   const { message } = form.watch();
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chats.length > 0) {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [chats]);
 
   const handleSendMessage = (data: { message: string }) => {
