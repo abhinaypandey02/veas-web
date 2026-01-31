@@ -88,7 +88,7 @@ export default function OnboardForm({ data }: { data?: true }) {
           name="name"
           label="Full name"
           rules={{ required: true }}
-          placeholder=""
+          placeholder="what to call you?"
         />
         <Input
           name="dob"
@@ -101,7 +101,7 @@ export default function OnboardForm({ data }: { data?: true }) {
           name="place"
           label="City of Birth"
           rules={{ required: true }}
-          placeholder="New York"
+          placeholder="what's that iconic place?"
           options={places.map((place) => ({
             label: place.name,
             value: place.place_id,
