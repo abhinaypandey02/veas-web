@@ -4,6 +4,7 @@ import { cn } from "@/components/utils";
 import { House, User, MagicWandIcon } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
 const navItems = [
   { href: "/dashboard", label: "Home", icon: House },
@@ -11,9 +12,27 @@ const navItems = [
   { href: "/profile", label: "Profile", icon: User },
 ] as const;
 
+function applyBottomInset() {
+  const vv = window.visualViewport;
+  if (!vv) return;
+
+  const inset = window.innerHeight - vv.height - vv.offsetTop;
+  document.documentElement.style.setProperty(
+    "--vv-bottom-inset",
+    `${Math.max(inset, 0)}px`,
+  );
+}
+
 export function BottomNavbar() {
   const pathname = usePathname();
-
+  useEffect(() => {
+    if (typeof window === "undefined" || !window) return;
+    applyBottomInset();
+    window?.visualViewport?.addEventListener("resize", applyBottomInset);
+    return () => {
+      window?.visualViewport?.removeEventListener("resize", applyBottomInset);
+    };
+  }, [pathname]);
   return (
     <nav className="w-full fixed bottom-0 z-50 shadow-md bg-surface pb-[env(safe-area-inset-bottom)]">
       <div className="mx-auto flex max-w-sm items-center justify-around px-2 py-1">
