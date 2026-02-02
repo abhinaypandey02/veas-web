@@ -2,13 +2,15 @@ import { z } from "zod";
 import { ChartKey } from "../../lib/charts/keys";
 import { getChartData } from "../../lib/charts/get-chart-data";
 import { generateText, ToolLoopAgent } from "ai";
-import { CHAT_SYSTEM_PROMPT, CHAT_SUMMARIZE_SYSTEM_PROMPT } from "./prompts";
+import { CHAT_SUMMARIZE_SYSTEM_PROMPT } from "./prompts";
 import { GROQ_MODEL } from "../../lib/ai";
 import { ChatDB, ChatRole, ChatTable } from "./db";
 import { and, eq, lte, ne } from "drizzle-orm";
 import { db } from "../../lib/db";
+import { getChatSystemPrompt } from "./prompts";
+import { UserDB } from "../User/db";
 
-export const getAstrologerAssistant = (id: number) =>
+export const getAstrologerAssistant = (user: UserDB) =>
   new ToolLoopAgent({
     model: GROQ_MODEL as unknown as string,
     tools: {
@@ -29,10 +31,10 @@ export const getAstrologerAssistant = (id: number) =>
         }),
 
         execute: async ({ keys }: { keys: ChartKey[] }) =>
-          getChartData(id, keys),
+          getChartData(user.id, keys),
       },
     },
-    instructions: CHAT_SYSTEM_PROMPT,
+    instructions: getChatSystemPrompt(user),
   });
 
 const MAXIMUM_MESSAGES = 15;

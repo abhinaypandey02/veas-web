@@ -33,9 +33,7 @@ export default function OnboardForm({ data }: { data?: true }) {
       if (!place || place.length <= 3) return;
       if (places.some((p) => p.place_id === Number(place))) return;
       timeout = setTimeout(() => {
-        searchLocation(place)
-          .then((res) => res.filter((p) => p.addresstype === "city"))
-          .then(setPlaces);
+        searchLocation(place).then(setPlaces);
       }, 500);
     });
     return () => {
@@ -58,6 +56,8 @@ export default function OnboardForm({ data }: { data?: true }) {
         dateOfBirth: new Date(data.dob),
         placeOfBirthLat: parseFloat(selectedPlace.lat),
         placeOfBirthLong: parseFloat(selectedPlace.lon),
+        placeOfBirth: selectedPlace.display_name,
+        timezoneOffset: -new Date().getTimezoneOffset() / 60,
       });
 
       if (result.data) {
@@ -103,7 +103,7 @@ export default function OnboardForm({ data }: { data?: true }) {
           rules={{ required: true }}
           placeholder="what's that iconic place?"
           options={places.map((place) => ({
-            label: place.name,
+            label: place.display_name,
             value: place.place_id,
           }))}
         />

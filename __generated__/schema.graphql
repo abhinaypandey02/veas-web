@@ -252,8 +252,10 @@ type Mutation {
 input OnboardUserInput {
   dateOfBirth: DateTimeISO!
   name: String!
+  placeOfBirth: String!
   placeOfBirthLat: Float!
   placeOfBirthLong: Float!
+  timezoneOffset: Float!
 }
 
 type Query {
@@ -269,6 +271,7 @@ type User {
   id: Float!
   isOnboarded: Boolean!
   name: String
+  placeOfBirth: String
   placeOfBirthLat: Float
   placeOfBirthLong: Float
 }

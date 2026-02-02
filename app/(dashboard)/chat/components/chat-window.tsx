@@ -135,39 +135,46 @@ export function ChatWindow({
             </div>
           </div>
         ) : (
-          chats.map((chat) => (
-            <div
-              key={chat.createdAt + chat.role}
-              className={`flex ${
-                chat.role === ChatRole.user ? "justify-end" : "justify-start"
-              }`}
-            >
-              <div
-                className={`max-w-[80%] md:max-w-[70%] px-3 py-1 text-sm ${
-                  chat.role !== ChatRole.user
-                    ? "bg-white text-foreground border "
-                    : "bg-primary/90 text-white "
-                }`}
-              >
+          chats.map((chat) =>
+            chat.message
+              .split("\n\n")
+              .map((line) => line.trim())
+              .map((message) => (
                 <div
-                  className={cn(
-                    "whitespace-pre-wrap wrap-break-word ",
-                    chat.role !== ChatRole.user
-                      ? "font-serif text-s3m"
-                      : "text-white text-sm3",
-                  )}
+                  key={chat.createdAt + chat.role}
+                  className={`flex ${
+                    chat.role === ChatRole.user
+                      ? "justify-end"
+                      : "justify-start"
+                  }`}
                 >
-                  {chat.message || (
-                    <span className="inline-flex items-center gap-1">
-                      <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse" />
-                      <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse delay-75" />
-                      <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse delay-150" />
-                    </span>
-                  )}
+                  <div
+                    className={`max-w-[80%] md:max-w-[70%] px-3 py-1 text-sm ${
+                      chat.role !== ChatRole.user
+                        ? "bg-white text-foreground border "
+                        : "bg-primary/90 text-white "
+                    }`}
+                  >
+                    <div
+                      className={cn(
+                        "whitespace-pre-wrap wrap-break-word ",
+                        chat.role !== ChatRole.user
+                          ? "font-serif text-s3m"
+                          : "text-white text-sm3",
+                      )}
+                    >
+                      {message || (
+                        <span className="inline-flex items-center gap-1">
+                          <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse" />
+                          <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse delay-75" />
+                          <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse delay-150" />
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))
+              )),
+          )
         )}
         <div ref={messagesEndRef} />
       </div>

@@ -19,4 +19,10 @@ export class User {
 
   @Field(() => Number, { nullable: true })
   placeOfBirthLong: number | null;
+
+  @Field(() => Number, { nullable: true })
+  timezoneOffset: number | null;
+
+  @Field(() => String, { nullable: true })
+  placeOfBirth: string | null;
 }

@@ -89,9 +89,11 @@ export function Select({ options, rules, multiple, ...rest }: SelectProps) {
             values.length ? "" : "text-gray-400",
           )}
         >
-          {values.length
-            ? labels.join(", ")
-            : rest.placeholder || <span className="opacity-0">.</span>}
+          <span className="line-clamp-1 overflow-hidden">
+            {values.length
+              ? labels.join(", ")
+              : rest.placeholder || <span className="opacity-0">.</span>}
+          </span>
           <CaretDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </button>
       </PopoverTrigger>
@@ -139,16 +141,15 @@ export function Select({ options, rules, multiple, ...rest }: SelectProps) {
                           setOpen(false);
                         }
                       }}
+                      className="text-xs"
                     >
-                      <Check
-                        className={cn(
-                          "mr-2 h-4 w-4 text-accent",
-                          values.includes(option.value)
-                            ? "opacity-100"
-                            : "opacity-0",
-                        )}
-                      />
-                      {option.label}
+                      <span className="line-clamp-1 overflow-hidden">
+                        {option.label}
+                      </span>
+
+                      {values.includes(option.value) && (
+                        <Check className={cn("size-3 text-accent")} />
+                      )}
                     </CommandItem>
                   );
                 }}

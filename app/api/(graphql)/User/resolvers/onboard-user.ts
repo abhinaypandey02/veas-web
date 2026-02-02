@@ -21,6 +21,12 @@ export class OnboardUserInput {
 
   @Field()
   placeOfBirthLong: number;
+
+  @Field()
+  timezoneOffset: number;
+
+  @Field()
+  placeOfBirth: string;
 }
 
 export default query(
@@ -30,12 +36,7 @@ export default query(
     }
     const [updatedUser] = await db
       .update(UserTable)
-      .set({
-        name: input.name,
-        dateOfBirth: input.dateOfBirth,
-        placeOfBirthLat: input.placeOfBirthLat,
-        placeOfBirthLong: input.placeOfBirthLong,
-      })
+      .set(input)
       .where(eq(UserTable.id, ctx.userId))
       .returning();
 

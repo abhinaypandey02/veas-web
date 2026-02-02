@@ -19,6 +19,8 @@ export const UserTable = pgTable("users", {
   dateOfBirth: timestamp("date_of_birth"),
   placeOfBirthLat: real("place_of_birth_lat"),
   placeOfBirthLong: real("place_of_birth_long"),
+  placeOfBirth: text("place_of_birth"),
+  timezoneOffset: real("timezone_offset"),
 });
 
 export type UserDB = typeof UserTable.$inferSelect;
