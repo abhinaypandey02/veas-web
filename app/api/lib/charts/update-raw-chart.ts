@@ -22,25 +22,15 @@ export async function updateRawChart(userId: number) {
     throw new Error("User not found");
   }
 
-  if (
-    !user.dateOfBirth ||
-    !user.placeOfBirthLat ||
-    !user.placeOfBirthLong ||
-    user.timezone === null ||
-    user.timezone === undefined
-  ) {
+  if (!user.dateOfBirth || !user.placeOfBirthLat || !user.placeOfBirthLong) {
     throw new Error(
       "User birth data incomplete. Please complete onboarding first.",
     );
   }
 
-  // Use timezone stored during onboarding
-  const timezoneOffset = user.timezone;
-
   // Fetch chart data
   const chartData = await getCharts({
     datetime: user.dateOfBirth,
-    timezone: timezoneOffset,
     lat: user.placeOfBirthLat,
     lon: user.placeOfBirthLong,
   });

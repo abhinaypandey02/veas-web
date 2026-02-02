@@ -1,10 +1,16 @@
-import { pgTable, serial, text, pgEnum, integer, timestamp, jsonb, unique } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, pgEnum, integer, timestamp, jsonb, unique, real } from "drizzle-orm/pg-core";
 import { ChartKey } from "../../lib/charts/keys";
 
 export const UserTable = pgTable("users", {
   id: serial("id"),
   password: text("password").notNull(),
   email: text("email").notNull(),
+  name: text("name"),
+  dateOfBirth: timestamp("date_of_birth"),
+  placeOfBirthLat: real("place_of_birth_lat"),
+  placeOfBirthLong: real("place_of_birth_long"),
+  placeOfBirth: text("place_of_birth"),
+  timezoneOffset: real("timezone_offset"),
 });
 
 export type UserDB = typeof UserTable.$inferSelect;

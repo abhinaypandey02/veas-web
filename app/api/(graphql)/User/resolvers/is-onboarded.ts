@@ -12,9 +12,7 @@ export default field(
       user.placeOfBirthLat !== null &&
       user.placeOfBirthLat !== undefined &&
       user.placeOfBirthLong !== null &&
-      user.placeOfBirthLong !== undefined &&
-      user.timezone !== null &&
-      user.timezone !== undefined
+      user.placeOfBirthLong !== undefined
     );
   },
   {

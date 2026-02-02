@@ -1,27 +1,87 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: #1a1a1a;
+
+  --faded: #484848;
+  --danger: #ad7070;
+  /* Light Theme Backgrounds */
+  --background: #F9F5FF; /* Lavender Mist */
+  --surface: #ffffff;
+  --surface-highlight: #f0ebf8;
+
+  /* Text Colors */
+  --foreground: (var(--primary)); /* Shadow Grey - primary text */
+  --muted: #706e77; /* Darker muted for readability on light */
+  --accent: #998FC7; /* Soft Periwinkle */
+
+  /* Cosmic / Astrology Colors */
+  --cosmic-purple: #998FC7; /* Soft Periwinkle */
+  --cosmic-lavender: #D4C2FC; /* Periwinkle */
+  --cosmic-cobalt: #14248A; /* True Cobalt */
+  --cosmic-gold: #b8a06e;
+
+  --border: #D4C2FC;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-highlight: var(--surface-highlight);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-serif: var(--font-playfair);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-cosmic-purple: var(--cosmic-purple);
+  --color-cosmic-lavender: var(--cosmic-lavender);
+  --color-cosmic-cobalt: var(--cosmic-cobalt);
+  --color-cosmic-gold: var(--cosmic-gold);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-faded: var(--faded);
+  --color-danger: var(--danger);
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  cursor: url('/cursor-default.png') 64 64, auto;
+}
+
+/* Custom cursor for interactive elements */
+a, button, [role="button"] {
+  cursor: url('/cursor-pointer.png') 64 64, pointer;
+}
+
+/* Utilities for editorial look */
+@utility font-editorial {
+  font-family: var(--font-serif);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+}
+
+@utility text-balance {
+  text-wrap: balance;
 }

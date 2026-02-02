@@ -1,29 +1,27 @@
 import OnboardForm from "@/app/onboard/components/form";
-import { query } from "@/app/lib/gql-server";
-import { GET_CURRENT_USER } from "@/constants/graphql/queries";
-import { redirect } from "next/navigation";
+import { Injector } from "naystack/graphql/server";
+import getCurrentUser from "../api/(graphql)/User/resolvers/get-current-user";
+import { redirect, RedirectType } from "next/navigation";
+import getIsOnboarded from "../api/(graphql)/User/resolvers/is-onboarded";
 
-export default async function Page() {
-  const data = await query(GET_CURRENT_USER, {
-    revalidate: 0,
-  });
-
-  if (data?.getCurrentUser?.isOnboarded) {
-    redirect("/dashboard");
-  }
-
+export default function Page() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
+    <main className="flex pt-16 items-center justify-center px-4">
       <div className="w-full max-w-lg">
-        <div className="mb-8 text-center">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-500">
-            Complete Your Profile
-          </h2>
-          <p className="mt-1 text-3xl font-semibold text-gray-900">
-            Onboarding
-          </p>
-        </div>
-        <OnboardForm />
+        <Injector
+          fetch={async () => {
+            const user = await getCurrentUser.authCall();
+            if (!user) {
+              return redirect("/signup", RedirectType.replace);
+            }
+            const isOnboarded = await getIsOnboarded.authCall(user);
+            if (isOnboarded) {
+              return redirect("/dashboard", RedirectType.replace);
+            }
+            return true as const;
+          }}
+          Component={OnboardForm}
+        />
       </div>
     </main>
   );

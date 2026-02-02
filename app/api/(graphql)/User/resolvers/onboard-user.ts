@@ -23,7 +23,10 @@ export class OnboardUserInput {
   placeOfBirthLong: number;
 
   @Field()
-  timezone: number;
+  timezoneOffset: number;
+
+  @Field()
+  placeOfBirth: string;
 }
 
 export default query(
@@ -31,16 +34,9 @@ export default query(
     if (!ctx.userId) {
       throw new Error("Unauthorized");
     }
-
     const [updatedUser] = await db
       .update(UserTable)
-      .set({
-        name: input.name,
-        dateOfBirth: input.dateOfBirth,
-        placeOfBirthLat: input.placeOfBirthLat,
-        placeOfBirthLong: input.placeOfBirthLong,
-        timezone: input.timezone,
-      })
+      .set(input)
       .where(eq(UserTable.id, ctx.userId))
       .returning();
 

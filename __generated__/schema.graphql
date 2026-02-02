@@ -252,14 +252,15 @@ type Mutation {
 input OnboardUserInput {
   dateOfBirth: DateTimeISO!
   name: String!
+  placeOfBirth: String!
   placeOfBirthLat: Float!
   placeOfBirthLong: Float!
-  timezone: Float!
+  timezoneOffset: Float!
 }
 
 type Query {
   getChats: [Chat!]!
-  getCurrentUser: User!
+  getCurrentUser: User
   __schema: __Schema!
   __type(name: String!): __Type
 }
@@ -270,7 +271,7 @@ type User {
   id: Float!
   isOnboarded: Boolean!
   name: String
+  placeOfBirth: String
   placeOfBirthLat: Float
   placeOfBirthLong: Float
-  timezone: Float
 }
