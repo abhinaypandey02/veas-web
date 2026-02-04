@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Button } from "../components/Button";
+import { Card } from "../components/Card";
 import { Input } from "../components/Input";
 import { Screen } from "../components/Screen";
 import { searchLocation, type SearchPlaceResponse } from "../services/location";
@@ -116,6 +117,9 @@ export function OnboardingScreen({ navigation, route }: { navigation: any; route
           keyboardShouldPersistTaps="handled"
         >
           <View className="space-y-2">
+            <Text className="text-xs uppercase tracking-[0.4em] text-muted">
+              Personalize
+            </Text>
             <Text className="text-4xl font-serif text-foreground">About you</Text>
             <Text className="text-sm text-muted">
               Your birth details let us align your chart with the real sky and tailor
@@ -123,105 +127,114 @@ export function OnboardingScreen({ navigation, route }: { navigation: any; route
             </Text>
           </View>
 
-          <Input
-            label="Full name"
-            value={name}
-            onChangeText={setName}
-            placeholder="What should we call you?"
-          />
+          <Card className="space-y-4" variant="soft">
+            <Input
+              label="Full name"
+              value={name}
+              onChangeText={setName}
+              placeholder="What should we call you?"
+            />
 
-          <View className="space-y-3">
-            <Text className="text-xs uppercase tracking-widest text-muted">Date of birth</Text>
-            <Pressable
-              className="bg-surface border border-foreground/10 rounded-2xl px-4 py-3"
-              onPress={() => setShowDatePicker(true)}
-            >
-              <Text className="text-foreground">{formatReadableDate(birthDate)}</Text>
-            </Pressable>
-            {showDatePicker ? (
-              <DateTimePicker
-                value={birthDate}
-                mode="date"
-                display={Platform.OS === "ios" ? "spinner" : "default"}
-                onChange={(_, selected) => {
-                  setShowDatePicker(false);
-                  if (selected) setBirthDate(selected);
-                }}
-              />
-            ) : null}
-          </View>
-
-          <View className="space-y-3">
-            <View className="flex-row items-center justify-between">
-              <Text className="text-xs uppercase tracking-widest text-muted">Time of birth</Text>
+            <View className="space-y-3">
+              <Text className="text-xs uppercase tracking-[0.24em] text-muted">
+                Date of birth
+              </Text>
               <Pressable
-                onPress={() => setTimeUnknown((prev) => !prev)}
-                className="px-3 py-1 rounded-full border border-foreground/20"
+                className="bg-white/90 border border-foreground/10 rounded-2xl px-4 py-3"
+                onPress={() => setShowDatePicker(true)}
               >
-                <Text className="text-xs text-foreground">
-                  {timeUnknown ? "Not sure" : "Set time"}
+                <Text className="text-foreground">{formatReadableDate(birthDate)}</Text>
+              </Pressable>
+              {showDatePicker ? (
+                <DateTimePicker
+                  value={birthDate}
+                  mode="date"
+                  display={Platform.OS === "ios" ? "spinner" : "default"}
+                  onChange={(_, selected) => {
+                    setShowDatePicker(false);
+                    if (selected) setBirthDate(selected);
+                  }}
+                />
+              ) : null}
+            </View>
+
+            <View className="space-y-3">
+              <View className="flex-row items-center justify-between">
+                <Text className="text-xs uppercase tracking-[0.24em] text-muted">
+                  Time of birth
+                </Text>
+                <Pressable
+                  onPress={() => setTimeUnknown((prev) => !prev)}
+                  className="px-3 py-1 rounded-full border border-foreground/20"
+                >
+                  <Text className="text-xs text-foreground">
+                    {timeUnknown ? "Not sure" : "Set time"}
+                  </Text>
+                </Pressable>
+              </View>
+              <Pressable
+                className="bg-white/90 border border-foreground/10 rounded-2xl px-4 py-3"
+                onPress={() => {
+                  if (!timeUnknown) setShowTimePicker(true);
+                }}
+              >
+                <Text className="text-foreground">
+                  {timeUnknown ? "Defaulting to 12:00 PM" : formatReadableTime(birthTime)}
                 </Text>
               </Pressable>
+              {showTimePicker ? (
+                <DateTimePicker
+                  value={birthTime}
+                  mode="time"
+                  display={Platform.OS === "ios" ? "spinner" : "default"}
+                  onChange={(_, selected) => {
+                    setShowTimePicker(false);
+                    if (selected) setBirthTime(selected);
+                  }}
+                />
+              ) : null}
             </View>
-            <Pressable
-              className="bg-surface border border-foreground/10 rounded-2xl px-4 py-3"
-              onPress={() => {
-                if (!timeUnknown) setShowTimePicker(true);
-              }}
-            >
-              <Text className="text-foreground">
-                {timeUnknown ? "Defaulting to 12:00 PM" : formatReadableTime(birthTime)}
-              </Text>
-            </Pressable>
-            {showTimePicker ? (
-              <DateTimePicker
-                value={birthTime}
-                mode="time"
-                display={Platform.OS === "ios" ? "spinner" : "default"}
-                onChange={(_, selected) => {
-                  setShowTimePicker(false);
-                  if (selected) setBirthTime(selected);
+
+            <View className="space-y-3">
+              <Input
+                label="Place of birth"
+                value={placeQuery}
+                onChangeText={(value) => {
+                  setPlaceQuery(value);
+                  setSelectedPlace(null);
                 }}
+                placeholder="City, region or country"
               />
-            ) : null}
-          </View>
+              {placeOptions.length > 0 ? (
+                <View className="bg-white/95 border border-foreground/10 rounded-2xl overflow-hidden">
+                  {placeOptions.map((place) => (
+                    <Pressable
+                      key={place.place_id}
+                      className="px-4 py-3 border-b border-foreground/5"
+                      onPress={() => {
+                        setSelectedPlace(place);
+                        setPlaceQuery(place.display_name);
+                        setPlaceOptions([]);
+                      }}
+                    >
+                      <Text className="text-sm text-foreground">
+                        {place.display_name}
+                      </Text>
+                    </Pressable>
+                  ))}
+                </View>
+              ) : null}
+            </View>
 
-          <View className="space-y-3">
-            <Input
-              label="Place of birth"
-              value={placeQuery}
-              onChangeText={(value) => {
-                setPlaceQuery(value);
-                setSelectedPlace(null);
-              }}
-              placeholder="City, region or country"
+            {error ? <Text className="text-xs text-red-500">{error}</Text> : null}
+
+            <Button
+              title={isPending ? "Saving..." : "Complete onboarding"}
+              onPress={handleSubmit}
+              loading={isPending}
             />
-            {placeOptions.length > 0 ? (
-              <View className="bg-surface border border-foreground/10 rounded-2xl overflow-hidden">
-                {placeOptions.map((place) => (
-                  <Pressable
-                    key={place.place_id}
-                    className="px-4 py-3 border-b border-foreground/5"
-                    onPress={() => {
-                      setSelectedPlace(place);
-                      setPlaceQuery(place.display_name);
-                      setPlaceOptions([]);
-                    }}
-                  >
-                    <Text className="text-sm text-foreground">{place.display_name}</Text>
-                  </Pressable>
-                ))}
-              </View>
-            ) : null}
-          </View>
+          </Card>
 
-          {error ? <Text className="text-xs text-red-500">{error}</Text> : null}
-
-          <Button
-            title={isPending ? "Saving..." : "Complete onboarding"}
-            onPress={handleSubmit}
-            loading={isPending}
-          />
         </ScrollView>
       </KeyboardAvoidingView>
     </Screen>

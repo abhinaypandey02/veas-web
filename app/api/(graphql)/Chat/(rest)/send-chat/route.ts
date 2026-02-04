@@ -6,6 +6,7 @@ import { and, eq } from "drizzle-orm";
 import { waitUntil } from "@vercel/functions";
 import { getContext } from "naystack/auth";
 import { UserTable } from "../../../User/db";
+import { streamText } from "ai";
 
 export const POST = async (req: NextRequest) => {
   const ctx = await getContext(req);
@@ -24,11 +25,35 @@ export const POST = async (req: NextRequest) => {
     .from(UserTable)
     .where(eq(UserTable.id, ctx.userId));
   if (!user) return new NextResponse("User not found", { status: 404 });
+  
+  // Verify API key is configured
+  if (!process.env.GOOGLE_API_KEY) {
+    console.error("CRITICAL: GOOGLE_API_KEY not configured in environment");
+    return new NextResponse(
+      "AI service not configured. Please contact support.",
+      { status: 500 },
+    );
+  }
+
   const astrologer = getAstrologerAssistant(user);
 
-  let stream;
+  console.log("[CHAT ENDPOINT] Starting stream request", {
+    userId: ctx.userId,
+    messageLength: message.length,
+    previousChatsCount: chats.length,
+    model: typeof astrologer.model,
+  });
+
   try {
-    stream = await astrologer.stream({
+    console.log("[CHAT ENDPOINT] Creating streamText with model:", {
+      modelType: typeof astrologer.model,
+      hasTools: !!astrologer.tools,
+    });
+
+    const result = streamText({
+      model: astrologer.model,
+      system: astrologer.system,
+      tools: astrologer.tools,
       messages: [
         ...chats.map((chat) => ({
           role:
@@ -40,8 +65,79 @@ export const POST = async (req: NextRequest) => {
         { role: ChatRole.user, content: message },
       ],
     });
+
+    let response = "";
+    const encoder = new TextEncoder();
+
+    const transformedStream = new ReadableStream({
+      async start(controller) {
+        try {
+          console.log("[CHAT STREAM] Starting to read text stream");
+          let chunkCount = 0;
+          
+          for await (const chunk of result.textStream) {
+            chunkCount++;
+            response += chunk;
+            console.log(`[CHAT STREAM] Chunk ${chunkCount}: ${chunk.length} chars`);
+            controller.enqueue(encoder.encode(chunk));
+          }
+
+          console.log("[CHAT STREAM] Text stream complete", {
+            totalChunks: chunkCount,
+            totalLength: response.length,
+          });
+
+          // Log tool calls if any
+          const toolCalls = await result.toolCalls;
+          console.log("[CHAT STREAM] Tool calls:", toolCalls.length);
+          for (const toolCall of toolCalls) {
+            console.log("[CHAT STREAM] Tool:", toolCall.toolName, "with args:", toolCall.args);
+          }
+
+          // Log tool results if any
+          const toolResults = await result.toolResults;
+          console.log("[CHAT STREAM] Tool results:", toolResults.length);
+          for (const toolResult of toolResults) {
+            console.log("[CHAT STREAM] Tool result for:", toolResult.toolName, "- success:", !toolResult.isError);
+          }
+
+          if (response && ctx.userId) {
+            console.log("[CHAT STREAM] Saving chat to database");
+            waitUntil(processChat(ctx.userId, chats, message, response));
+          } else if (!response) {
+            console.error("[CHAT STREAM] ERROR: Empty response from AI model");
+            controller.enqueue(
+              encoder.encode(
+                "I am unable to process your message. Please try again later.",
+              ),
+            );
+          }
+          controller.close();
+        } catch (error) {
+          console.error("[CHAT STREAM] Stream processing error:", {
+            error: error instanceof Error ? error.message : String(error),
+            stack: error instanceof Error ? error.stack : undefined,
+          });
+          const errorMessage =
+            "Sorry, something went wrong while generating a response. Please try again.";
+          controller.enqueue(encoder.encode(errorMessage));
+          controller.close();
+        }
+      },
+    });
+
+    return new NextResponse(transformedStream, {
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+      },
+    });
   } catch (error) {
-    console.error("Failed to create astrologer stream:", error);
+    console.error("[CHAT ENDPOINT] Failed to create astrologer stream:", {
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+      userId: ctx.userId,
+      messagePreview: message.substring(0, 50),
+    });
     return new NextResponse(
       "Sorry, something went wrong while starting the chat.",
       {
@@ -49,55 +145,4 @@ export const POST = async (req: NextRequest) => {
       },
     );
   }
-
-  let response = "";
-  const encoder = new TextEncoder();
-
-  const transformedStream = new ReadableStream({
-    async start(controller) {
-      const reader = stream.textStream.getReader();
-
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-
-          if (done && ctx.userId) {
-            if (response)
-              waitUntil(processChat(ctx.userId, chats, message, response));
-            else {
-              controller.enqueue(
-                encoder.encode(
-                  "I am not able to process your message. Please try again.",
-                ),
-              );
-            }
-            controller.close();
-            break;
-          }
-
-          // Accumulate the text
-          response += value;
-
-          // Forward the chunk to the client
-          controller.enqueue(encoder.encode(value));
-        }
-      } catch (error) {
-        console.error("Stream error:", error);
-        // Instead of erroring the stream (which can leave the client hanging),
-        // send a final friendly message and close the stream cleanly.
-        const errorMessage =
-          "Sorry, something went wrong while generating a response. Please try again.";
-        controller.enqueue(encoder.encode(errorMessage));
-        controller.close();
-      } finally {
-        reader.releaseLock();
-      }
-    },
-  });
-
-  return new NextResponse(transformedStream, {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-    },
-  });
 };

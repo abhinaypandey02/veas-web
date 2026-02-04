@@ -3,13 +3,13 @@ import { ChatRole } from "./db";
 
 @ObjectType("Chat")
 export class Chat {
-  @Field()
+  @Field(() => String)
   message: string;
 
   @Field(() => ChatRole)
   role: ChatRole;
 
-  @Field(() => Number)
+  @Field(() => Date)
   createdAt: Date;
 }
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { ActivityIndicator, Pressable, Text } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { cn } from "../utils/cn";
 
 type ButtonProps = {
@@ -20,15 +21,34 @@ export function Button({
   return (
     <Pressable
       className={cn(
-        "h-12 rounded-full items-center justify-center",
+        "h-12 rounded-full items-center justify-center overflow-hidden",
         variant === "primary" && "bg-foreground",
-        variant === "secondary" && "border border-foreground/20",
+        variant === "secondary" && "border border-foreground/20 bg-white/70",
         variant === "ghost" && "bg-transparent",
         (disabled || loading) && "opacity-60",
       )}
+      style={
+        variant === "primary"
+          ? {
+              shadowColor: "#998FC7",
+              shadowOpacity: 0.28,
+              shadowRadius: 16,
+              shadowOffset: { width: 0, height: 8 },
+              elevation: 6,
+            }
+          : undefined
+      }
       onPress={onPress}
       disabled={disabled || loading}
     >
+      {variant === "primary" ? (
+        <LinearGradient
+          colors={["#1A1A1A", "#2A2244", "#14248A"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          className="absolute inset-0"
+        />
+      ) : null}
       {loading ? (
         <ActivityIndicator color={variant === "primary" ? "#FFFFFF" : "#1A1A1A"} />
       ) : (

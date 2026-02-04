@@ -4,6 +4,11 @@ export async function streamChatMessage(
   message: string,
   onChunk: (chunk: string) => void,
 ) {
+  const streamId = Math.random().toString(36).substring(7);
+  console.log(`\n[CHAT ${streamId}] 💬 Starting chat stream`);
+  console.log(`[CHAT ${streamId}] 📨 Message: "${message}"`);
+  
+  const startTime = Date.now();
   const response = await apiFetch("/Chat/send-chat", {
     method: "POST",
     headers: {
@@ -14,37 +19,34 @@ export async function streamChatMessage(
 
   if (!response.ok) {
     const text = await response.text();
+    console.error(`[CHAT ${streamId}] ❌ Error response: ${response.status}`);
+    console.error(`[CHAT ${streamId}] 📄 Response body: ${text}`);
     throw new Error(text || "Failed to start chat");
   }
 
-  if (!response.body) {
-    throw new Error("Streaming response not available");
-  }
-
-  let decoder: TextDecoder;
-  if (typeof TextDecoder !== "undefined") {
-    decoder = new TextDecoder();
-  } else {
-    const { TextDecoder: PolyfillDecoder } = require("text-encoding");
-    decoder = new PolyfillDecoder("utf-8");
-  }
-
-  const reader = response.body.getReader();
-  let fullText = "";
-
+  console.log(`[CHAT ${streamId}] 🌊 Stream started, reading response...`);
+  
+  // React Native's fetch doesn't expose response.body as ReadableStream
+  // So we use response.text() instead and simulate streaming by sending chunks
   try {
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      const chunk = decoder.decode(value, { stream: true });
-      if (chunk) {
-        fullText += chunk;
-        onChunk(fullText);
-      }
-    }
-  } finally {
-    reader.releaseLock();
+    console.log(`[CHAT ${streamId}] 📖 Reading entire response as text...`);
+    const fullText = await response.text();
+    const totalDuration = Date.now() - startTime;
+    
+    console.log(`[CHAT ${streamId}] ✅ Response received (${totalDuration}ms)`);
+    console.log(`[CHAT ${streamId}] 📊 Total message length: ${fullText.length} chars`);
+    
+    // Simulate streaming by sending the complete text
+    // This mimics the behavior of chunked streaming
+    onChunk(fullText);
+    
+    console.log(`[CHAT ${streamId}] ✅ Stream complete`);
+    console.log(`[CHAT ${streamId}] 📊 Total duration: ${totalDuration}ms`);
+    
+    return fullText;
+  } catch (error) {
+    console.error(`[CHAT ${streamId}] ❌ Stream error:`, error);
+    throw error;
   }
-
-  return fullText;
 }
+

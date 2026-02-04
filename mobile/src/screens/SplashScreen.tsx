@@ -34,9 +34,27 @@ export function SplashScreen() {
     >
       <View style={{ alignItems: "center" }}>
         <Animated.View style={{ opacity }}>
-          <Text style={{ color: "white", fontSize: 48, fontWeight: "600" }}>veas</Text>
+          <Text
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontFamily: "VeasSerif",
+              fontStyle: "italic",
+              letterSpacing: -1,
+            }}
+          >
+            veas
+          </Text>
         </Animated.View>
-        <Text style={{ color: "#D4C2FC", fontSize: 10, marginTop: 16, letterSpacing: 4, textTransform: "uppercase" }}>
+        <Text
+          style={{
+            color: "#D4C2FC",
+            fontSize: 10,
+            marginTop: 16,
+            letterSpacing: 4,
+            textTransform: "uppercase",
+          }}
+        >
           Astrology, grounded in the real sky
         </Text>
       </View>

@@ -1,0 +1,9 @@
+version: "2"
+authtoken: 398kmCmBIhdjEaPsF7wtAwPOLbM_NagmoWX8rkHYA865Lsfm
+tunnels:
+  backend:
+    proto: http
+    addr: 3004
+  expo:
+    proto: http
+    addr: 8081

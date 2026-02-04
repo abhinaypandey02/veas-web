@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Card } from "../components/Card";
 import { Screen } from "../components/Screen";
 import { Button } from "../components/Button";
 import {
@@ -147,34 +148,59 @@ export function CalendarScreen() {
 
   return (
     <Screen>
-      <ScrollView contentContainerClassName="px-5 pt-6 pb-20 space-y-6">
-        <Text className="text-3xl font-serif text-foreground">Calendar</Text>
+      <ScrollView contentContainerClassName="px-5 pt-6 pb-20 space-y-8">
+        <View className="space-y-2">
+          <Text className="text-xs uppercase tracking-[0.4em] text-muted">
+            Astro calendar
+          </Text>
+          <Text className="text-3xl font-serif text-foreground">Calendar</Text>
+          <Text className="text-sm text-muted">
+            Track important days and let Veas connect the dots for you.
+          </Text>
+        </View>
 
-        <Calendar
-          markedDates={markedDates}
-          markingType="multi-dot"
-          onDayPress={(day) => setSelectedDate(day.dateString)}
-          theme={{
-            backgroundColor: "#F9F5FF",
-            calendarBackground: "#FFFFFF",
-            dayTextColor: "#1A1A1A",
-            textSectionTitleColor: "#706E77",
-            monthTextColor: "#1A1A1A",
-            arrowColor: "#998FC7",
-            todayTextColor: "#14248A",
-            selectedDayBackgroundColor: "#998FC7",
-            textDayFontFamily: "VeasSans",
-            textMonthFontFamily: "VeasSerif",
-            textDayHeaderFontFamily: "VeasSans",
-          }}
-        />
+        <Card className="p-4" variant="solid">
+          <Calendar
+            markedDates={markedDates}
+            markingType="multi-dot"
+            onDayPress={(day) => setSelectedDate(day.dateString)}
+            theme={{
+              backgroundColor: "#FFFFFF",
+              calendarBackground: "#FFFFFF",
+              dayTextColor: "#1A1A1A",
+              textSectionTitleColor: "#706E77",
+              monthTextColor: "#1A1A1A",
+              arrowColor: "#998FC7",
+              todayTextColor: "#14248A",
+              selectedDayBackgroundColor: "#998FC7",
+              textDayFontFamily: "VeasSans",
+              textMonthFontFamily: "VeasSerif",
+              textDayHeaderFontFamily: "VeasSans",
+            }}
+          />
+          <View className="mt-4 flex-row flex-wrap gap-3">
+            {(Object.keys(categoryLabels) as Array<CalendarEventCategory>).map((key) => (
+              <View key={key} className="flex-row items-center gap-2">
+                <View
+                  style={{
+                    width: 8,
+                    height: 8,
+                    borderRadius: 999,
+                    backgroundColor: categoryColors[key],
+                  }}
+                />
+                <Text className="text-[11px] text-muted">{categoryLabels[key]}</Text>
+              </View>
+            ))}
+          </View>
+        </Card>
 
         <View className="space-y-3">
           <Text className="text-lg font-serif text-foreground">
             {formatReadableDate(new Date(selectedDate))}
           </Text>
           {dayForecast ? (
-            <View className="bg-surface-highlight rounded-2xl p-4">
+            <View className="bg-surface-highlight rounded-2xl p-4 border border-foreground/5">
               <Text className="text-sm text-foreground leading-relaxed">
                 {dayForecast.text}
               </Text>
@@ -195,7 +221,7 @@ export function CalendarScreen() {
           <View className="flex-row items-center justify-between">
             <Text className="text-lg font-serif text-foreground">Your events</Text>
             <Pressable
-              className="px-4 py-2 rounded-full border border-foreground/20"
+              className="px-4 py-2 rounded-full border border-foreground/20 bg-white/80"
               onPress={() => setIsModalVisible(true)}
             >
               <Text className="text-xs uppercase tracking-[0.2em] text-foreground">
@@ -209,16 +235,25 @@ export function CalendarScreen() {
           ) : (
             <View className="space-y-2">
               {dayEvents.map((event) => (
-                <View
-                  key={event.id}
-                  className="bg-surface border border-foreground/10 rounded-2xl p-4 space-y-1"
-                >
-                  <Text className="text-sm text-foreground">{event.title}</Text>
-                  <Text className="text-xs text-muted">{categoryLabels[event.category]}</Text>
+                <Card key={event.id} className="space-y-2">
+                  <View className="flex-row items-center gap-2">
+                    <View
+                      style={{
+                        width: 8,
+                        height: 8,
+                        borderRadius: 999,
+                        backgroundColor: categoryColors[event.category],
+                      }}
+                    />
+                    <Text className="text-sm text-foreground">{event.title}</Text>
+                  </View>
+                  <Text className="text-xs text-muted">
+                    {categoryLabels[event.category]}
+                  </Text>
                   {event.notes ? (
                     <Text className="text-xs text-muted">{event.notes}</Text>
                   ) : null}
-                </View>
+                </Card>
               ))}
             </View>
           )}
@@ -227,7 +262,7 @@ export function CalendarScreen() {
 
       <Modal visible={isModalVisible} transparent animationType="fade">
         <View className="flex-1 bg-black/40 items-center justify-center px-6">
-          <View className="bg-surface rounded-3xl p-6 w-full space-y-4">
+          <Card className="p-6 w-full space-y-4" variant="default">
             <Text className="text-lg font-serif text-foreground">Add event</Text>
             <TextInput
               className="bg-surface-highlight rounded-2xl px-4 py-3 text-foreground"
@@ -278,7 +313,7 @@ export function CalendarScreen() {
                 <Text className="text-sm text-white">Save</Text>
               </Pressable>
             </View>
-          </View>
+          </Card>
         </View>
       </Modal>
     </Screen>

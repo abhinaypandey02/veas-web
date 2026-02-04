@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
 import { Button } from "../components/Button";
+import { Card } from "../components/Card";
 import { Input } from "../components/Input";
 import { Screen } from "../components/Screen";
 import { useAuth } from "../state/auth";
@@ -39,13 +40,18 @@ export function SignupScreen({ navigation }: { navigation: any }) {
         className="flex-1 justify-center px-6"
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <View className="space-y-6">
+        <View className="space-y-7">
           <View className="space-y-2">
+            <Text className="text-xs uppercase tracking-[0.4em] text-muted">
+              Veas Astrology
+            </Text>
             <Text className="text-4xl font-serif text-foreground">Join veas</Text>
-            <Text className="text-sm text-muted">Create your account in minutes.</Text>
+            <Text className="text-sm text-muted">
+              Create your account in minutes and meet your true sky.
+            </Text>
           </View>
 
-          <View className="space-y-4">
+          <Card className="space-y-4" variant="soft">
             <Input
               label="Email"
               value={email}
@@ -67,11 +73,15 @@ export function SignupScreen({ navigation }: { navigation: any }) {
               placeholder="Repeat your password"
               secureTextEntry
             />
-          </View>
 
-          {error ? <Text className="text-xs text-red-500">{error}</Text> : null}
+            {error ? <Text className="text-xs text-red-500">{error}</Text> : null}
 
-          <Button title={loading ? "Creating..." : "Sign up"} onPress={handleSignup} loading={loading} />
+            <Button
+              title={loading ? "Creating..." : "Sign up"}
+              onPress={handleSignup}
+              loading={loading}
+            />
+          </Card>
 
           <View className="items-center">
             <Text className="text-xs text-muted">

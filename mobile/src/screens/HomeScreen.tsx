@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
+import { Card } from "../components/Card";
 import { Screen } from "../components/Screen";
 import { InsightCard } from "../components/InsightCard";
 import { calculateChart } from "../services/chart";
@@ -27,6 +28,12 @@ export function HomeScreen() {
     yearly: "",
   });
   const [loadingKey, setLoadingKey] = useState<InsightKey | null>(null);
+  const greeting = useMemo(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 18) return "Good afternoon";
+    return "Good evening";
+  }, []);
 
   const chartParams = useMemo(() => {
     if (!user?.dateOfBirth || !user?.placeOfBirth || !user?.timezoneOffset) return null;
@@ -64,40 +71,59 @@ export function HomeScreen() {
 
   return (
     <Screen>
-      <ScrollView contentContainerClassName="px-6 pt-8 pb-20 space-y-6">
+      <ScrollView contentContainerClassName="px-6 pt-8 pb-20 space-y-8">
         <View className="space-y-2">
+          <Text className="text-xs uppercase tracking-[0.4em] text-muted">
+            {greeting}
+          </Text>
           <Text className="text-3xl font-serif text-foreground">
-            {user?.name ? `Hi ${user.name}` : "Welcome"}
+            {user?.name ? user.name : "Welcome"}
           </Text>
           <Text className="text-sm text-muted">
-            Your chart is syncing with the real sky. We'll personalize this soon.
+            We align your chart with the real sky for clearer, calmer guidance.
           </Text>
         </View>
 
-        {chart && (
-          <View className="bg-surface rounded-3xl border border-foreground/10 p-5 space-y-3">
-            <Text className="text-xs uppercase tracking-[0.24em] text-muted">
-              Your Sun Sign
-            </Text>
-            <View className="space-y-1">
-              <Text className="text-sm text-muted">The sign you think you are</Text>
-              <Text className="text-lg font-serif text-foreground">
-                {chart.sunSign.tropical}
+        {chart ? (
+          <Card className="space-y-4">
+            <View className="flex-row items-center justify-between">
+              <Text className="text-xs uppercase tracking-[0.24em] text-muted">
+                Your Sun Sign
               </Text>
+              <Text className="text-xs text-muted">Sidereal alignment</Text>
             </View>
-            <View className="space-y-1">
-              <Text className="text-sm text-muted">Your actual sun sign</Text>
-              <Text className="text-lg font-serif text-foreground">
-                {chart.sunSign.sidereal}
-              </Text>
+            <View className="space-y-3">
+              <View className="space-y-1">
+                <Text className="text-[11px] uppercase tracking-[0.24em] text-muted">
+                  The sign you think you are
+                </Text>
+                <Text className="text-2xl font-serif text-foreground">
+                  {chart.sunSign.tropical}
+                </Text>
+              </View>
+              <View className="h-px bg-foreground/10" />
+              <View className="space-y-1">
+                <Text className="text-[11px] uppercase tracking-[0.24em] text-muted">
+                  Your actual sun sign
+                </Text>
+                <Text className="text-2xl font-serif text-foreground">
+                  {chart.sunSign.sidereal}
+                </Text>
+              </View>
             </View>
             <Text className="text-xs text-muted">
-              We align your chart with the real sky for a clearer read.
+              This shift often explains why your tropical sign never fully resonated.
             </Text>
-          </View>
+          </Card>
+        ) : (
+          <Card variant="soft">
+            <Text className="text-sm text-muted">
+              Your chart is syncing with the real sky. We’ll personalize this soon.
+            </Text>
+          </Card>
         )}
 
-        <View className="space-y-4">
+        <View className="space-y-8">
           <InsightCard
             title="Daily prediction"
             description="A short check-in for the emotional weather of today."

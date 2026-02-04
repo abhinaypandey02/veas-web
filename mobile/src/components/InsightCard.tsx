@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { Button } from "./Button";
+import { Card } from "./Card";
 
 export function InsightCard({
   title,
@@ -22,14 +23,14 @@ export function InsightCard({
       : content;
 
   return (
-    <View className="bg-surface rounded-3xl border border-foreground/10 p-5 space-y-3">
+    <Card className="space-y-3">
       <View className="space-y-1">
         <Text className="text-xs uppercase tracking-[0.24em] text-muted">{title}</Text>
-        <Text className="text-sm text-muted">{description}</Text>
+        <Text className="text-sm text-foreground/70">{description}</Text>
       </View>
       {content ? (
         <Pressable
-          className="bg-surface-highlight rounded-2xl p-4"
+          className="bg-surface-highlight rounded-2xl p-4 border border-foreground/5"
           onPress={() => setExpanded((prev) => !prev)}
         >
           <Text className="text-sm text-foreground leading-relaxed">{preview}</Text>
@@ -47,6 +48,6 @@ export function InsightCard({
         onPress={onGenerate}
         loading={loading}
       />
-    </View>
+    </Card>
   );
 }

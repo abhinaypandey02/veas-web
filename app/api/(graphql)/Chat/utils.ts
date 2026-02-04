@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { ChartKey } from "../../lib/charts/keys";
 import { getChartData } from "../../lib/charts/get-chart-data";
-import { generateText, ToolLoopAgent } from "ai";
+import { generateText } from "ai";
 import { CHAT_SUMMARIZE_SYSTEM_PROMPT } from "./prompts";
 import { GROQ_MODEL } from "../../lib/ai";
 import { ChatDB, ChatRole, ChatTable } from "./db";
@@ -10,32 +10,31 @@ import { db } from "../../lib/db";
 import { getChatSystemPrompt } from "./prompts";
 import { UserDB } from "../User/db";
 
-export const getAstrologerAssistant = (user: UserDB) =>
-  new ToolLoopAgent({
-    model: GROQ_MODEL as unknown as string,
-    tools: {
-      getChartData: {
-        description:
-          "Fetch chart or dasha data. Keys are literal enum VALUES, not permissions. " +
-          "The `keys` field MUST be an ARRAY, even if requesting a single item.",
-
-        inputSchema: z.object({
-          keys: z
-            .array(z.enum(ChartKey))
-            .min(1)
-            .max(4)
-            .describe(
-              "Array of chart keys. MUST be an array. " +
-                'Example: { "keys": ["PAST_DASHA"] }',
-            ),
-        }),
-
-        execute: async ({ keys }: { keys: ChartKey[] }) =>
-          getChartData(user.id, keys),
-      },
+export const getAstrologerAssistant = (user: UserDB) => {
+  const tools = {
+    getChartData: {
+      description:
+        "Fetch Vedic astrology chart or dasha data for analysis. Always specify which charts you need for the topic being discussed.",
+      parameters: z.object({
+        keys: z
+          .array(z.enum(Object.values(ChartKey) as [string, ...string[]]))
+          .min(1)
+          .max(4)
+          .describe(
+            "Array of chart keys to fetch. Examples: ['D1'] for basic personality, ['D1', 'D10', 'CURRENT_AND_NEXT_DASHA'] for career analysis, ['D1', 'D9', 'CURRENT_AND_NEXT_DASHA'] for relationships."
+          ),
+      }),
+      execute: async ({ keys }: { keys: ChartKey[] }) =>
+        getChartData(user.id, keys),
     },
-    instructions: getChatSystemPrompt(user),
-  });
+  };
+
+  return {
+    model: GROQ_MODEL,
+    system: getChatSystemPrompt(user),
+    tools,
+  };
+};
 
 const MAXIMUM_MESSAGES = 15;
 const MESSAGE_THRESHOLD = 10;

@@ -1,6 +1,7 @@
 import React from "react";
 import { Alert, Pressable, ScrollView, Switch, Text, View } from "react-native";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { Card } from "../components/Card";
 import { Screen } from "../components/Screen";
 import { useAuth } from "../state/auth";
 import { useCurrentUser } from "../services/user";
@@ -29,10 +30,18 @@ export function ProfileScreen({ navigation }: { navigation: any }) {
 
   return (
     <Screen>
-      <ScrollView contentContainerClassName="px-6 pt-8 pb-20 space-y-6">
-        <Text className="text-3xl font-serif text-foreground">Profile</Text>
+      <ScrollView contentContainerClassName="px-6 pt-8 pb-20 space-y-8">
+        <View className="space-y-2">
+          <Text className="text-xs uppercase tracking-[0.4em] text-muted">
+            Your space
+          </Text>
+          <Text className="text-3xl font-serif text-foreground">Profile</Text>
+          <Text className="text-sm text-muted">
+            Manage your details and how you want Veas to show up.
+          </Text>
+        </View>
 
-        <View className="bg-surface rounded-3xl border border-foreground/10 p-5 space-y-3">
+        <Card className="space-y-3">
           <Text className="text-xs uppercase tracking-[0.2em] text-muted">Birth details</Text>
           <Text className="text-sm text-foreground">{user?.name || ""}</Text>
           {dateOfBirth ? (
@@ -44,16 +53,16 @@ export function ProfileScreen({ navigation }: { navigation: any }) {
             <Text className="text-xs text-muted">{user.placeOfBirth}</Text>
           ) : null}
           <Pressable
-            className="mt-2 px-4 py-2 rounded-full border border-foreground/20"
+            className="mt-2 px-4 py-2 rounded-full border border-foreground/20 bg-surface-highlight"
             onPress={handleEdit}
           >
             <Text className="text-xs uppercase tracking-[0.2em] text-foreground">
               Edit details
             </Text>
           </Pressable>
-        </View>
+        </Card>
 
-        <View className="bg-surface rounded-3xl border border-foreground/10 p-5 space-y-4">
+        <Card className="space-y-4">
           <Text className="text-xs uppercase tracking-[0.2em] text-muted">Notifications</Text>
           <View className="flex-row items-center justify-between">
             <Text className="text-sm text-foreground">Daily reflections</Text>
@@ -82,18 +91,18 @@ export function ProfileScreen({ navigation }: { navigation: any }) {
           <Text className="text-xs text-muted">
             Notifications are stored locally until server support lands.
           </Text>
-        </View>
+        </Card>
 
-        <View className="bg-surface rounded-3xl border border-foreground/10 p-5 space-y-2">
+        <Card className="space-y-2">
           <Text className="text-xs uppercase tracking-[0.2em] text-muted">Data & privacy</Text>
           <Text className="text-sm text-foreground">
             Your chart data stays linked to your account. Export and deletion controls will
             be added when backend support is ready.
           </Text>
-        </View>
+        </Card>
 
         <Pressable
-          className="h-12 rounded-full border border-foreground/20 items-center justify-center"
+          className="h-12 rounded-full border border-foreground/20 items-center justify-center bg-white/80"
           onPress={() => signOut()}
         >
           <Text className="text-sm text-foreground">Log out</Text>

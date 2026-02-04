@@ -2,16 +2,16 @@ import { Field, ObjectType } from "type-graphql";
 
 @ObjectType("User")
 export class User {
-  @Field()
+  @Field(() => Number)
   id: number;
 
-  @Field()
+  @Field(() => String)
   email: string;
 
   @Field(() => String, { nullable: true })
   name: string | null;
 
-  @Field(() => Number, { nullable: true })
+  @Field(() => Date, { nullable: true })
   dateOfBirth: Date | null;
 
   @Field(() => Number, { nullable: true })
@@ -25,4 +25,7 @@ export class User {
 
   @Field(() => String, { nullable: true })
   placeOfBirth: string | null;
+
+  @Field(() => Boolean)
+  isOnboarded: boolean;
 }

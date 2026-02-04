@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, TextInput, View } from "react-native";
 import { cn } from "../utils/cn";
 
@@ -25,12 +25,18 @@ export function Input({
   editable = true,
   helperText,
 }: InputProps) {
+  const [isFocused, setIsFocused] = useState(false);
   return (
     <View className="space-y-1">
-      {label ? <Text className="text-xs text-muted uppercase tracking-widest">{label}</Text> : null}
+      {label ? (
+        <Text className="text-xs text-muted uppercase tracking-[0.24em]">
+          {label}
+        </Text>
+      ) : null}
       <TextInput
         className={cn(
-          "bg-surface border border-foreground/10 rounded-2xl px-4 py-3 text-foreground",
+          "bg-white/90 border rounded-3xl px-4 py-3 text-foreground",
+          isFocused ? "border-accent" : "border-foreground/10",
           multiline && "min-h-[96px]",
           !editable && "opacity-60",
         )}
@@ -42,6 +48,8 @@ export function Input({
         keyboardType={keyboardType}
         multiline={multiline}
         editable={editable}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
       {helperText ? <Text className="text-xs text-muted">{helperText}</Text> : null}
     </View>
