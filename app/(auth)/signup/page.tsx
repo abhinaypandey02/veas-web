@@ -12,6 +12,7 @@ export default function Page() {
           fetch={async () => {
             const user = await getCurrentUser.authCall();
             if (user) {
+              console.log("User found", user);
               return redirect("/onboard", RedirectType.replace);
             }
             return true as const;

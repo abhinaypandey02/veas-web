@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useLogin, useToken } from "naystack/auth/email/client";
+import { useLogin } from "naystack/auth/email/client";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
@@ -17,16 +17,9 @@ interface FormType {
 export default function LoginForm({ data }: { data?: true }) {
   const login = useLogin();
   const router = useRouter();
-  const token = useToken();
   const form = useForm<FormType>();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    if (token) {
-      router.replace("/onboard");
-    }
-  }, [token, router]);
 
   const handleSubmit = async (data: FormType) => {
     setIsSubmitting(true);
@@ -36,12 +29,13 @@ export default function LoginForm({ data }: { data?: true }) {
       if (!message) {
         router.replace("/onboard");
       } else {
+        setIsSubmitting(false);
         form.setError("password", { message });
       }
     } catch (error) {
       form.setError("password", { message: "Invalid email or password" });
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
 
   return (

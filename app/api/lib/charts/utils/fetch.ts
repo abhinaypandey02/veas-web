@@ -6,9 +6,6 @@ export interface GetChartsParams {
   lon: number;
 }
 
-// Re-export the response type for convenience
-export type { GetChartsResponse };
-
 /**
  * Fetches charts from the Vedic Charts API
  * @param params - Chart parameters including datetime, timezone, lat, and lon

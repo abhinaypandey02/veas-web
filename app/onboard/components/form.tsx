@@ -25,7 +25,6 @@ export default function OnboardForm({ data }: { data?: true }) {
   const [onboardUser, { loading }] = useAuthMutation(ONBOARD_USER);
   const [places, setPlaces] = useState<SearchPlaceResponse[]>([]);
   const form = useForm<FormType>();
-  console.log(places);
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     const sub = form.watch(({ place }) => {

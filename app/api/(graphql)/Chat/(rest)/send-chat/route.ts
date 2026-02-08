@@ -6,6 +6,7 @@ import { and, eq } from "drizzle-orm";
 import { waitUntil } from "@vercel/functions";
 import { getContext } from "naystack/auth";
 import { UserTable } from "../../../User/db";
+import { getRawChart } from "@/app/api/lib/charts/utils/compress";
 
 export const POST = async (req: NextRequest) => {
   const ctx = await getContext(req);
@@ -24,7 +25,10 @@ export const POST = async (req: NextRequest) => {
     .from(UserTable)
     .where(eq(UserTable.id, ctx.userId));
   if (!user) return new NextResponse("User not found", { status: 404 });
-  const astrologer = getAstrologerAssistant(user);
+  const chartData = await getRawChart(ctx.userId);
+  if (!chartData)
+    return new NextResponse("Chart data not found", { status: 404 });
+  const astrologer = getAstrologerAssistant(user, chartData);
 
   let stream;
   try {

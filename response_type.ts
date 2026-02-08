@@ -1,11 +1,11 @@
-export interface GetChartsResponse {
-  person: Partial<Person>;
-  ayanamsa: Partial<Ayanamsa>;
-  panchanga: Partial<Panchanga>;
+export interface ResponseType {
+  person: Person;
+  ayanamsa: Ayanamsa;
+  panchanga: Panchanga;
   d1_chart: D1Chart;
-  divisional_charts: Partial<DivisionalCharts>;
-  ashtakavarga: Partial<Ashtakavarga>;
-  dashas: Partial<Dashas>;
+  divisional_charts: DivisionalCharts;
+  ashtakavarga: Ashtakavarga;
+  dashas: Dashas;
 }
 
 export enum Planet {
@@ -66,8 +66,8 @@ export interface Ashtakavarga {
 }
 
 export interface Aspects {
-  gives: Partial<Gives>[];
-  receives: Partial<Receives>[];
+  gives: Gives[];
+  receives: Receives[];
 }
 
 export interface AspectsReceived {
@@ -117,9 +117,9 @@ export interface DivisionalCharts {
 }
 
 export interface Gives {
-  to_house: number;
-  aspect_type: string;
-  to_planet: string;
+  to_house?: number;
+  aspect_type?: string;
+  to_planet?: string;
 }
 
 export interface Houses {

@@ -3,10 +3,7 @@ import { InputType, Field } from "type-graphql";
 import { db } from "@/app/api/lib/db";
 import { UserTable } from "@/app/api/(graphql)/User/db";
 import { eq } from "drizzle-orm";
-import { updateRawChart } from "@/app/api/lib/charts/update-raw-chart";
-import { getChartData } from "@/app/api/lib/charts/get-chart-data";
-import { ChartKey } from "@/app/api/lib/charts/keys";
-import { waitUntil } from "@vercel/functions";
+import { updateRawChart } from "@/app/api/lib/charts/utils/compress";
 
 @InputType("OnboardUserInput")
 export class OnboardUserInput {
@@ -44,28 +41,7 @@ export default query(
       throw new Error("User not found");
     }
 
-    // Update raw chart and generate initial summaries in background (non-blocking)
-    waitUntil(
-      (async () => {
-        if (!ctx.userId) return;
-
-        try {
-          // First, update the raw chart
-          await updateRawChart(ctx.userId);
-
-          // Then, trigger summary generation for D1 and DASHA
-          // This will extract raw data and start background jobs to generate summaries
-          await getChartData(ctx.userId, [
-            ChartKey.D1,
-            ChartKey.CURRENT_AND_NEXT_DASHA,
-          ]).catch((error) => {
-            console.error("Failed to get chart data for D1 and DASHA:", error);
-          });
-        } catch (error) {
-          console.error("Failed to update raw chart:", error);
-        }
-      })(),
-    );
+    await updateRawChart(ctx.userId);
 
     return true;
   },

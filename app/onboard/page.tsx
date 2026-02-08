@@ -12,6 +12,7 @@ export default function Page() {
           fetch={async () => {
             const user = await getCurrentUser.authCall();
             if (!user) {
+              console.log("No user found");
               return redirect("/signup", RedirectType.replace);
             }
             const isOnboarded = await getIsOnboarded.authCall(user);

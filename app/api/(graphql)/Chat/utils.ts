@@ -1,6 +1,3 @@
-import { z } from "zod";
-import { ChartKey } from "../../lib/charts/keys";
-import { getChartData } from "../../lib/charts/get-chart-data";
 import { generateText, ToolLoopAgent } from "ai";
 import { CHAT_SUMMARIZE_SYSTEM_PROMPT } from "./prompts";
 import { GROQ_MODEL } from "../../lib/ai";
@@ -8,32 +5,17 @@ import { ChatDB, ChatRole, ChatTable } from "./db";
 import { and, eq, lte, ne } from "drizzle-orm";
 import { db } from "../../lib/db";
 import { getChatSystemPrompt } from "./prompts";
+import { GetChartsResponse } from "../../lib/charts/types";
+import { getTools } from "../../lib/charts/utils/tools";
 import { UserDB } from "../User/db";
 
-export const getAstrologerAssistant = (user: UserDB) =>
+export const getAstrologerAssistant = (
+  user: UserDB,
+  chartData: GetChartsResponse,
+) =>
   new ToolLoopAgent({
     model: GROQ_MODEL as unknown as string,
-    tools: {
-      getChartData: {
-        description:
-          "Fetch chart or dasha data. Keys are literal enum VALUES, not permissions. " +
-          "The `keys` field MUST be an ARRAY, even if requesting a single item.",
-
-        inputSchema: z.object({
-          keys: z
-            .array(z.enum(ChartKey))
-            .min(1)
-            .max(4)
-            .describe(
-              "Array of chart keys. MUST be an array. " +
-                'Example: { "keys": ["PAST_DASHA"] }',
-            ),
-        }),
-
-        execute: async ({ keys }: { keys: ChartKey[] }) =>
-          getChartData(user.id, keys),
-      },
-    },
+    tools: getTools(chartData),
     instructions: getChatSystemPrompt(user),
   });
 

@@ -18,13 +18,7 @@ interface FormType {
 export default function SignUpForm({ data }: { data?: true }) {
   const signUp = useSignUp();
   const router = useRouter();
-  const token = useToken();
 
-  useEffect(() => {
-    if (token) {
-      router.replace("/onboard");
-    }
-  }, [token, router]);
   const form = useForm<FormType>();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
