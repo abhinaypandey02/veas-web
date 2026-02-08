@@ -5,8 +5,8 @@ import { ChatRole, ChatTable } from "../../db";
 import { and, eq } from "drizzle-orm";
 import { waitUntil } from "@vercel/functions";
 import { getContext } from "naystack/auth";
-import { UserTable } from "../../../User/db";
-import { getRawChart } from "@/app/api/lib/charts/utils/compress";
+import { UserChartTable, UserRawChartTable, UserTable } from "../../../User/db";
+import { decompressChartData } from "@/app/api/lib/charts/utils/compress";
 
 export const POST = async (req: NextRequest) => {
   const ctx = await getContext(req);
@@ -20,15 +20,23 @@ export const POST = async (req: NextRequest) => {
       and(eq(ChatTable.isSummarized, false), eq(ChatTable.userId, ctx.userId)),
     )
     .orderBy(ChatTable.createdAt, ChatTable.id);
-  const [user] = await db
+
+  const [data] = await db
     .select()
     .from(UserTable)
-    .where(eq(UserTable.id, ctx.userId));
-  if (!user) return new NextResponse("User not found", { status: 404 });
-  const chartData = await getRawChart(ctx.userId);
+    .where(eq(UserTable.id, ctx.userId))
+    .innerJoin(UserChartTable, eq(UserTable.chartId, UserChartTable.id))
+    .innerJoin(
+      UserRawChartTable,
+      eq(UserTable.chartId, UserRawChartTable.chartId),
+    );
+
+  if (!data) return new NextResponse("User not found", { status: 404 });
+  const { user_charts, user_raw_charts, users: user } = data;
+  const chartData = await decompressChartData(user_raw_charts.rawChart);
   if (!chartData)
     return new NextResponse("Chart data not found", { status: 404 });
-  const astrologer = getAstrologerAssistant(user, chartData);
+  const astrologer = getAstrologerAssistant(user, user_charts, chartData);
 
   let stream;
   try {

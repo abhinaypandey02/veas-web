@@ -8,21 +8,6 @@ export class User {
   @Field()
   email: string;
 
-  @Field(() => String, { nullable: true })
-  name: string | null;
-
-  @Field(() => Number, { nullable: true })
-  dateOfBirth: Date | null;
-
-  @Field(() => Number, { nullable: true })
-  placeOfBirthLat: number | null;
-
-  @Field(() => Number, { nullable: true })
-  placeOfBirthLong: number | null;
-
-  @Field(() => Number, { nullable: true })
-  timezoneOffset: number | null;
-
-  @Field(() => String, { nullable: true })
-  placeOfBirth: string | null;
+  @Field()
+  name: string;
 }

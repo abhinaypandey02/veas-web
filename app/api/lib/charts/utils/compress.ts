@@ -4,12 +4,13 @@ import { UserRawChartTable, UserTable } from "@/app/api/(graphql)/User/db";
 import { eq } from "drizzle-orm";
 import { db } from "../../db";
 import { getCharts } from "./fetch";
+import { OnboardUserInput } from "@/app/api/(graphql)/User/resolvers/onboard-user";
 
 /**
  * Compresses JSON data using GZIP and returns as base64 string
  * Uses synchronous compression for better performance on small-to-medium data
  * @param data - The data to compress (object or string)
- * @returns Compressed data as base64-encoded string (for JSONB storage)
+ * @returns Compressed data as base64-encoded string
  */
 export function compressJSON(data: object): string {
   const jsonString = typeof data === "string" ? data : JSON.stringify(data);
@@ -37,68 +38,38 @@ export function decompressChartData(compressedDataBase64: string) {
 export async function getRawChart(userId: number) {
   const [chartRecord] = await db
     .select()
-    .from(UserRawChartTable)
-    .where(eq(UserRawChartTable.userId, userId));
+    .from(UserTable)
+    .where(eq(UserTable.id, userId))
+    .innerJoin(
+      UserRawChartTable,
+      eq(UserTable.chartId, UserRawChartTable.chartId),
+    );
 
-  if (!chartRecord || !chartRecord.rawChart) {
-    return updateRawChart(userId);
-  }
-
-  // rawChart is stored as JSONB with a base64-encoded compressed string
-  // The JSONB structure: { compressed: "base64string" }
-  const chartData = chartRecord.rawChart as Record<string, unknown>;
-  if (!chartData.compressed || typeof chartData.compressed !== "string") {
+  if (!chartRecord?.user_raw_charts?.rawChart) {
     return null;
   }
 
-  // Decompress the stored base64-encoded compressed data
-  return decompressChartData(chartData.compressed);
+  return decompressChartData(chartRecord.user_raw_charts.rawChart);
 }
-export async function updateRawChart(userId: number) {
-  // Get user data
-  const [user] = await db
-    .select()
-    .from(UserTable)
-    .where(eq(UserTable.id, userId));
 
-  if (!user) {
-    throw new Error("User not found");
-  }
-
-  if (!user.dateOfBirth || !user.placeOfBirthLat || !user.placeOfBirthLong) {
-    throw new Error(
-      "User birth data incomplete. Please complete onboarding first.",
-    );
-  }
-
+export async function updateRawChart(chartId: number, input: OnboardUserInput) {
   // Fetch chart data
   const chartData = await getCharts({
-    datetime: user.dateOfBirth,
-    lat: user.placeOfBirthLat,
-    lon: user.placeOfBirthLong,
+    datetime: input.dateOfBirth,
+    lat: input.placeOfBirthLat,
+    lon: input.placeOfBirthLong,
   });
 
   // Compress the filtered chart data using GZIP (returns base64 string)
   const compressedBase64 = compressJSON(chartData);
 
-  // Store compressed data as JSONB: { compressed: "base64string" }
-  const rawChartJsonb = {
-    compressed: compressedBase64,
-  };
-
-  // Upsert raw chart (filtered and compressed as JSONB)
+  // Upsert raw chart (filtered and compressed as base64 text)
   await db
     .insert(UserRawChartTable)
     .values({
-      userId,
-      rawChart: rawChartJsonb,
+      chartId,
+      rawChart: compressedBase64,
     })
-    .onConflictDoUpdate({
-      target: UserRawChartTable.userId,
-      set: {
-        rawChart: rawChartJsonb,
-        updatedAt: new Date(),
-      },
-    });
+    .onConflictDoNothing();
   return chartData;
 }

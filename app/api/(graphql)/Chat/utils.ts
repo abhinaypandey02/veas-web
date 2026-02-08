@@ -7,16 +7,17 @@ import { db } from "../../lib/db";
 import { getChatSystemPrompt } from "./prompts";
 import { GetChartsResponse } from "../../lib/charts/types";
 import { getTools } from "../../lib/charts/utils/tools";
-import { UserDB } from "../User/db";
+import { UserChartDB, UserDB } from "../User/db";
 
 export const getAstrologerAssistant = (
   user: UserDB,
+  userChart: UserChartDB,
   chartData: GetChartsResponse,
 ) =>
   new ToolLoopAgent({
     model: GROQ_MODEL as unknown as string,
     tools: getTools(chartData),
-    instructions: getChatSystemPrompt(user),
+    instructions: getChatSystemPrompt(user, userChart),
   });
 
 const MAXIMUM_MESSAGES = 15;
@@ -78,7 +79,7 @@ export function addUserChatSummary(userId: number, summary: string) {
   return db.insert(ChatTable).values({
     userId,
     role: ChatRole.summary,
-    message: `NOTE: This is an internal summary for LLM context. This was not sent to the user. You just know it. \n\n ${summary}`,
+    message: summary,
     createdAt: new Date(2000, 1, 1),
   });
 }

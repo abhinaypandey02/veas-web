@@ -1,13 +1,12 @@
 import { query } from "naystack/graphql";
 import { InputType, Field } from "type-graphql";
 import { db } from "@/app/api/lib/db";
-import { UserTable } from "@/app/api/(graphql)/User/db";
-import { eq } from "drizzle-orm";
+import { UserChartTable } from "@/app/api/(graphql)/User/db";
+import { and, eq } from "drizzle-orm";
 import { updateRawChart } from "@/app/api/lib/charts/utils/compress";
 import { waitUntil } from "@vercel/functions";
 import { generateText } from "ai";
 import { INITIAL_SUMMARIZE_SYSTEM_PROMPT } from "../../Chat/prompts";
-import { addUserChatSummary } from "../../Chat/utils";
 import { GROQ_MODEL } from "@/app/api/lib/ai";
 import { getD1Houses, getD1Planets } from "@/app/api/lib/charts/utils/tools";
 
@@ -33,21 +32,32 @@ export class OnboardUserInput {
 }
 
 export default query(
-  async (ctx, input: OnboardUserInput) => {
-    if (!ctx.userId) {
-      throw new Error("Unauthorized");
-    }
-    const [updatedUser] = await db
-      .update(UserTable)
-      .set(input)
-      .where(eq(UserTable.id, ctx.userId))
-      .returning();
+  async (_, input: OnboardUserInput) => {
+    const [existingChart] = await db
+      .select({
+        id: UserChartTable.id,
+      })
+      .from(UserChartTable)
+      .where(
+        and(
+          eq(UserChartTable.dateOfBirth, input.dateOfBirth),
+          eq(UserChartTable.placeOfBirthLat, input.placeOfBirthLat),
+          eq(UserChartTable.placeOfBirthLong, input.placeOfBirthLong),
+          eq(UserChartTable.placeOfBirth, input.placeOfBirth),
+          eq(UserChartTable.timezoneOffset, input.timezoneOffset),
+        ),
+      )
+      .limit(1);
 
-    if (!updatedUser) {
-      throw new Error("User not found");
+    if (existingChart) {
+      return existingChart.id;
     }
 
-    const chart = await updateRawChart(ctx.userId);
+    const [newChart] = await db.insert(UserChartTable).values(input).returning({
+      id: UserChartTable.id,
+    });
+
+    const chart = await updateRawChart(newChart.id, input);
     if (!chart) {
       throw new Error("Failed to update chart");
     }
@@ -59,14 +69,17 @@ export default query(
           system: INITIAL_SUMMARIZE_SYSTEM_PROMPT,
           prompt: `D1 Planets: ${JSON.stringify(getD1Planets(chart))} \n\n D1 Houses: ${JSON.stringify(getD1Houses(chart))}`,
         });
-        await addUserChatSummary(ctx.userId!, summary.text);
+        await db
+          .update(UserChartTable)
+          .set({ summary: summary.text })
+          .where(eq(UserChartTable.id, newChart.id));
       })(),
     );
-    return true;
+    return newChart.id;
   },
   {
     mutation: true,
     input: OnboardUserInput,
-    output: Boolean,
+    output: Number,
   },
 );
