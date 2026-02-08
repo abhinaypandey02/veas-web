@@ -62,12 +62,7 @@ export async function processChat(
       ),
     );
   if (!previousMessages.some((m) => m.role === ChatRole.summary)) {
-    await db.insert(ChatTable).values({
-      userId,
-      role: ChatRole.summary,
-      message: summary.text,
-      createdAt: new Date(2000, 1, 1),
-    });
+    await addUserChatSummary(userId, summary.text);
   } else {
     await db
       .update(ChatTable)
@@ -78,4 +73,12 @@ export async function processChat(
         and(eq(ChatTable.role, ChatRole.summary), eq(ChatTable.userId, userId)),
       );
   }
+}
+export function addUserChatSummary(userId: number, summary: string) {
+  return db.insert(ChatTable).values({
+    userId,
+    role: ChatRole.summary,
+    message: `NOTE: This is an internal summary for LLM context. This was not sent to the user. You just know it. \n\n ${summary}`,
+    createdAt: new Date(2000, 1, 1),
+  });
 }

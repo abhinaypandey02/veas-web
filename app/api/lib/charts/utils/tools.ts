@@ -7,6 +7,27 @@ import {
 } from "../types";
 import { tool } from "ai";
 
+export function getD1Planets(chart: GetChartsResponse) {
+  return (
+    chart.d1_chart?.planets.map((planet) => {
+      const { shadbala, aspects, ...rest } = planet;
+      return rest;
+    }) || []
+  );
+}
+
+export function getD1Houses(chart: GetChartsResponse) {
+  return (
+    chart.d1_chart?.houses.map((house) => {
+      const { occupants, ...rest } = house;
+      return {
+        ...rest,
+        occupants: occupants.map((occupant) => occupant.celestial_body),
+      };
+    }) || []
+  );
+}
+
 export function getTools(
   chart: GetChartsResponse,
   ...rest: Parameters<typeof tool> | []
@@ -15,11 +36,7 @@ export function getTools(
     {
       name: "getD1Planets",
       description: "Get the planets in the D1 chart",
-      execute: async () =>
-        chart.d1_chart?.planets.map((planet) => {
-          const { shadbala, aspects, ...rest } = planet;
-          return rest;
-        }) || [],
+      execute: async () => getD1Planets(chart),
     },
     {
       name: "getD1Shadbala",
@@ -36,14 +53,7 @@ export function getTools(
     {
       name: "getD1Houses",
       description: "Get the houses of the planets in the D1 chart",
-      execute: async () =>
-        chart.d1_chart?.houses.map((house) => {
-          const { occupants, ...rest } = house;
-          return {
-            ...rest,
-            occupants: occupants.map((occupant) => occupant.celestial_body),
-          };
-        }) || [],
+      execute: async () => getD1Houses(chart),
     },
     {
       name: "getDivisionalCharts",
@@ -58,10 +68,7 @@ export function getTools(
     {
       name: "getAshtakavarga",
       description: "Get the ashtakavarga",
-      execute: async () => {
-        console.log("Getting ashtakavarga");
-        return chart.ashtakavarga;
-      },
+      execute: async () => chart.ashtakavarga,
     },
     {
       name: "getPanchanga",
@@ -89,8 +96,8 @@ export function getTools(
       name: "getAntardashas",
       description: "Get the Antardashas",
       inputSchema: z.object({
-        from: z.iso.datetime(),
-        to: z.iso.datetime(),
+        from: z.iso.date(),
+        to: z.iso.date(),
       }),
       execute: async ({ from, to }: { from: string; to: string }) =>
         getAntardashas(chart, new Date(from), new Date(to)),
@@ -99,8 +106,8 @@ export function getTools(
       name: "getPratyantardashas",
       description: "Get the Pratyantardashas",
       inputSchema: z.object({
-        from: z.iso.datetime(),
-        to: z.iso.datetime(),
+        from: z.iso.date(),
+        to: z.iso.date(),
       }),
       execute: async ({ from, to }: { from: string; to: string }) =>
         getPratyantardashas(chart, new Date(from), new Date(to)),
