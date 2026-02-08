@@ -41,13 +41,14 @@ export function ChatWindow({
 
     const userMessage = data.message.trim();
     setIsLoading(true);
-    const assistantMessageId = new Date(Date.now() - 1);
+    const userDate = new Date();
+    const assistantMessageId = new Date(userDate.getTime() + 1000);
 
     setChats((prev) => [
       ...prev,
       {
         message: userMessage,
-        createdAt: new Date(),
+        createdAt: userDate,
         role: ChatRole.user,
       },
       {
@@ -139,9 +140,9 @@ export function ChatWindow({
             chat.message
               .split("\n\n")
               .map((line) => line.trim())
-              .map((message) => (
+              .map((message, i) => (
                 <div
-                  key={chat.createdAt + chat.role}
+                  key={chat.createdAt + chat.role + i}
                   className={`flex ${
                     chat.role === ChatRole.user
                       ? "justify-end"

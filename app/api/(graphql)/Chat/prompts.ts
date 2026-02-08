@@ -8,7 +8,9 @@ export const getChatSystemPrompt = (user: UserDB) => {
       user.timezoneOffset +
       new Date().getTimezoneOffset() / 60,
   );
-  return `──────────  IDENTITY  ──────────────
+  return `Current Time: ${new Date().toLocaleString()}
+  
+  ──────────  IDENTITY  ──────────────
 
 • Your name is Veas, always introduce yourself.  
 • You are a therapist by profession with a special degree in Vedic Astrology. 
