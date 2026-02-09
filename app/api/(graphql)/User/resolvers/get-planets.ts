@@ -1,13 +1,10 @@
 import { query } from "naystack/graphql";
 import { Field, ObjectType } from "type-graphql";
 import { db } from "@/app/api/lib/db";
-import {
-  UserTable,
-  UserChartTable,
-  UserRawChartTable,
-} from "@/app/api/(graphql)/User/db";
+import { UserTable, UserRawChartTable } from "@/app/api/(graphql)/User/db";
 import { eq } from "drizzle-orm";
 import { decompressChartData } from "@/app/api/lib/charts/utils/compress";
+import { getCurrentDashas } from "@/app/api/lib/charts/utils/tools";
 
 @ObjectType("D1Planet")
 export class D1Planet {
@@ -19,6 +16,27 @@ export class D1Planet {
 
   @Field()
   house: number;
+}
+
+@ObjectType("CurrentMahadasha")
+export class CurrentMahadasha {
+  @Field()
+  planet: string;
+
+  @Field()
+  start: string;
+
+  @Field()
+  end: string;
+}
+
+@ObjectType("PlanetsResponse")
+export class PlanetsResponse {
+  @Field(() => [D1Planet])
+  planets: D1Planet[];
+
+  @Field(() => CurrentMahadasha, { nullable: true })
+  currentMahadasha?: CurrentMahadasha;
 }
 
 export default query(
@@ -43,15 +61,19 @@ export default query(
     }
 
     const chart = decompressChartData(chartData.rawChart);
+    const { mahadasha } = getCurrentDashas(chart);
 
-    return chart.d1_chart.planets.map((planet) => ({
-      name: planet.celestial_body,
-      sign: planet.sign,
-      house: planet.house,
-    }));
+    return {
+      planets: chart.d1_chart.planets.map((planet) => ({
+        name: planet.celestial_body,
+        sign: planet.sign,
+        house: planet.house,
+      })),
+      currentMahadasha: mahadasha,
+    };
   },
   {
-    output: [D1Planet],
+    output: PlanetsResponse,
     authorized: true,
   },
 );

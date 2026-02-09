@@ -73,7 +73,7 @@ export default function LoginForm() {
         <div className="text-faded text-sm mt-4 text-center">
           Don{"'"}t have an account?{" "}
           <Link replace href="/signup" className="underline">
-            Sign in
+            Sign up
           </Link>
         </div>
       </Form>
