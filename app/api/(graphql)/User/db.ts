@@ -58,7 +58,7 @@ export const UserChartTable = pgTable(
   ],
 );
 
-const chartSummaryTypeEnum = pgEnum(
+export const chartSummaryTypeEnum = pgEnum(
   "chart_summary_type",
   Object.values(ChartSummaryType) as [ChartSummaryType, ...ChartSummaryType[]],
 );
