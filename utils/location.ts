@@ -6,11 +6,11 @@ export async function searchLocation(query: string) {
   return response;
 }
 export async function searchTimezone(lat: number, lon: number) {
-  const response = await fetch(
-    `https://api.geonames.org/timezoneJSON?lat=${lat}&lng=${lon}&username=abhinayx`,
-  ).then((res) => res.json() as Promise<SearchTimezoneResponse>);
+  const response = await fetch(`/api/timezone?lat=${lat}&lon=${lon}`).then(
+    (res) => res.json() as Promise<number>,
+  );
 
-  return response.gmtOffset;
+  return response;
 }
 
 export interface SearchPlaceResponse {
