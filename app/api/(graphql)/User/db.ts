@@ -32,6 +32,9 @@ export const UserRawChartTable = pgTable("user_raw_charts", {
   rawChart: text("raw_chart").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+  chartId: integer("chart_id")
+    .notNull()
+    .references(() => UserChartTable.id),
 });
 
 export const UserChartTable = pgTable(
@@ -41,10 +44,6 @@ export const UserChartTable = pgTable(
     dateOfBirth: timestamp("date_of_birth").notNull(),
     placeOfBirthLat: real("place_of_birth_lat").notNull(),
     placeOfBirthLong: real("place_of_birth_long").notNull(),
-    rawChartId: integer("raw_chart_id")
-      .notNull()
-      .references(() => UserRawChartTable.id)
-      .unique(),
     summary: text("summary"),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),

@@ -46,19 +46,21 @@ export default query(
     if (existingChart) {
       return existingChart.id;
     }
-
-    const [rawChartId, chart] = await updateRawChart(input);
-    if (!rawChartId) {
-      throw new Error("Failed to update chart");
-    }
-
     const [newChart] = await db
       .insert(UserChartTable)
-      .values({ ...input, rawChartId })
-      .returning();
-    const localDateOfBirth = getLocalTime(input.dateOfBirth, input.timezone);
+      .values(input)
+      .returning({ id: UserChartTable.id });
     waitUntil(
       (async () => {
+        const localDateOfBirth = getLocalTime(
+          input.dateOfBirth,
+          input.timezone,
+        );
+        const chart = await updateRawChart(newChart.id, input);
+
+        if (!chart) {
+          throw new Error("Failed to update chart");
+        }
         await generateD1Summary(chart, newChart.id);
         await generateTransitSummaries(chart, localDateOfBirth, newChart.id);
         await generateDashaSummaries(chart, localDateOfBirth, newChart.id);

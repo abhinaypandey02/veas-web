@@ -33,10 +33,9 @@ export default query(
       })
       .from(UserTable)
       .where(eq(UserTable.id, ctx.userId))
-      .innerJoin(UserChartTable, eq(UserTable.chartId, UserChartTable.id))
       .innerJoin(
         UserRawChartTable,
-        eq(UserChartTable.rawChartId, UserRawChartTable.id),
+        eq(UserTable.chartId, UserRawChartTable.chartId),
       );
 
     if (!chartData) {

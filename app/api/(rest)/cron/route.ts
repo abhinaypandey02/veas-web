@@ -30,37 +30,24 @@ export const POST = async () => {
       )
       .returning({
         id: UserChartTable.id,
-        rawChartId: UserChartTable.rawChartId,
       });
 
-    const rawChartIds = unusedCharts.map((chart) => chart.rawChartId);
-
-    const unusedRawCharts = rawChartIds.length
-      ? await tx
-          .delete(UserRawChartTable)
-          .where(inArray(UserRawChartTable.id, rawChartIds))
-          .returning({ id: UserRawChartTable.id })
-      : [];
-
-    const unusedSummaries = rawChartIds.length
-      ? await tx
-          .delete(UserChartSummariesTable)
-          .where(inArray(UserChartSummariesTable.chartId, rawChartIds))
-          .returning({ id: UserChartSummariesTable.id })
-      : [];
-
-    return {
-      deletedCharts: unusedCharts.length,
-      deletedRawCharts: unusedRawCharts.length,
-      deletedSummaries: unusedSummaries.length,
-    };
+    const chartIds = unusedCharts.map((chart) => chart.id);
+    if (!chartIds.length) return 0;
+    await tx
+      .delete(UserRawChartTable)
+      .where(inArray(UserRawChartTable.chartId, chartIds));
+    await tx
+      .delete(UserChartSummariesTable)
+      .where(inArray(UserChartSummariesTable.chartId, chartIds));
+    return unusedCharts.length;
   });
 
   return NextResponse.json(
     {
       success: true,
       cutoffDate: cutoffDate.toISOString(),
-      ...cleanupResult,
+      count: cleanupResult,
     },
     { status: 200 },
   );

@@ -58,7 +58,7 @@ export default query(
       .innerJoin(UserChartTable, eq(UserTable.chartId, UserChartTable.id))
       .innerJoin(
         UserRawChartTable,
-        eq(UserChartTable.rawChartId, UserRawChartTable.id),
+        eq(UserTable.chartId, UserRawChartTable.chartId),
       );
 
     if (!chartData) {
