@@ -3,6 +3,7 @@ import {
   DashaValue,
   DivisionalCharts,
   GetChartsResponse,
+  GetTransitRangeResponse,
   Planet,
 } from "../types";
 import { tool } from "ai";
@@ -112,6 +113,17 @@ export function getTools(
       execute: async ({ from, to }: { from: string; to: string }) =>
         getPratyantardashas(chart, new Date(from), new Date(to)),
     },
+    {
+      name: "getTransits",
+      description:
+        "Get the transits for daily/weekly horoscopes. From and to can be same for single day. Maxmimum range is 30 days.",
+      inputSchema: z.object({
+        from: z.iso.date(),
+        to: z.iso.date(),
+      }),
+      execute: async ({ from, to }: { from: string; to: string }) =>
+        getTransits(chart, new Date(from), new Date(to)),
+    },
   ];
   return tools.reduce(
     (acc, _tool) => ({
@@ -194,4 +206,23 @@ export function getPratyantardashas(
       ),
     })),
   }));
+}
+
+export async function getTransits(
+  chart: GetChartsResponse,
+  from: Date,
+  to: Date,
+) {
+  const transitRange = await fetch(
+    `https://vedic-charts-python.vercel.app/get_transit_range`,
+    {
+      method: "POST",
+      body: JSON.stringify({
+        start_date: from.toISOString(),
+        end_date: to.toISOString(),
+        ayanamsa: chart.ayanamsa.value,
+      }),
+    },
+  );
+  return transitRange.json() as Promise<GetTransitRangeResponse>;
 }

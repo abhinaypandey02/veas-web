@@ -233,3 +233,41 @@ export interface Vimshopaka {
   dashavarga: number;
   shodashavarga: number;
 }
+export interface TransitPlanetSnapshot {
+  planet: Planet;
+  sign: string;
+  longitude: number; // 0–360 sidereal
+  degree_in_sign: number; // 0–30
+  nakshatra: string;
+  pada: number; // 1–4
+  retrograde: boolean;
+}
+
+export interface DailyMoonPosition {
+  date: string; // ISO date (YYYY-MM-DD)
+  sign: string;
+  longitude: number; // 0–360 sidereal
+}
+export interface MajorSignChange {
+  planet: Planet;
+  date: string; // ISO date
+  from: string;
+  to: string;
+}
+export interface RetrogradeChange {
+  planet: Planet;
+  date: string; // ISO date
+  retrograde: boolean;
+}
+export interface GetTransitRangeResponse {
+  start: string; // ISO date
+  end: string; // ISO date
+
+  baseline_positions: TransitPlanetSnapshot[];
+  slow_planets: TransitPlanetSnapshot[];
+
+  daily_moon_positions: DailyMoonPosition[];
+
+  major_sign_changes: MajorSignChange[];
+  retrograde_changes: RetrogradeChange[];
+}
