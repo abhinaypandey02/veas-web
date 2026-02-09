@@ -43,6 +43,10 @@ export const UserChartTable = pgTable(
       .notNull()
       .references(() => UserRawChartTable.id)
       .unique(),
+    summariesId: integer("summaries_id")
+      .notNull()
+      .references(() => UserChartSummariesTable.id)
+      .unique(),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
   },
@@ -54,3 +58,15 @@ export const UserChartTable = pgTable(
     ),
   ],
 );
+
+export const UserChartSummariesTable = pgTable("user_chart_summaries", {
+  id: serial("id").primaryKey(),
+  d1Summary: text("d1_summary"),
+  dailySummary: text("daily_summary"),
+  weeklySummary: text("weekly_summary"),
+  antardashaSummary: text("antardasha_summary"),
+  pratyantardashaSummary: text("pratyantardasha_summary"),
+  mahadashaSummary: text("mahadasha_summary"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});

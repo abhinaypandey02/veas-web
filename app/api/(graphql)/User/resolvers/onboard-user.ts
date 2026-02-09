@@ -1,7 +1,10 @@
 import { query } from "naystack/graphql";
 import { InputType, Field } from "type-graphql";
 import { db } from "@/app/api/lib/db";
-import { UserChartTable } from "@/app/api/(graphql)/User/db";
+import {
+  UserChartSummariesTable,
+  UserChartTable,
+} from "@/app/api/(graphql)/User/db";
 import { and, eq } from "drizzle-orm";
 import { updateRawChart } from "@/app/api/lib/charts/utils/compress";
 import { waitUntil } from "@vercel/functions";
@@ -46,9 +49,18 @@ export default query(
     if (!rawChartId) {
       throw new Error("Failed to update chart");
     }
+    const [summaries] = await db
+      .insert(UserChartSummariesTable)
+      .values({})
+      .returning({
+        id: UserChartSummariesTable.id,
+      });
+    if (!summaries) {
+      throw new Error("Failed to create summaries");
+    }
     const [newChart] = await db
       .insert(UserChartTable)
-      .values({ ...input, rawChartId })
+      .values({ ...input, rawChartId, summariesId: summaries.id })
       .returning({
         id: UserChartTable.id,
       });
