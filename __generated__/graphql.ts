@@ -45,6 +45,7 @@ export type OnboardUserInput = {
   dateOfBirth: Scalars['DateTimeISO']['input'];
   placeOfBirthLat: Scalars['Float']['input'];
   placeOfBirthLong: Scalars['Float']['input'];
+  timezone: Scalars['Float']['input'];
 };
 
 export type Query = {

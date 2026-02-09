@@ -56,7 +56,7 @@ export interface DashaValue {
 }
 
 export interface Ascendant {
-  sign: string;
+  sign: Sign;
   d1_house_placement: number;
 }
 
@@ -71,7 +71,7 @@ export interface Aspects {
 }
 
 export interface AspectsReceived {
-  aspecting_planet: string;
+  aspecting_planet: Planet;
   aspect_type: string;
 }
 
@@ -83,7 +83,7 @@ export interface Ayanamsa {
 export interface DivisionalChartObject {
   chart_type: string;
   ascendant: Ascendant;
-  houses: object[];
+  houses: DivisionalHouses[];
 }
 
 export interface D1Chart {
@@ -124,8 +124,8 @@ export interface Gives {
 
 export interface Houses {
   number: number;
-  sign: string;
-  lord: string;
+  sign: Sign;
+  lord: Planet;
   bhava_bala: number;
   occupants: Occupants[];
   aspects_received: AspectsReceived[];
@@ -149,8 +149,8 @@ export interface Kaalabala {
 }
 
 export interface Occupants {
-  celestial_body: string;
-  sign: string;
+  celestial_body: Planet;
+  sign: Sign;
   sign_degrees: number;
   nakshatra: string;
   pada: number;
@@ -165,16 +165,16 @@ export interface Occupants {
 }
 export interface DivisionalHouses {
   number: number;
-  sign: string;
-  lord: string;
+  sign: Sign;
+  lord: Planet;
   d1_house_placement: number;
   occupants: DivisionalOccupants[];
   aspects_received: AspectsReceived[];
   purposes: string[];
 }
 export interface DivisionalOccupants {
-  celestial_body: string;
-  sign: string;
+  celestial_body: Planet;
+  sign: Sign;
   d1_house_placement: number;
 }
 
@@ -235,7 +235,7 @@ export interface Vimshopaka {
 }
 export interface TransitPlanetSnapshot {
   planet: Planet;
-  sign: string;
+  sign: Sign;
   longitude: number; // 0–360 sidereal
   degree_in_sign: number; // 0–30
   nakshatra: string;
@@ -245,7 +245,7 @@ export interface TransitPlanetSnapshot {
 
 export interface DailyMoonPosition {
   date: string; // ISO date (YYYY-MM-DD)
-  sign: string;
+  sign: Sign;
   longitude: number; // 0–360 sidereal
 }
 export interface MajorSignChange {

@@ -76,6 +76,7 @@ export default function OnboardForm({
         dateOfBirth: getLocalTime(new Date(data.dob), timezone),
         placeOfBirthLat: parseFloat(selectedPlace.lat),
         placeOfBirthLong: parseFloat(selectedPlace.lon),
+        timezone,
       });
 
       if (result.data?.onboardUser) {

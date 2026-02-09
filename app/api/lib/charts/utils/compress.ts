@@ -64,7 +64,7 @@ export async function updateRawChart(input: OnboardUserInput) {
     lat: input.placeOfBirthLat,
     lon: input.placeOfBirthLong,
   });
-
+  chartData.dashas.upcoming = undefined;
   // Compress the filtered chart data using GZIP (returns base64 string)
   const compressedBase64 = compressJSON(chartData);
 

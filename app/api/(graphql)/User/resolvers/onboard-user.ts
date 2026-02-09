@@ -8,10 +8,11 @@ import {
 import { and, eq } from "drizzle-orm";
 import { updateRawChart } from "@/app/api/lib/charts/utils/compress";
 import { waitUntil } from "@vercel/functions";
-import { generateText } from "ai";
-import { INITIAL_SUMMARIZE_SYSTEM_PROMPT } from "../../Chat/prompts";
-import { GROQ_MODEL } from "@/app/api/lib/ai";
-import { getD1Houses, getD1Planets } from "@/app/api/lib/charts/utils/tools";
+import {
+  generateD1Summary,
+  generateTransitSummaries,
+  generateDashaSummaries,
+} from "@/app/api/lib/charts/utils/summaries";
 
 @InputType("OnboardUserInput")
 export class OnboardUserInput {
@@ -23,6 +24,9 @@ export class OnboardUserInput {
 
   @Field()
   placeOfBirthLong: number;
+
+  @Field()
+  timezone: number;
 }
 
 export default query(
@@ -61,23 +65,14 @@ export default query(
     const [newChart] = await db
       .insert(UserChartTable)
       .values({ ...input, rawChartId, summariesId: summaries.id })
-      .returning({
-        id: UserChartTable.id,
-      });
-
-    waitUntil(
-      (async () => {
-        const summary = await generateText({
-          model: GROQ_MODEL,
-          system: INITIAL_SUMMARIZE_SYSTEM_PROMPT,
-          prompt: `D1 Planets: ${JSON.stringify(getD1Planets(chart))} \n\n D1 Houses: ${JSON.stringify(getD1Houses(chart))}`,
-        });
-        await db
-          .update(UserChartSummariesTable)
-          .set({ d1Summary: summary.text })
-          .where(eq(UserChartSummariesTable.id, summaries.id));
-      })(),
+      .returning();
+    const localDateOfBirth = new Date(input.dateOfBirth);
+    localDateOfBirth.setMinutes(
+      localDateOfBirth.getMinutes() + input.timezone * 60,
     );
+    waitUntil(generateD1Summary(chart, summaries.id));
+    waitUntil(generateTransitSummaries(chart, localDateOfBirth, summaries.id));
+    waitUntil(generateDashaSummaries(chart, localDateOfBirth, summaries.id));
     return newChart.id;
   },
   {

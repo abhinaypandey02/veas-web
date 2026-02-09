@@ -253,6 +253,7 @@ input OnboardUserInput {
   dateOfBirth: DateTimeISO!
   placeOfBirthLat: Float!
   placeOfBirthLong: Float!
+  timezone: Float!
 }
 
 type Query {

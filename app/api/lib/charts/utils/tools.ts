@@ -3,10 +3,10 @@ import {
   DashaValue,
   DivisionalCharts,
   GetChartsResponse,
-  GetTransitRangeResponse,
   Planet,
 } from "../types";
 import { tool } from "ai";
+import { getTransits } from "./fetch";
 
 export function getD1Planets(chart: GetChartsResponse) {
   return (
@@ -206,23 +206,4 @@ export function getPratyantardashas(
       ),
     })),
   }));
-}
-
-export async function getTransits(
-  chart: GetChartsResponse,
-  from: Date,
-  to: Date,
-) {
-  const transitRange = await fetch(
-    `https://vedic-charts-python.vercel.app/get_transit_range`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        start_date: from.toISOString(),
-        end_date: to.toISOString(),
-        ayanamsa: chart.ayanamsa.value,
-      }),
-    },
-  );
-  return transitRange.json() as Promise<GetTransitRangeResponse>;
 }
