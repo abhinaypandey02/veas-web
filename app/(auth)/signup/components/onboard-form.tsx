@@ -105,7 +105,7 @@ export default function OnboardForm({
           name="place"
           label="City of Birth"
           rules={{ required: true }}
-          placeholder="what's that iconic place?"
+          placeholder="Where were you born?"
           options={places.map((place) => ({
             label: place.display_name,
             value: place.place_id,

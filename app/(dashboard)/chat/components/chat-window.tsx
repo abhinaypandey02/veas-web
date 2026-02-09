@@ -29,12 +29,20 @@ export function ChatWindow({
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { message } = form.watch();
+  const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     if (chats.length > 0) {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [chats]);
+
+  // Focus input when loading becomes false
+  useEffect(() => {
+    if (!isLoading) {
+      form.setFocus("message");
+    }
+  }, [isLoading, form]);
 
   const handleSendMessage = (data: { message: string }) => {
     if (!data.message.trim() || isLoading) return;
@@ -185,6 +193,7 @@ export function ChatWindow({
         <div className="flex items-end gap-2 max-w-4xl mx-auto relative">
           <div className="flex-1 relative">
             <Input
+              ref={inputRef}
               disabled={isLoading}
               autoFocus
               name="message"

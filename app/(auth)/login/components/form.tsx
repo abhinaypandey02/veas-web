@@ -32,7 +32,7 @@ export default function LoginForm() {
     try {
       const message = await login(data);
       if (!message) {
-        router.replace("/onboard");
+        router.replace("/dashboard");
       } else {
         setIsSubmitting(false);
         form.setError("password", { message });
