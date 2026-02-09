@@ -1,11 +1,11 @@
 import { UserChartDB, UserDB } from "../User/db";
 
 export const getChatSystemPrompt = (user: UserDB, userChart: UserChartDB) => {
-  if (!userChart.dateOfBirth || !userChart.timezoneOffset) return;
+  if (!userChart.dateOfBirth || !user.timezoneOffset) return;
   const userDob = userChart.dateOfBirth;
   userDob.setHours(
     userDob.getHours() +
-      userChart.timezoneOffset +
+      user.timezoneOffset +
       new Date().getTimezoneOffset() / 60,
   );
   return `Current Time: ${new Date().toLocaleString()}
@@ -58,7 +58,7 @@ You are in a therapy session with a user:
 
 • Name is ${user.name}.
 • Date of birth is ${userDob.toLocaleString()}.
-• Place of birth is ${userChart.placeOfBirth}.
+• Place of birth is ${user.placeOfBirth}.
 • Summary of the user's planets and houses is:
 
 ${userChart.summary}.

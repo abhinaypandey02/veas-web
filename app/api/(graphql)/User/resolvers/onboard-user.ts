@@ -13,9 +13,6 @@ import { getD1Houses, getD1Planets } from "@/app/api/lib/charts/utils/tools";
 @InputType("OnboardUserInput")
 export class OnboardUserInput {
   @Field()
-  name: string;
-
-  @Field()
   dateOfBirth: Date;
 
   @Field()
@@ -23,12 +20,6 @@ export class OnboardUserInput {
 
   @Field()
   placeOfBirthLong: number;
-
-  @Field()
-  timezoneOffset: number;
-
-  @Field()
-  placeOfBirth: string;
 }
 
 export default query(
@@ -43,8 +34,6 @@ export default query(
           eq(UserChartTable.dateOfBirth, input.dateOfBirth),
           eq(UserChartTable.placeOfBirthLat, input.placeOfBirthLat),
           eq(UserChartTable.placeOfBirthLong, input.placeOfBirthLong),
-          eq(UserChartTable.placeOfBirth, input.placeOfBirth),
-          eq(UserChartTable.timezoneOffset, input.timezoneOffset),
         ),
       )
       .limit(1);

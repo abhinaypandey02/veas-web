@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useToken } from "naystack/auth/email/client";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -14,6 +15,7 @@ const navLinks = [
 export default function LandingNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const token = useToken();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,7 +25,6 @@ export default function LandingNavbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
 
   return (
     <>
@@ -118,14 +119,14 @@ export default function LandingNavbar() {
           className={`hidden sm:block transition-all duration-500 ${isScrolled ? "" : "ml-2"}`}
         >
           <Link
-            href="/signup"
+            href={token ? "/dashboard" : "/signup"}
             className={`inline-flex font-semibold transition-all duration-300 ${
               isScrolled
                 ? "px-4 lg:px-5 py-2 rounded-full bg-white/10 text-white text-sm hover:bg-white/20"
                 : "px-6 py-2.5 rounded-full border border-white/40 text-white text-sm hover:bg-white/10"
             }`}
           >
-            Get Started
+            {token ? "Dashboard" : "Get Started"}
           </Link>
         </div>
 
@@ -194,11 +195,11 @@ export default function LandingNavbar() {
                 </Link>
               ))}
               <Link
-                href="/signup"
+                href={token ? "/dashboard" : "/signup"}
                 onClick={() => setIsMenuOpen(false)}
                 className="mt-2 px-4 py-3 rounded-xl bg-white/10 text-white text-center font-medium hover:bg-white/20 transition-colors"
               >
-                Get Started
+                {token ? "Dashboard" : "Get Started"}
               </Link>
             </div>
           </motion.div>

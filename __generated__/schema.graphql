@@ -246,16 +246,13 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTimeISO
 
 type Mutation {
-  onboardUser(input: OnboardUserInput!): Boolean!
+  onboardUser(input: OnboardUserInput!): Float!
 }
 
 input OnboardUserInput {
   dateOfBirth: DateTimeISO!
-  name: String!
-  placeOfBirth: String!
   placeOfBirthLat: Float!
   placeOfBirthLong: Float!
-  timezoneOffset: Float!
 }
 
 type Query {
@@ -266,12 +263,7 @@ type Query {
 }
 
 type User {
-  dateOfBirth: Float
   email: String!
   id: Float!
-  isOnboarded: Boolean!
-  name: String
-  placeOfBirth: String
-  placeOfBirthLat: Float
-  placeOfBirthLong: Float
+  name: String!
 }

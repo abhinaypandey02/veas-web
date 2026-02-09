@@ -33,7 +33,7 @@ export enum ChatRole {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  onboardUser: Scalars['Boolean']['output'];
+  onboardUser: Scalars['Float']['output'];
 };
 
 
@@ -43,11 +43,8 @@ export type MutationOnboardUserArgs = {
 
 export type OnboardUserInput = {
   dateOfBirth: Scalars['DateTimeISO']['input'];
-  name: Scalars['String']['input'];
-  placeOfBirth: Scalars['String']['input'];
   placeOfBirthLat: Scalars['Float']['input'];
   placeOfBirthLong: Scalars['Float']['input'];
-  timezoneOffset: Scalars['Float']['input'];
 };
 
 export type Query = {
@@ -58,14 +55,9 @@ export type Query = {
 
 export type User = {
   __typename?: 'User';
-  dateOfBirth?: Maybe<Scalars['Float']['output']>;
   email: Scalars['String']['output'];
   id: Scalars['Float']['output'];
-  isOnboarded: Scalars['Boolean']['output'];
-  name?: Maybe<Scalars['String']['output']>;
-  placeOfBirth?: Maybe<Scalars['String']['output']>;
-  placeOfBirthLat?: Maybe<Scalars['Float']['output']>;
-  placeOfBirthLong?: Maybe<Scalars['Float']['output']>;
+  name: Scalars['String']['output'];
 };
 
 export type OnboardUserMutationVariables = Exact<{
@@ -73,7 +65,7 @@ export type OnboardUserMutationVariables = Exact<{
 }>;
 
 
-export type OnboardUserMutation = { __typename?: 'Mutation', onboardUser: boolean };
+export type OnboardUserMutation = { __typename?: 'Mutation', onboardUser: number };
 
 
 export const OnboardUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"OnboardUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"OnboardUserInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"onboardUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<OnboardUserMutation, OnboardUserMutationVariables>;

@@ -34,7 +34,7 @@
     "graphql": "^16.12.0",
     "graphql-tag": "^2.12.6",
     "lenis": "^1.3.17",
-    "naystack": "^1.5",
+    "naystack": "^1.5.8",
     "next": "16.0.10",
     "postgres": "^3.4.7",
     "react": "19.2.1",

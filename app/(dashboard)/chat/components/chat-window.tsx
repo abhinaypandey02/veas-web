@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import Form from "@/components/form";
 import { ArrowRightIcon } from "@phosphor-icons/react";
 import { cn } from "@/components/utils";
+import Loader from "@/components/loader";
 export function ChatWindow({
   data,
 }: {
@@ -187,19 +188,25 @@ export function ChatWindow({
               disabled={isLoading}
               autoFocus
               name="message"
-              placeholder="Type your message..."
+              placeholder={isLoading ? "typing..." : "Type your message..."}
               rows={1}
               className="ring-primary bg-gray-50"
             />
           </div>
-          {message?.trim() && (
-            <button
-              className=" absolute right-4 top-1/2 -translate-y-1/2"
-              type="submit"
-              disabled={isLoading}
-            >
-              <ArrowRightIcon size={24} weight="light" />
-            </button>
+          {isLoading ? (
+            <div className="size-6 absolute right-4 top-1/2 -translate-y-1/2">
+              <Loader />
+            </div>
+          ) : (
+            message?.trim() && (
+              <button
+                className=" absolute right-4 top-1/2 -translate-y-1/2"
+                type="submit"
+                disabled={isLoading}
+              >
+                <ArrowRightIcon size={24} weight="light" />
+              </button>
+            )
           )}
         </div>
       </Form>

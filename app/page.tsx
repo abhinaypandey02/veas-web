@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import LandingNavbar from "./_components/landing-navbar";
 import SmoothScroll from "./_components/smooth-scroll";
+import { useToken } from "naystack/auth/email/client";
 
-// Live Timer Component for Hero
 function LiveTimer() {
   const [time, setTime] = useState({
     hours: "00",
@@ -841,6 +841,7 @@ function FAQSection() {
 }
 
 export default function Home() {
+  const token = useToken();
   return (
     <SmoothScroll>
       <div className="relative font-sans selection:bg-cosmic-lavender selection:text-foreground">
@@ -889,9 +890,9 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8"
             >
-              <Link href="/signup">
+              <Link href={token ? "/dashboard" : "/signup"}>
                 <button className="h-12 px-8 rounded-full bg-white text-foreground hover:bg-white/90 transition-colors text-base font-medium">
-                  Get Your Free Chart
+                  {token ? "Dashboard" : "Get Your Free Chart"}
                 </button>
               </Link>
               <Link href="/pricing">
@@ -1544,9 +1545,9 @@ export default function Home() {
                 viewport={{ once: true }}
                 className="flex flex-col sm:flex-row gap-4"
               >
-                <Link href="/signup">
+                <Link href={token ? "/dashboard" : "/signup"}>
                   <button className="h-14 px-10 rounded-full bg-cosmic-purple text-white font-medium hover:bg-cosmic-lavender hover:text-foreground transition-colors tracking-wide text-sm uppercase">
-                    Get Your Chart Free
+                    {token ? "Dashboard" : "Get Your Chart Free"}
                   </button>
                 </Link>
                 <Link href="/pricing">
@@ -1621,7 +1622,7 @@ export default function Home() {
                         href="#"
                         className="text-sm text-white/70 hover:text-white transition-colors"
                       >
-                        Get Your Chart
+                        {token ? "Dashboard" : "Get Your Chart"}
                       </a>
                     </li>
                     <li>

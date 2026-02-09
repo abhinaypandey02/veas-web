@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { useAuthMutation } from "naystack/graphql/client";
 import { ONBOARD_USER } from "@/constants/graphql/mutations";
@@ -9,19 +7,20 @@ import { searchLocation, SearchPlaceResponse } from "@/utils/location";
 import { useForm } from "react-hook-form";
 import Form from "@/components/form";
 import { Button } from "@/components/button";
-import { useLogout } from "naystack/auth/email/client";
-import { SignOutIcon } from "@phosphor-icons/react";
-import Link from "next/link";
+import { OnboardData } from "./form";
+import { ArrowRight } from "@phosphor-icons/react";
 
 interface FormType {
-  name: string;
   dob: string;
   place: string;
 }
 
-export default function OnboardForm({ data }: { data?: true }) {
+export default function OnboardForm({
+  onSuccess,
+}: {
+  onSuccess?: (data: OnboardData) => void;
+}) {
   const router = useRouter();
-  const logout = useLogout();
   const [onboardUser, { loading }] = useAuthMutation(ONBOARD_USER);
   const [places, setPlaces] = useState<SearchPlaceResponse[]>([]);
   const form = useForm<FormType>();
@@ -51,15 +50,19 @@ export default function OnboardForm({ data }: { data?: true }) {
     }
     try {
       const result = await onboardUser({
-        name: data.name,
         dateOfBirth: new Date(data.dob),
         placeOfBirthLat: parseFloat(selectedPlace.lat),
         placeOfBirthLong: parseFloat(selectedPlace.lon),
-        placeOfBirth: selectedPlace.display_name,
-        timezoneOffset: -new Date().getTimezoneOffset() / 60,
       });
 
-      if (result.data) {
+      if (result.data?.onboardUser) {
+        if (onSuccess) {
+          onSuccess({
+            chartId: result.data.onboardUser,
+            placeOfBirth: selectedPlace.display_name,
+          });
+          return;
+        }
         router.replace("/dashboard");
       }
     } catch (error) {
@@ -73,22 +76,7 @@ export default function OnboardForm({ data }: { data?: true }) {
 
   return (
     <div className="">
-      <div className="mb-6 text-center">
-        <h1 className="text-4xl font-semibold font-serif text-gray-900">
-          About you
-        </h1>
-        <p className="mt-1 text-sm text-faded">
-          Enter your basic details so we can know you better.
-        </p>
-      </div>
-
       <Form form={form} onSubmit={handleSubmit} className="space-y-4 px-4">
-        <Input
-          name="name"
-          label="Full name"
-          rules={{ required: true }}
-          placeholder="what to call you?"
-        />
         <Input
           name="dob"
           label="Date of Birth"
@@ -107,19 +95,9 @@ export default function OnboardForm({ data }: { data?: true }) {
           }))}
         />
 
-        <Button className="w-full" loading={loading || !data}>
-          Complete Onboarding
+        <Button className="w-full" loading={loading}>
+          Next <ArrowRight className="ml-2" />
         </Button>
-        <Link
-          href="/"
-          type="button"
-          className="w-full flex justify-center underline underline-offset-2 items-center gap-2"
-          onClick={() => {
-            logout();
-          }}
-        >
-          <SignOutIcon className="rotate-y-180" /> Signout
-        </Link>
       </Form>
     </div>
   );

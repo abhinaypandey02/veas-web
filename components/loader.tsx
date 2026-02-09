@@ -5,7 +5,7 @@ export default function Loader(props: ComponentProps<"svg">) {
     <svg
       role={"status"}
       aria-hidden="true"
-      className="animate-spin fill-accent"
+      className="animate-spin fill-current"
       fill="none"
       viewBox="0 0 100 101"
       xmlns="http://www.w3.org/2000/svg"

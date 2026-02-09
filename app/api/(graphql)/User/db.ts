@@ -16,6 +16,8 @@ export const UserTable = pgTable("users", {
   chartId: integer("chart_id")
     .notNull()
     .references(() => UserChartTable.id),
+  placeOfBirth: text("place_of_birth").notNull(),
+  timezoneOffset: real("timezone_offset").notNull(),
 });
 
 export type UserDB = typeof UserTable.$inferSelect;
@@ -40,19 +42,15 @@ export const UserChartTable = pgTable(
     dateOfBirth: timestamp("date_of_birth").notNull(),
     placeOfBirthLat: real("place_of_birth_lat").notNull(),
     placeOfBirthLong: real("place_of_birth_long").notNull(),
-    placeOfBirth: text("place_of_birth").notNull(),
-    timezoneOffset: real("timezone_offset").notNull(),
     summary: text("summary"),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
   },
   (table) => [
-    unique().on(
+    unique("user_chart_unique").on(
       table.dateOfBirth,
       table.placeOfBirthLat,
       table.placeOfBirthLong,
-      table.placeOfBirth,
-      table.timezoneOffset,
     ),
   ],
 );

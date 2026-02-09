@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useLogin } from "naystack/auth/email/client";
+import { useLogin, useToken } from "naystack/auth/email/client";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/input";
 import { Button } from "@/components/button";
@@ -14,11 +14,16 @@ interface FormType {
   password: string;
 }
 
-export default function LoginForm({ data }: { data?: true }) {
+export default function LoginForm() {
   const login = useLogin();
   const router = useRouter();
   const form = useForm<FormType>();
-
+  const token = useToken();
+  useEffect(() => {
+    if (token) {
+      router.replace("/dashboard");
+    }
+  }, [token, router]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (data: FormType) => {
@@ -62,7 +67,7 @@ export default function LoginForm({ data }: { data?: true }) {
           type="password"
           placeholder="Enter your password"
         />
-        <Button loading={isSubmitting || !data} className="w-full mt-6">
+        <Button loading={isSubmitting} className="w-full mt-6">
           {isSubmitting ? "Signing in..." : "Sign in"}
         </Button>
         <div className="text-faded text-sm mt-4 text-center">
