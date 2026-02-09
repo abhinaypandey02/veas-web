@@ -1,14 +1,17 @@
 import z from "zod";
 import { generateObject, generateText } from "ai";
-import { eq } from "drizzle-orm";
 import { GetChartsResponse } from "../types";
-import { getD1Houses, getD1Planets, getPratyantardashas } from "./tools";
+import {
+  getCurrentDashas,
+  getD1Houses,
+  getD1Planets,
+  getPratyantardashas,
+} from "./tools";
 import { GROQ_MODEL } from "@/app/api/lib/ai";
 import { db } from "@/app/api/lib/db";
 import {
-  UserChartDB,
   UserChartSummariesTable,
-  UserDB,
+  UserChartTable,
 } from "@/app/api/(graphql)/User/db";
 import { getTransits } from "./fetch";
 import {
@@ -16,6 +19,9 @@ import {
   getTransitSummarySystemPrompt,
   INITIAL_SUMMARIZE_SYSTEM_PROMPT,
 } from "@/app/api/(graphql)/Chat/prompts";
+import { ChartSummaryType } from "@/app/api/(graphql)/User/enum";
+import { and, eq } from "drizzle-orm";
+import { waitUntil } from "@vercel/functions";
 
 const WeeklyDailySummarySchema = z.object({
   dailySummary: z.string(),
@@ -34,7 +40,7 @@ type DashaSummaries = z.infer<typeof DashaSummariesSchema>;
 
 export async function generateD1Summary(
   chart: GetChartsResponse,
-  summariesId: number,
+  chartId: number,
 ) {
   const summary = await generateText({
     model: GROQ_MODEL,
@@ -43,10 +49,9 @@ export async function generateD1Summary(
   });
 
   await db
-    .update(UserChartSummariesTable)
-    .set({ d1Summary: summary.text, updatedAt: new Date() })
-    .where(eq(UserChartSummariesTable.id, summariesId));
-
+    .update(UserChartTable)
+    .set({ summary: summary.text })
+    .where(eq(UserChartTable.id, chartId));
   return summary.text;
 }
 
@@ -78,7 +83,7 @@ function buildNatalCore(chart: GetChartsResponse) {
 export async function generateTransitSummaries(
   chart: GetChartsResponse,
   dob: Date,
-  summariesId: number,
+  chartId: number,
 ): Promise<WeeklyDailySummary> {
   const natal_core = buildNatalCore(chart);
   const today = new Date();
@@ -100,15 +105,22 @@ export async function generateTransitSummaries(
     system: getTransitSummarySystemPrompt(dob),
     prompt: JSON.stringify(payload),
   });
-
-  await db
-    .update(UserChartSummariesTable)
-    .set({
-      dailySummary: object.dailySummary,
-      weeklySummary: object.weeklySummary,
-      updatedAt: new Date(),
-    })
-    .where(eq(UserChartSummariesTable.id, summariesId));
+  waitUntil(
+    updateChartSummaries(
+      chartId,
+      object.dailySummary,
+      ChartSummaryType.Daily,
+      new Date(today.getTime() + 24 * 60 * 60 * 1000),
+    ),
+  );
+  waitUntil(
+    updateChartSummaries(
+      chartId,
+      object.weeklySummary,
+      ChartSummaryType.Weekly,
+      new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000),
+    ),
+  );
 
   return object;
 }
@@ -116,7 +128,7 @@ export async function generateTransitSummaries(
 export async function generateDashaSummaries(
   chart: GetChartsResponse,
   dob: Date,
-  summariesId: number,
+  chartId: number,
 ): Promise<DashaSummaries> {
   const d1_chart = {
     planets: chart.d1_chart?.planets || [],
@@ -141,15 +153,94 @@ export async function generateDashaSummaries(
     prompt: JSON.stringify(payload),
   });
 
-  await db
-    .update(UserChartSummariesTable)
-    .set({
-      mahadashaSummary: object.mahadashaSummary,
-      antardashaSummary: object.antardashaSummary,
-      pratyantardashaSummary: object.pratyantardashaSummary,
-      updatedAt: new Date(),
-    })
-    .where(eq(UserChartSummariesTable.id, summariesId));
+  const { mahadasha, antardasha, pratyantardasha } = getCurrentDashas(chart);
+
+  waitUntil(
+    updateChartSummaries(
+      chartId,
+      object.mahadashaSummary,
+      ChartSummaryType.Mahadasha,
+      mahadasha ? new Date(mahadasha?.end) : undefined,
+    ),
+  );
+  waitUntil(
+    updateChartSummaries(
+      chartId,
+      object.antardashaSummary,
+      ChartSummaryType.Antardasha,
+      antardasha ? new Date(antardasha?.end) : undefined,
+    ),
+  );
+  waitUntil(
+    updateChartSummaries(
+      chartId,
+      object.pratyantardashaSummary,
+      ChartSummaryType.Pratyantardasha,
+      pratyantardasha ? new Date(pratyantardasha?.end) : undefined,
+    ),
+  );
 
   return object;
+}
+
+export async function updateChartSummaries(
+  chartId: number,
+  summary: string,
+  type: ChartSummaryType,
+  expiresAt?: Date,
+) {
+  await db
+    .insert(UserChartSummariesTable)
+    .values({
+      chartId,
+      summary,
+      type,
+      expiresAt,
+    })
+    .onConflictDoUpdate({
+      target: [UserChartSummariesTable.chartId, UserChartSummariesTable.type],
+      set: {
+        summary,
+        expiresAt,
+        updatedAt: new Date(),
+      },
+    });
+}
+
+export async function getChartSummary(chartId: number, type: ChartSummaryType) {
+  const [summary] = await db
+    .select()
+    .from(UserChartSummariesTable)
+    .where(
+      and(
+        eq(UserChartSummariesTable.chartId, chartId),
+        eq(UserChartSummariesTable.type, type),
+      ),
+    )
+    .limit(1);
+  return summary;
+}
+
+export async function generateChartSummaries(
+  chartId: number,
+  type: ChartSummaryType,
+  chart: GetChartsResponse,
+  dob: Date,
+) {
+  switch (type) {
+    case ChartSummaryType.Daily:
+      return (await generateTransitSummaries(chart, dob, chartId)).dailySummary;
+    case ChartSummaryType.Weekly:
+      return (await generateTransitSummaries(chart, dob, chartId))
+        .weeklySummary;
+    case ChartSummaryType.Mahadasha:
+      return (await generateDashaSummaries(chart, dob, chartId))
+        .mahadashaSummary;
+    case ChartSummaryType.Antardasha:
+      return (await generateDashaSummaries(chart, dob, chartId))
+        .antardashaSummary;
+    case ChartSummaryType.Pratyantardasha:
+      return (await generateDashaSummaries(chart, dob, chartId))
+        .pratyantardashaSummary;
+  }
 }

@@ -31,11 +31,9 @@ export const POST = async () => {
       .returning({
         id: UserChartTable.id,
         rawChartId: UserChartTable.rawChartId,
-        summariesId: UserChartTable.summariesId,
       });
 
     const rawChartIds = unusedCharts.map((chart) => chart.rawChartId);
-    const summariesIds = unusedCharts.map((chart) => chart.summariesId);
 
     const unusedRawCharts = rawChartIds.length
       ? await tx
@@ -44,10 +42,10 @@ export const POST = async () => {
           .returning({ id: UserRawChartTable.id })
       : [];
 
-    const unusedSummaries = summariesIds.length
+    const unusedSummaries = rawChartIds.length
       ? await tx
           .delete(UserChartSummariesTable)
-          .where(inArray(UserChartSummariesTable.id, summariesIds))
+          .where(inArray(UserChartSummariesTable.chartId, rawChartIds))
           .returning({ id: UserChartSummariesTable.id })
       : [];
 

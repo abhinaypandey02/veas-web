@@ -7,18 +7,17 @@ import { db } from "../../lib/db";
 import { getChatSystemPrompt } from "./prompts";
 import { GetChartsResponse } from "../../lib/charts/types";
 import { getTools } from "../../lib/charts/utils/tools";
-import { UserChartDB, UserChartSummariesDB, UserDB } from "../User/db";
+import { UserChartDB, UserDB } from "../User/db";
 
 export const getAstrologerAssistant = (
   user: UserDB,
   userChart: UserChartDB,
-  userChartSummaries: UserChartSummariesDB,
   chartData: GetChartsResponse,
 ) =>
   new ToolLoopAgent({
     model: GROQ_MODEL as unknown as string,
     tools: getTools(chartData),
-    instructions: getChatSystemPrompt(user, userChart, userChartSummaries),
+    instructions: getChatSystemPrompt(user, userChart),
   });
 
 const MAXIMUM_MESSAGES = 15;

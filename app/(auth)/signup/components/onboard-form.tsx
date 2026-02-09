@@ -7,7 +7,7 @@ import {
   searchLocation,
   SearchPlaceResponse,
   searchTimezone,
-  getLocalTime,
+  getUTCDate,
 } from "@/utils/location";
 import { useForm } from "react-hook-form";
 import Form from "@/components/form";
@@ -73,7 +73,7 @@ export default function OnboardForm({
     }
     try {
       const result = await onboardUser({
-        dateOfBirth: getLocalTime(new Date(data.dob), timezone),
+        dateOfBirth: getUTCDate(new Date(data.dob), timezone),
         placeOfBirthLat: parseFloat(selectedPlace.lat),
         placeOfBirthLong: parseFloat(selectedPlace.lon),
         timezone,

@@ -1,5 +1,5 @@
 import { getLocalTime } from "@/utils/location";
-import { UserChartDB, UserChartSummariesDB, UserDB } from "../User/db";
+import { UserChartDB, UserDB } from "../User/db";
 
 export const ASTROLOGER_PERSONALITY = `
   
@@ -30,17 +30,13 @@ export function getUserContext(userChart: UserChartDB, user: UserDB) {
   );
 
   return `• User's Name is ${user.name}.
-• User's Date of birth is ${localDateOfBirth.toLocaleString()}.
+• User's Date of birth is ${localDateOfBirth.toUTCString()}.
 • User's Place of birth is ${user.placeOfBirth}.
 • User's Current Time: ${new Date().toLocaleString()}`;
 }
 
-export const getChatSystemPrompt = (
-  user: UserDB,
-  userChart: UserChartDB,
-  userChartSummaries: UserChartSummariesDB,
-) => {
-  if (!userChart.dateOfBirth || !user.timezoneOffset) return;
+export const getChatSystemPrompt = (user: UserDB, userChart: UserChartDB) => {
+  if (!userChart || !user) return;
 
   return `${ASTROLOGER_PERSONALITY}
 
@@ -249,7 +245,7 @@ You are in a therapy session with a user:
 ${getUserContext(userChart, user)}
 • Summary of the user's planets and houses is:
 
-${userChartSummaries.d1Summary}.
+${userChart.summary}.
 `;
 };
 

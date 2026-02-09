@@ -6,7 +6,9 @@ import {
   real,
   integer,
   unique,
+  pgEnum,
 } from "drizzle-orm/pg-core";
+import { ChartSummaryType } from "./enum";
 
 export const UserTable = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -43,10 +45,7 @@ export const UserChartTable = pgTable(
       .notNull()
       .references(() => UserRawChartTable.id)
       .unique(),
-    summariesId: integer("summaries_id")
-      .notNull()
-      .references(() => UserChartSummariesTable.id)
-      .unique(),
+    summary: text("summary"),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),
   },
@@ -59,14 +58,19 @@ export const UserChartTable = pgTable(
   ],
 );
 
+const chartSummaryTypeEnum = pgEnum(
+  "chart_summary_type",
+  Object.values(ChartSummaryType) as [ChartSummaryType, ...ChartSummaryType[]],
+);
+
 export const UserChartSummariesTable = pgTable("user_chart_summaries", {
   id: serial("id").primaryKey(),
-  d1Summary: text("d1_summary"),
-  dailySummary: text("daily_summary"),
-  weeklySummary: text("weekly_summary"),
-  antardashaSummary: text("antardasha_summary"),
-  pratyantardashaSummary: text("pratyantardasha_summary"),
-  mahadashaSummary: text("mahadasha_summary"),
+  type: chartSummaryTypeEnum("type").notNull(),
+  summary: text("summary").notNull(),
+  chartId: integer("chart_id")
+    .notNull()
+    .references(() => UserChartTable.id),
+  expiresAt: timestamp("expires_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

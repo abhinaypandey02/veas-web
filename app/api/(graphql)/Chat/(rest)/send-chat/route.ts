@@ -5,12 +5,7 @@ import { ChatRole, ChatTable } from "../../db";
 import { and, eq } from "drizzle-orm";
 import { waitUntil } from "@vercel/functions";
 import { getContext } from "naystack/auth";
-import {
-  UserChartSummariesTable,
-  UserChartTable,
-  UserRawChartTable,
-  UserTable,
-} from "../../../User/db";
+import { UserChartTable, UserRawChartTable, UserTable } from "../../../User/db";
 import { decompressChartData } from "@/app/api/lib/charts/utils/compress";
 
 export const POST = async (req: NextRequest) => {
@@ -34,28 +29,15 @@ export const POST = async (req: NextRequest) => {
     .innerJoin(
       UserRawChartTable,
       eq(UserChartTable.rawChartId, UserRawChartTable.id),
-    )
-    .innerJoin(
-      UserChartSummariesTable,
-      eq(UserChartTable.summariesId, UserChartSummariesTable.id),
     );
 
   if (!data) return new NextResponse("User not found", { status: 404 });
-  const {
-    user_charts,
-    user_raw_charts,
-    users: user,
-    user_chart_summaries,
-  } = data;
+  const { user_charts, user_raw_charts, users: user } = data;
   const chartData = await decompressChartData(user_raw_charts.rawChart);
   if (!chartData)
     return new NextResponse("Chart data not found", { status: 404 });
-  const astrologer = getAstrologerAssistant(
-    user,
-    user_charts,
-    user_chart_summaries,
-    chartData,
-  );
+
+  const astrologer = getAstrologerAssistant(user, user_charts, chartData);
 
   let stream;
   try {

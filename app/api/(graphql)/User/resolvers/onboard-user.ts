@@ -1,10 +1,7 @@
 import { query } from "naystack/graphql";
 import { InputType, Field } from "type-graphql";
 import { db } from "@/app/api/lib/db";
-import {
-  UserChartSummariesTable,
-  UserChartTable,
-} from "@/app/api/(graphql)/User/db";
+import { UserChartTable } from "@/app/api/(graphql)/User/db";
 import { and, eq } from "drizzle-orm";
 import { updateRawChart } from "@/app/api/lib/charts/utils/compress";
 import { waitUntil } from "@vercel/functions";
@@ -13,6 +10,7 @@ import {
   generateTransitSummaries,
   generateDashaSummaries,
 } from "@/app/api/lib/charts/utils/summaries";
+import { getLocalTime } from "@/utils/location";
 
 @InputType("OnboardUserInput")
 export class OnboardUserInput {
@@ -53,26 +51,15 @@ export default query(
     if (!rawChartId) {
       throw new Error("Failed to update chart");
     }
-    const [summaries] = await db
-      .insert(UserChartSummariesTable)
-      .values({})
-      .returning({
-        id: UserChartSummariesTable.id,
-      });
-    if (!summaries) {
-      throw new Error("Failed to create summaries");
-    }
+
     const [newChart] = await db
       .insert(UserChartTable)
-      .values({ ...input, rawChartId, summariesId: summaries.id })
+      .values({ ...input, rawChartId })
       .returning();
-    const localDateOfBirth = new Date(input.dateOfBirth);
-    localDateOfBirth.setMinutes(
-      localDateOfBirth.getMinutes() + input.timezone * 60,
-    );
-    waitUntil(generateD1Summary(chart, summaries.id));
-    waitUntil(generateTransitSummaries(chart, localDateOfBirth, summaries.id));
-    waitUntil(generateDashaSummaries(chart, localDateOfBirth, summaries.id));
+    const localDateOfBirth = getLocalTime(input.dateOfBirth, input.timezone);
+    waitUntil(generateD1Summary(chart, newChart.id));
+    waitUntil(generateTransitSummaries(chart, localDateOfBirth, newChart.id));
+    waitUntil(generateDashaSummaries(chart, localDateOfBirth, newChart.id));
     return newChart.id;
   },
   {

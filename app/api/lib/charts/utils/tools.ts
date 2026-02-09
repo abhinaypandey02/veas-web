@@ -207,3 +207,53 @@ export function getPratyantardashas(
     })),
   }));
 }
+
+export function getCurrentDashas(chart: GetChartsResponse) {
+  const current_dasha = chart.dashas.current;
+  const currentMahadashaKey = Object.keys(
+    current_dasha?.mahadashas ?? {},
+  )[0] as Planet | undefined;
+  const currentMahadasha = currentMahadashaKey
+    ? current_dasha?.mahadashas?.[currentMahadashaKey]
+    : undefined;
+
+  const currentAntardashaKey = Object.keys(
+    currentMahadasha?.antardashas ?? {},
+  )[0] as Planet | undefined;
+  const currentAntardasha = currentAntardashaKey
+    ? currentMahadasha?.antardashas?.[currentAntardashaKey]
+    : undefined;
+
+  const currentPratyantardashaKey = Object.keys(
+    currentAntardasha?.pratyantardashas ?? {},
+  )[0] as Planet | undefined;
+  const currentPratyantardasha = currentPratyantardashaKey
+    ? currentAntardasha?.pratyantardashas?.[currentPratyantardashaKey]
+    : undefined;
+  return {
+    mahadasha:
+      currentMahadashaKey && currentMahadasha
+        ? {
+            planet: currentMahadashaKey,
+            start: currentMahadasha?.start,
+            end: currentMahadasha?.end,
+          }
+        : undefined,
+    antardasha:
+      currentAntardashaKey && currentAntardasha
+        ? {
+            planet: currentAntardashaKey,
+            start: currentAntardasha?.start,
+            end: currentAntardasha?.end,
+          }
+        : undefined,
+    pratyantardasha:
+      currentPratyantardashaKey && currentPratyantardasha
+        ? {
+            planet: currentPratyantardashaKey,
+            start: currentPratyantardasha?.start,
+            end: currentPratyantardasha?.end,
+          }
+        : undefined,
+  };
+}

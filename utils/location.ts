@@ -27,12 +27,18 @@ export interface SearchTimezoneResponse {
   gmtOffset: number;
 }
 
-export function getLocalTime(date: Date, timezoneOffset: number) {
+export function getUTCDate(date: Date, timezoneOffset: number) {
   const localDate = new Date(date);
   localDate.setMinutes(
     localDate.getMinutes() -
       timezoneOffset * 60 -
       new Date().getTimezoneOffset(),
   );
+  return localDate;
+}
+
+export function getLocalTime(date: Date, timezoneOffset: number) {
+  const localDate = new Date(date);
+  localDate.setMinutes(localDate.getMinutes() + timezoneOffset * 60);
   return localDate;
 }
