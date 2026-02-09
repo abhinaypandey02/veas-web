@@ -7,7 +7,7 @@ export async function searchLocation(query: string) {
 }
 export async function searchTimezone(lat: number, lon: number) {
   const response = await fetch(
-    `http://api.geonames.org/timezoneJSON?lat=${lat}&lng=${lon}&username=abhinayx`,
+    `https://api.geonames.org/timezoneJSON?lat=${lat}&lng=${lon}&username=abhinayx`,
   ).then((res) => res.json() as Promise<SearchTimezoneResponse>);
 
   return response.gmtOffset;
