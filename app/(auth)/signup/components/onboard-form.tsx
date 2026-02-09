@@ -31,36 +31,37 @@ export default function OnboardForm({
   const [loadingTimezone, setLoadingTimezone] = useState(false);
   const [timezone, setTimezone] = useState<number>();
   const form = useForm<FormType>();
+
+  const place = form.watch("place");
+
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
-    const sub = form.watch(({ place }) => {
-      if (timeout) clearTimeout(timeout);
-      if (!place || place.length <= 3) return;
-      console.log(place);
-      const selectedPlace = places.find((p) => p.place_id === Number(place));
-      if (selectedPlace) {
-        if (!timezone) {
-          setLoadingTimezone(true);
-          searchTimezone(
-            parseFloat(selectedPlace.lat),
-            parseFloat(selectedPlace.lon),
-          ).then((timezone) => {
-            setTimezone(timezone);
-            setLoadingTimezone(false);
-          });
-        }
-        return;
-      }
-      timeout = setTimeout(() => {
+    const selectedPlace = places.find((p) => p.place_id === Number(place));
+    if (selectedPlace) {
+      setLoadingTimezone(true);
+      searchTimezone(
+        parseFloat(selectedPlace.lat),
+        parseFloat(selectedPlace.lon),
+      ).then((timezone) => {
+        setTimezone(timezone);
+        setLoadingTimezone(false);
+      });
+    }
+  }, [place, places]);
+
+  useEffect(() => {
+    if (!place || place.length <= 3) return;
+    if (!isNaN(Number(place))) return;
+
+    const timeout = setTimeout(() => {
+      searchLocation(place).then((places) => {
+        setPlaces(places);
         setTimezone(undefined);
-        searchLocation(place).then(setPlaces);
-      }, 500);
-    });
+      });
+    }, 500);
     return () => {
       if (timeout) clearTimeout(timeout);
-      sub.unsubscribe();
     };
-  }, [form, places, timezone]);
+  }, [place]);
 
   const handleSubmit = async (data: FormType) => {
     const selectedPlace = places.find((p) => p.place_id === Number(data.place));
