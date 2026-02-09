@@ -61,6 +61,9 @@ export async function getTransits(
         end_date: to.toISOString(),
         ayanamsa: chart.ayanamsa.value,
       }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     },
   );
   return transitRange.json() as Promise<GetTransitRangeResponse>;

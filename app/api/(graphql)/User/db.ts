@@ -62,14 +62,20 @@ export const chartSummaryTypeEnum = pgEnum(
   Object.values(ChartSummaryType) as [ChartSummaryType, ...ChartSummaryType[]],
 );
 
-export const UserChartSummariesTable = pgTable("user_chart_summaries", {
-  id: serial("id").primaryKey(),
-  type: chartSummaryTypeEnum("type").notNull(),
-  summary: text("summary").notNull(),
-  chartId: integer("chart_id")
-    .notNull()
-    .references(() => UserChartTable.id),
-  expiresAt: timestamp("expires_at"),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
+export const UserChartSummariesTable = pgTable(
+  "user_chart_summaries",
+  {
+    id: serial("id").primaryKey(),
+    type: chartSummaryTypeEnum("type").notNull(),
+    summary: text("summary").notNull(),
+    chartId: integer("chart_id")
+      .notNull()
+      .references(() => UserChartTable.id),
+    expiresAt: timestamp("expires_at"),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow(),
+  },
+  (table) => [
+    unique("user_chart_summary_unique").on(table.chartId, table.type),
+  ],
+);
