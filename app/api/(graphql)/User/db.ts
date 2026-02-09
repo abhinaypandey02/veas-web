@@ -23,6 +23,7 @@ export const UserTable = pgTable("users", {
 export type UserDB = typeof UserTable.$inferSelect;
 export type UserRawChartDB = typeof UserRawChartTable.$inferSelect;
 export type UserChartDB = typeof UserChartTable.$inferSelect;
+export type UserChartSummariesDB = typeof UserChartSummariesTable.$inferSelect;
 
 export const UserRawChartTable = pgTable("user_raw_charts", {
   id: serial("id").primaryKey(),
@@ -38,7 +39,6 @@ export const UserChartTable = pgTable(
     dateOfBirth: timestamp("date_of_birth").notNull(),
     placeOfBirthLat: real("place_of_birth_lat").notNull(),
     placeOfBirthLong: real("place_of_birth_long").notNull(),
-    summary: text("summary"),
     rawChartId: integer("raw_chart_id")
       .notNull()
       .references(() => UserRawChartTable.id)

@@ -73,9 +73,9 @@ export default query(
           prompt: `D1 Planets: ${JSON.stringify(getD1Planets(chart))} \n\n D1 Houses: ${JSON.stringify(getD1Houses(chart))}`,
         });
         await db
-          .update(UserChartTable)
-          .set({ summary: summary.text })
-          .where(eq(UserChartTable.id, newChart.id));
+          .update(UserChartSummariesTable)
+          .set({ d1Summary: summary.text })
+          .where(eq(UserChartSummariesTable.id, summaries.id));
       })(),
     );
     return newChart.id;

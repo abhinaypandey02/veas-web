@@ -1,7 +1,11 @@
 import { getLocalTime } from "@/utils/location";
-import { UserChartDB, UserDB } from "../User/db";
+import { UserChartDB, UserChartSummariesDB, UserDB } from "../User/db";
 
-export const getChatSystemPrompt = (user: UserDB, userChart: UserChartDB) => {
+export const getChatSystemPrompt = (
+  user: UserDB,
+  userChart: UserChartDB,
+  userChartSummaries: UserChartSummariesDB,
+) => {
   if (!userChart.dateOfBirth || !user.timezoneOffset) return;
   const localDateOfBirth = getLocalTime(
     userChart.dateOfBirth,
@@ -233,7 +237,7 @@ You are in a therapy session with a user:
 • Place of birth is ${user.placeOfBirth}.
 • Summary of the user's planets and houses is:
 
-${userChart.summary}.
+${userChartSummaries.d1Summary}.
 `;
 };
 
