@@ -8,12 +8,9 @@ import {
   boolean,
 } from "drizzle-orm/pg-core";
 import { UserTable } from "../User/db";
+import { ChatRole } from "./enum";
 
-export enum ChatRole {
-  summary = "summary",
-  user = "user",
-  assistant = "assistant",
-}
+export { ChatRole };
 
 export const chatRolesEnum = pgEnum(
   "chat_role",

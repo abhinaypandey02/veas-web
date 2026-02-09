@@ -4,7 +4,7 @@ import { useToken } from "naystack/auth/email/client";
 import { useState, useRef, useEffect } from "react";
 import { QueryResponseType } from "naystack/graphql";
 import type getChats from "@/app/api/(graphql)/Chat/resolvers/get-chats";
-import { ChatRole } from "@/app/api/(graphql)/Chat/db";
+import { ChatRole } from "@/app/api/(graphql)/Chat/enum";
 import { Input } from "@/components/input";
 import { useForm } from "react-hook-form";
 import Form from "@/components/form";

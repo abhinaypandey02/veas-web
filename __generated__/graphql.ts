@@ -18,6 +18,14 @@ export type Scalars = {
   DateTimeISO: { input: any; output: any; }
 };
 
+export enum ChartSummaryType {
+  Antardasha = 'Antardasha',
+  Daily = 'Daily',
+  Mahadasha = 'Mahadasha',
+  Pratyantardasha = 'Pratyantardasha',
+  Weekly = 'Weekly'
+}
+
 export type Chat = {
   __typename?: 'Chat';
   createdAt: Scalars['Float']['output'];
@@ -30,6 +38,17 @@ export enum ChatRole {
   Summary = 'summary',
   User = 'user'
 }
+
+export type D1Planet = {
+  __typename?: 'D1Planet';
+  house: Scalars['Float']['output'];
+  name: Scalars['String']['output'];
+  sign: Scalars['String']['output'];
+};
+
+export type GetSummaryInput = {
+  type: ChartSummaryType;
+};
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -52,6 +71,13 @@ export type Query = {
   __typename?: 'Query';
   getChats: Array<Chat>;
   getCurrentUser?: Maybe<User>;
+  getPlanets: Array<D1Planet>;
+  getSummary?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type QueryGetSummaryArgs = {
+  input: GetSummaryInput;
 };
 
 export type User = {

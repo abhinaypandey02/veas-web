@@ -228,6 +228,14 @@ schema {
   mutation: Mutation
 }
 
+enum ChartSummaryType {
+  Antardasha
+  Daily
+  Mahadasha
+  Pratyantardasha
+  Weekly
+}
+
 type Chat {
   createdAt: Float!
   message: String!
@@ -240,10 +248,20 @@ enum ChatRole {
   user
 }
 
+type D1Planet {
+  house: Float!
+  name: String!
+  sign: String!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format.
 """
 scalar DateTimeISO
+
+input GetSummaryInput {
+  type: ChartSummaryType!
+}
 
 type Mutation {
   onboardUser(input: OnboardUserInput!): Float!
@@ -259,6 +277,8 @@ input OnboardUserInput {
 type Query {
   getChats: [Chat!]!
   getCurrentUser: User
+  getPlanets: [D1Planet!]!
+  getSummary(input: GetSummaryInput!): String
   __schema: __Schema!
   __type(name: String!): __Type
 }
