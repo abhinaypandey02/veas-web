@@ -57,9 +57,13 @@ export default query(
       .values({ ...input, rawChartId })
       .returning();
     const localDateOfBirth = getLocalTime(input.dateOfBirth, input.timezone);
-    waitUntil(generateD1Summary(chart, newChart.id));
-    waitUntil(generateTransitSummaries(chart, localDateOfBirth, newChart.id));
-    waitUntil(generateDashaSummaries(chart, localDateOfBirth, newChart.id));
+    waitUntil(
+      (async () => {
+        await generateD1Summary(chart, newChart.id);
+        await generateTransitSummaries(chart, localDateOfBirth, newChart.id);
+        await generateDashaSummaries(chart, localDateOfBirth, newChart.id);
+      })(),
+    );
     return newChart.id;
   },
   {
