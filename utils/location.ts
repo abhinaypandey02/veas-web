@@ -5,6 +5,13 @@ export async function searchLocation(query: string) {
 
   return response;
 }
+export async function searchTimezone(lat: number, lon: number) {
+  const response = await fetch(
+    `http://api.geonames.org/timezoneJSON?lat=${lat}&lng=${lon}&username=abhinayx`,
+  ).then((res) => res.json() as Promise<SearchTimezoneResponse>);
+
+  return response.gmtOffset;
+}
 
 export interface SearchPlaceResponse {
   lat: string;
@@ -14,4 +21,18 @@ export interface SearchPlaceResponse {
   name: string;
   display_name: string;
   addresstype: string;
+}
+
+export interface SearchTimezoneResponse {
+  gmtOffset: number;
+}
+
+export function getLocalTime(date: Date, timezoneOffset: number) {
+  const localDate = new Date(date);
+  localDate.setMinutes(
+    localDate.getMinutes() -
+      timezoneOffset * 60 -
+      new Date().getTimezoneOffset(),
+  );
+  return localDate;
 }

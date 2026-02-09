@@ -19,6 +19,7 @@ interface FormType {
 
 export interface OnboardData {
   chartId: number;
+  timezoneOffset: number;
   placeOfBirth: string;
 }
 
@@ -44,7 +45,6 @@ function SignUpDetailsForm({
         name: data.name,
         email: data.email,
         password: data.password,
-        timezoneOffset: -new Date().getTimezoneOffset() / 60,
         ...onboardingData,
       });
       router.replace("/dashboard");

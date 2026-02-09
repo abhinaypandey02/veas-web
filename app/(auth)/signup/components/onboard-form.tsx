@@ -3,7 +3,12 @@ import { useAuthMutation } from "naystack/graphql/client";
 import { ONBOARD_USER } from "@/constants/graphql/mutations";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/input";
-import { searchLocation, SearchPlaceResponse } from "@/utils/location";
+import {
+  searchLocation,
+  SearchPlaceResponse,
+  searchTimezone,
+  getLocalTime,
+} from "@/utils/location";
 import { useForm } from "react-hook-form";
 import Form from "@/components/form";
 import { Button } from "@/components/button";
@@ -23,14 +28,31 @@ export default function OnboardForm({
   const router = useRouter();
   const [onboardUser, { loading }] = useAuthMutation(ONBOARD_USER);
   const [places, setPlaces] = useState<SearchPlaceResponse[]>([]);
+  const [loadingTimezone, setLoadingTimezone] = useState(false);
+  const [timezone, setTimezone] = useState<number>();
   const form = useForm<FormType>();
   useEffect(() => {
     let timeout: NodeJS.Timeout;
     const sub = form.watch(({ place }) => {
       if (timeout) clearTimeout(timeout);
       if (!place || place.length <= 3) return;
-      if (places.some((p) => p.place_id === Number(place))) return;
+      console.log(place);
+      const selectedPlace = places.find((p) => p.place_id === Number(place));
+      if (selectedPlace) {
+        if (!timezone) {
+          setLoadingTimezone(true);
+          searchTimezone(
+            parseFloat(selectedPlace.lat),
+            parseFloat(selectedPlace.lon),
+          ).then((timezone) => {
+            setTimezone(timezone);
+            setLoadingTimezone(false);
+          });
+        }
+        return;
+      }
       timeout = setTimeout(() => {
+        setTimezone(undefined);
         searchLocation(place).then(setPlaces);
       }, 500);
     });
@@ -38,11 +60,11 @@ export default function OnboardForm({
       if (timeout) clearTimeout(timeout);
       sub.unsubscribe();
     };
-  }, [form, places]);
+  }, [form, places, timezone]);
 
   const handleSubmit = async (data: FormType) => {
     const selectedPlace = places.find((p) => p.place_id === Number(data.place));
-    if (!selectedPlace) {
+    if (!selectedPlace || !timezone) {
       form.setError("place", {
         message: "Please select a valid place",
       });
@@ -50,7 +72,7 @@ export default function OnboardForm({
     }
     try {
       const result = await onboardUser({
-        dateOfBirth: new Date(data.dob),
+        dateOfBirth: getLocalTime(new Date(data.dob), timezone),
         placeOfBirthLat: parseFloat(selectedPlace.lat),
         placeOfBirthLong: parseFloat(selectedPlace.lon),
       });
@@ -60,6 +82,7 @@ export default function OnboardForm({
           onSuccess({
             chartId: result.data.onboardUser,
             placeOfBirth: selectedPlace.display_name,
+            timezoneOffset: timezone,
           });
           return;
         }
@@ -78,13 +101,6 @@ export default function OnboardForm({
     <div className="">
       <Form form={form} onSubmit={handleSubmit} className="space-y-4 px-4">
         <Input
-          name="dob"
-          label="Date of Birth"
-          rules={{ required: true }}
-          placeholder="2000-01-01"
-          type="datetime-local"
-        />
-        <Input
           name="place"
           label="City of Birth"
           rules={{ required: true }}
@@ -95,7 +111,14 @@ export default function OnboardForm({
           }))}
         />
 
-        <Button className="w-full" loading={loading}>
+        <Input
+          name="dob"
+          label="Date of Birth"
+          rules={{ required: true }}
+          placeholder="2000-01-01"
+          type="datetime-local"
+        />
+        <Button className="w-full" loading={loading || loadingTimezone}>
           Next <ArrowRight className="ml-2" />
         </Button>
       </Form>

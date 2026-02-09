@@ -1,12 +1,11 @@
+import { getLocalTime } from "@/utils/location";
 import { UserChartDB, UserDB } from "../User/db";
 
 export const getChatSystemPrompt = (user: UserDB, userChart: UserChartDB) => {
   if (!userChart.dateOfBirth || !user.timezoneOffset) return;
-  const userDob = userChart.dateOfBirth;
-  userDob.setHours(
-    userDob.getHours() +
-      user.timezoneOffset +
-      new Date().getTimezoneOffset() / 60,
+  const localDateOfBirth = getLocalTime(
+    userChart.dateOfBirth,
+    user.timezoneOffset,
   );
   return `Current Time: ${new Date().toLocaleString()}
   
@@ -230,7 +229,7 @@ Never provide conclusions without cross-chart validation.
 You are in a therapy session with a user: 
 
 • Name is ${user.name}.
-• Date of birth is ${userDob.toLocaleString()}.
+• Date of birth is ${localDateOfBirth.toLocaleString()}.
 • Place of birth is ${user.placeOfBirth}.
 • Summary of the user's planets and houses is:
 
