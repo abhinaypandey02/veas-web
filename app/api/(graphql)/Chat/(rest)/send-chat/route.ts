@@ -28,7 +28,7 @@ export const POST = async (req: NextRequest) => {
     .innerJoin(UserChartTable, eq(UserTable.chartId, UserChartTable.id))
     .innerJoin(
       UserRawChartTable,
-      eq(UserTable.chartId, UserRawChartTable.chartId),
+      eq(UserChartTable.rawChartId, UserRawChartTable.id),
     );
 
   if (!data) return new NextResponse("User not found", { status: 404 });

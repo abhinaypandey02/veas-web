@@ -1,6 +1,10 @@
 import { gzipSync, gunzipSync } from "zlib";
 import { GetChartsResponse } from "../types";
-import { UserRawChartTable, UserTable } from "@/app/api/(graphql)/User/db";
+import {
+  UserChartTable,
+  UserRawChartTable,
+  UserTable,
+} from "@/app/api/(graphql)/User/db";
 import { eq } from "drizzle-orm";
 import { db } from "../../db";
 import { getCharts } from "./fetch";
@@ -40,9 +44,10 @@ export async function getRawChart(userId: number) {
     .select()
     .from(UserTable)
     .where(eq(UserTable.id, userId))
+    .innerJoin(UserChartTable, eq(UserTable.chartId, UserChartTable.id))
     .innerJoin(
       UserRawChartTable,
-      eq(UserTable.chartId, UserRawChartTable.chartId),
+      eq(UserChartTable.rawChartId, UserRawChartTable.id),
     );
 
   if (!chartRecord?.user_raw_charts?.rawChart) {
@@ -52,7 +57,7 @@ export async function getRawChart(userId: number) {
   return decompressChartData(chartRecord.user_raw_charts.rawChart);
 }
 
-export async function updateRawChart(chartId: number, input: OnboardUserInput) {
+export async function updateRawChart(input: OnboardUserInput) {
   // Fetch chart data
   const chartData = await getCharts({
     datetime: input.dateOfBirth,
@@ -64,12 +69,19 @@ export async function updateRawChart(chartId: number, input: OnboardUserInput) {
   const compressedBase64 = compressJSON(chartData);
 
   // Upsert raw chart (filtered and compressed as base64 text)
-  await db
+  const [rawChart] = await db
     .insert(UserRawChartTable)
     .values({
-      chartId,
       rawChart: compressedBase64,
     })
-    .onConflictDoNothing();
-  return chartData;
+    .onConflictDoNothing()
+    .returning({
+      id: UserRawChartTable.id,
+    });
+
+  if (!rawChart) {
+    throw new Error("Failed to insert raw chart");
+  }
+
+  return [rawChart.id, chartData] as const;
 }

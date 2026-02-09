@@ -42,14 +42,16 @@ export default query(
       return existingChart.id;
     }
 
-    const [newChart] = await db.insert(UserChartTable).values(input).returning({
-      id: UserChartTable.id,
-    });
-
-    const chart = await updateRawChart(newChart.id, input);
-    if (!chart) {
+    const [rawChartId, chart] = await updateRawChart(input);
+    if (!rawChartId) {
       throw new Error("Failed to update chart");
     }
+    const [newChart] = await db
+      .insert(UserChartTable)
+      .values({ ...input, rawChartId })
+      .returning({
+        id: UserChartTable.id,
+      });
 
     waitUntil(
       (async () => {
