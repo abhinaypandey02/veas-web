@@ -1,4 +1,4 @@
-import { and, inArray, lt, notInArray } from "drizzle-orm";
+import { and, gte, inArray, lt, notInArray } from "drizzle-orm";
 import { NextResponse } from "next/server";
 
 import {
@@ -12,6 +12,7 @@ import { db } from "@/app/api/lib/db";
 const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
 
 export const POST = async () => {
+  const startDate = new Date(Date.now() - 7 * ONE_DAY_IN_MS);
   const cutoffDate = new Date(Date.now() - ONE_DAY_IN_MS);
 
   const cleanupResult = await db.transaction(async (tx) => {
@@ -20,6 +21,7 @@ export const POST = async () => {
       .where(
         and(
           lt(UserChartTable.createdAt, cutoffDate),
+          gte(UserChartTable.createdAt, startDate),
           notInArray(
             UserChartTable.id,
             tx.select({ id: UserTable.chartId }).from(UserTable),
@@ -38,24 +40,14 @@ export const POST = async () => {
     const unusedRawCharts = rawChartIds.length
       ? await tx
           .delete(UserRawChartTable)
-          .where(
-            and(
-              lt(UserRawChartTable.createdAt, cutoffDate),
-              inArray(UserRawChartTable.id, rawChartIds),
-            ),
-          )
+          .where(inArray(UserRawChartTable.id, rawChartIds))
           .returning({ id: UserRawChartTable.id })
       : [];
 
     const unusedSummaries = summariesIds.length
       ? await tx
           .delete(UserChartSummariesTable)
-          .where(
-            and(
-              lt(UserChartSummariesTable.createdAt, cutoffDate),
-              inArray(UserChartSummariesTable.id, summariesIds),
-            ),
-          )
+          .where(inArray(UserChartSummariesTable.id, summariesIds))
           .returning({ id: UserChartSummariesTable.id })
       : [];
 
