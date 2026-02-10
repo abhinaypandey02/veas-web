@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuthQuery } from "naystack/graphql/client";
 import { GET_SUMMARY } from "@/constants/graphql/queries";
 import { ChartSummaryType } from "@/__generated__/graphql";
@@ -22,6 +22,11 @@ export default function SummaryCard({
   const [flipped, setFlipped] = useState(false);
   const [summary, setSummary] = useState<string | null>(null);
   const [getSummary, { loading }] = useAuthQuery(GET_SUMMARY);
+  const [cardHeight, setCardHeight] = useState<number | null>(null);
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const frontRef = useRef<HTMLDivElement | null>(null);
+  const backRef = useRef<HTMLDivElement | null>(null);
 
   const handleFetchSummary = async () => {
     if (loading) return;
@@ -36,14 +41,31 @@ export default function SummaryCard({
     setFlipped(false);
   };
 
+  useEffect(() => {
+    const target = flipped ? backRef.current : frontRef.current;
+    if (!target) return;
+
+    const nextHeight = target.offsetHeight;
+    if (!cardHeight || nextHeight !== cardHeight) {
+      setCardHeight(nextHeight);
+    }
+  }, [flipped, summary, cardHeight]);
+
   return (
-    <div className="[perspective:1000px]">
+    <div className="perspective-[1000px]">
       <div
-        className="relative w-full transition-transform duration-700 [transform-style:preserve-3d]"
-        style={{ transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)" }}
+        ref={containerRef}
+        className="relative w-full transition-transform duration-700 transform-3d"
+        style={{
+          transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+          height: cardHeight ? `${cardHeight}px` : undefined,
+        }}
       >
         {/* Front face */}
-        <div className="relative rounded-2xl bg-primary p-6 text-white [backface-visibility:hidden]">
+        <div
+          ref={frontRef}
+          className="relative rounded-2xl bg-primary p-6 text-white backface-hidden"
+        >
           <button
             onClick={handleFetchSummary}
             className="absolute top-5 right-5"
@@ -60,7 +82,10 @@ export default function SummaryCard({
         </div>
 
         {/* Back face */}
-        <div className="absolute inset-0 rounded-2xl bg-white border border-border p-6 text-primary [backface-visibility:hidden] [transform:rotateY(180deg)] overflow-auto">
+        <div
+          ref={backRef}
+          className="absolute inset-x-0 top-0 rounded-2xl bg-white p-6 text-primary shadow-lg backface-hidden transform-[rotateY(180deg)]"
+        >
           <button
             onClick={handleClose}
             className="absolute top-5 right-5"
