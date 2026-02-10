@@ -1,5 +1,7 @@
 import LogoutButton from "../dashboard/components/logout-button";
 import ProfileInfo from "./profile-info";
+import { Injector } from "naystack/graphql/server";
+import getPlanets from "@/app/api/(graphql)/User/resolvers/get-planets";
 
 export default function ProfilePage() {
   return (
@@ -14,7 +16,10 @@ export default function ProfilePage() {
           </div>
           <LogoutButton />
         </div>
-        <ProfileInfo />
+        <Injector
+          fetch={() => getPlanets.authCall()}
+          Component={ProfileInfo}
+        />
       </div>
     </main>
   );
