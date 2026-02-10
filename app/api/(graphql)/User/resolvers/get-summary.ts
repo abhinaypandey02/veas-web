@@ -39,8 +39,7 @@ export default query(
 
     const existingSummary = await getChartSummary(user.chartId, input.type);
 
-    const isExpired =
-      existingSummary?.to && existingSummary.to < new Date();
+    const isExpired = existingSummary?.to && existingSummary.to < new Date();
 
     if (existingSummary && !isExpired) {
       return existingSummary.summary;
