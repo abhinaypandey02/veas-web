@@ -28,7 +28,7 @@ export function ChatWindow({
   const form = useForm<{ message: string }>();
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const { message } = form.watch();
+  const message = form.watch("message");
   const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null);
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
