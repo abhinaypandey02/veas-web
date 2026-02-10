@@ -14,9 +14,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Learn more about it here: https://the-guild.dev/graphql/codegen/plugins/presets/preset-client#reducing-bundle-size
  */
 type Documents = {
+    "\n  #graphql\n  query GetSummary($input: GetSummaryInput!) {\n    getSummary(input: $input)\n  }\n": typeof types.GetSummaryDocument,
     "\n  #graphql\n  mutation OnboardUser($input: OnboardUserInput!) {\n    onboardUser(input: $input)\n  }\n": typeof types.OnboardUserDocument,
 };
 const documents: Documents = {
+    "\n  #graphql\n  query GetSummary($input: GetSummaryInput!) {\n    getSummary(input: $input)\n  }\n": types.GetSummaryDocument,
     "\n  #graphql\n  mutation OnboardUser($input: OnboardUserInput!) {\n    onboardUser(input: $input)\n  }\n": types.OnboardUserDocument,
 };
 
@@ -34,6 +36,10 @@ const documents: Documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  #graphql\n  query GetSummary($input: GetSummaryInput!) {\n    getSummary(input: $input)\n  }\n"): (typeof documents)["\n  #graphql\n  query GetSummary($input: GetSummaryInput!) {\n    getSummary(input: $input)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
