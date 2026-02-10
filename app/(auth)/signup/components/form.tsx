@@ -48,7 +48,6 @@ function SignUpDetailsForm({
         password: data.password,
         ...onboardingData,
       });
-      router.replace("/chat");
     } catch (error) {
       console.error(error);
       setMessage("Something went wrong. Please try again.");
@@ -112,7 +111,7 @@ export default function SignUpForm() {
   const router = useRouter();
   useEffect(() => {
     if (token) {
-      router.replace("/dashboard");
+      router.replace("/chat");
     }
   }, [token, router]);
 
