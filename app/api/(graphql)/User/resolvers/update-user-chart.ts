@@ -15,6 +15,12 @@ export class UpdateUserChartInput {
 
   @Field()
   long: number;
+
+  @Field({ nullable: true })
+  placeOfBirth?: string;
+
+  @Field({ nullable: true })
+  timezoneOffset?: number;
 }
 
 export default query(

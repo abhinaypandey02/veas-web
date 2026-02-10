@@ -87,15 +87,21 @@ export function Select({ options, rules, multiple, ...rest }: SelectProps) {
           className={cn(
             rest.className,
             "flex justify-between items-center",
-            values.length ? "" : "text-gray-400",
+            values.length || rest.defaultValue ? "" : "text-gray-400",
           )}
         >
           <span className="line-clamp-1 overflow-hidden">
             {values.length
               ? labels.join(", ")
-              : rest.placeholder || <span className="opacity-0">.</span>}
+              : rest.defaultValue ||
+                rest.placeholder || <span className="opacity-0">.</span>}
           </span>
-          <CaretDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <CaretDown
+            className={cn(
+              "ml-4 h-4 w-4 shrink-0 ",
+              rest.loading ? "opacity-0" : "opacity-50",
+            )}
+          />
         </button>
       </PopoverTrigger>
       <PopoverContent className="bg-white">
@@ -109,7 +115,13 @@ export function Select({ options, rules, multiple, ...rest }: SelectProps) {
             }}
           />
           <CommandList>
-            <CommandEmpty>No matches found.</CommandEmpty>
+            <CommandEmpty>
+              {rest.loading
+                ? "Loading results..."
+                : selected.length && options.length
+                  ? "No matches found."
+                  : "Start typing to search..."}
+            </CommandEmpty>
             <CommandGroup>
               <FixedSizeList
                 itemSize={32}

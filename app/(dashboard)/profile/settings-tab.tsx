@@ -68,8 +68,6 @@ function UserInfoSection({
     try {
       await updateUser({
         name: data.name,
-        email: data.email,
-        placeOfBirth: data.placeOfBirth,
         gender: data.gender || undefined,
       });
       setMessage("Saved!");
@@ -94,11 +92,7 @@ function UserInfoSection({
           rules={{ required: true }}
           type="email"
           placeholder="Your email"
-        />
-        <Input
-          name="placeOfBirth"
-          label="Place of Birth"
-          placeholder="City, Country"
+          disabled
         />
         <Input
           name="gender"
@@ -127,6 +121,7 @@ function ChartInfoSection({
   const [updateUser] = useAuthMutation(UPDATE_USER);
   const [places, setPlaces] = useState<SearchPlaceResponse[]>([]);
   const [loadingTimezone, setLoadingTimezone] = useState(false);
+  const [loadingResults, setLoadingResults] = useState(false);
   const [timezone, setTimezone] = useState<number | undefined>(
     user?.timezoneOffset ?? undefined,
   );
@@ -165,7 +160,9 @@ function ChartInfoSection({
     if (!isNaN(Number(place))) return;
 
     const timeout = setTimeout(() => {
+      setLoadingResults(true);
       searchLocation(place).then((results) => {
+        setLoadingResults(false);
         setPlaces(results);
         setTimezone(undefined);
         setSelectedPlace(undefined);
@@ -218,7 +215,9 @@ function ChartInfoSection({
         <Input
           name="place"
           label="City of Birth"
-          placeholder={user?.placeOfBirth || "Where were you born?"}
+          defaultValue={user?.placeOfBirth || ""}
+          loading={loadingResults}
+          placeholder={"Where were you born?"}
           options={places.map((p) => ({
             label: p.display_name,
             value: p.place_id,

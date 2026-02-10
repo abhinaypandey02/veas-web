@@ -7,7 +7,7 @@ export const getBaseClassName = (
   isDate: boolean,
 ) =>
   cn(
-    `m-px accent-primary block py-2.5 px-4  shadow-xs placeholder:text-gray-400 outline-0 text-base sm:leading-6`,
+    `m-px disabled:text-gray-500 accent-primary block py-2.5 px-4  shadow-xs placeholder:text-gray-400 outline-0 text-base sm:leading-6`,
     {
       "w-full ": !isCheckbox,
     },

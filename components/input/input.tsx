@@ -9,6 +9,7 @@ import { cn } from "@/components/utils";
 import { getBaseClassName, getInputErrorMessages } from "./constants";
 import type { InputProps } from "./types";
 import { Variants } from "../constants";
+import { CircleNotch } from "@phosphor-icons/react";
 function InputWrapper({
   label,
   error,
@@ -17,6 +18,7 @@ function InputWrapper({
   prefix,
   required,
   onSuffix,
+  loading = false,
 }: PropsWithChildren<{
   label?: string;
   error?: string;
@@ -24,6 +26,7 @@ function InputWrapper({
   onSuffix?: () => void;
   prefix?: string;
   required?: boolean;
+  loading?: boolean;
 }>) {
   return (
     <div className="w-full">
@@ -33,7 +36,12 @@ function InputWrapper({
           {required && <span className="text-red-600">{" *"}</span>}
         </label>
       ) : null}
-      <div className="flex items-stretch">
+      <div className="flex items-stretch relative">
+        {loading && (
+          <div className="absolute right-4 top-1/2 -translate-y-1/2">
+            <CircleNotch className="animate-spin text-gray-500" size={20} />
+          </div>
+        )}
         {prefix ? (
           <div className="flex items-center rounded-l-xl bg-accent px-5 font-medium text-white">
             {prefix}
@@ -55,6 +63,7 @@ function InputWrapper({
 }
 
 function Input({
+  loading = false,
   textarea = false,
   options,
   rules,
@@ -83,6 +92,7 @@ function Input({
   if (options)
     return (
       <InputWrapper
+        loading={loading}
         error={errorMessage}
         label={label}
         prefix={prefix}
@@ -91,6 +101,7 @@ function Input({
         required={!!rules?.required}
       >
         <Select
+          loading={loading}
           multiple={multiple}
           options={options}
           rules={rules}
@@ -102,6 +113,7 @@ function Input({
   if (textarea)
     return (
       <InputWrapper
+        loading={loading}
         error={errorMessage}
         label={label}
         prefix={prefix}
@@ -120,6 +132,7 @@ function Input({
     );
   return (
     <InputWrapper
+      loading={loading}
       error={errorMessage}
       label={label}
       prefix={prefix}

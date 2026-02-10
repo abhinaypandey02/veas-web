@@ -9,6 +9,7 @@ export interface SelectOption {
 }
 
 export type InputProps = {
+  loading?: boolean;
   textarea?: boolean;
   options?: SelectOption[];
   variant?: Variants;
@@ -23,6 +24,7 @@ export type InputProps = {
   ComponentProps<"input">;
 
 export type SelectProps = {
+  loading?: boolean;
   options: SelectOption[];
   name?: string;
   rules?: RegisterOptions;
