@@ -69,8 +69,8 @@ importers:
         specifier: ^1.3.17
         version: 1.3.17(react@19.2.1)
       naystack:
-        specifier: ^1.5.8
-        version: 1.5.8(@aws-sdk/credential-provider-web-identity@3.953.0)(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@types/react@19.2.7)(class-validator@0.14.3)(graphql-scalars@1.25.0(graphql@16.12.0))(graphql-ws@6.0.6(graphql@16.12.0)(ws@8.18.3))(graphql@16.12.0)(postgres@3.4.7)
+        specifier: ^1.5.9
+        version: 1.5.9(@aws-sdk/credential-provider-web-identity@3.953.0)(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@types/react@19.2.7)(class-validator@0.14.3)(graphql-scalars@1.25.0(graphql@16.12.0))(graphql-ws@6.0.6(graphql@16.12.0)(ws@8.18.3))(graphql@16.12.0)(postgres@3.4.7)
       next:
         specifier: 16.0.10
         version: 16.0.10(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
@@ -4628,8 +4628,8 @@ packages:
   natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  naystack@1.5.8:
-    resolution: {integrity: sha512-oeWfNTkK4DkPJSLRU2Gt+CvSpaptiiYYGbLyvIeQNes5Pzf3IVbRNcX458iqXOM54XxiuWLOMtfISWMhsLXdZw==}
+  naystack@1.5.9:
+    resolution: {integrity: sha512-/ivDh98LG8+2rcKKCIMTomuHkWdKG6QuM/oP6YLIqm6YVtubO6CLYcqsXTk5R+7dfgOLYV7ykCgpJrZKbFSU+w==}
 
   negotiator@0.6.3:
     resolution: {integrity: sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==}
@@ -10808,7 +10808,7 @@ snapshots:
 
   natural-compare@1.4.0: {}
 
-  naystack@1.5.8(@aws-sdk/credential-provider-web-identity@3.953.0)(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@types/react@19.2.7)(class-validator@0.14.3)(graphql-scalars@1.25.0(graphql@16.12.0))(graphql-ws@6.0.6(graphql@16.12.0)(ws@8.18.3))(graphql@16.12.0)(postgres@3.4.7):
+  naystack@1.5.9(@aws-sdk/credential-provider-web-identity@3.953.0)(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(@types/react@19.2.7)(class-validator@0.14.3)(graphql-scalars@1.25.0(graphql@16.12.0))(graphql-ws@6.0.6(graphql@16.12.0)(ws@8.18.3))(graphql@16.12.0)(postgres@3.4.7):
     dependencies:
       '@apollo/client': 3.13.6(@types/react@19.2.7)(graphql-ws@6.0.6(graphql@16.12.0)(ws@8.18.3))(graphql@16.12.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       '@apollo/client-integration-nextjs': 0.12.1(@apollo/client@3.13.6(@types/react@19.2.7)(graphql-ws@6.0.6(graphql@16.12.0)(ws@8.18.3))(graphql@16.12.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(@types/react@19.2.7)(graphql@16.12.0)(next@16.0.10(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
