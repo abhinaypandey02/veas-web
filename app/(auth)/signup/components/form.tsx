@@ -30,7 +30,6 @@ function SignUpDetailsForm({
   onboardingData: OnboardData;
 }) {
   const signUp = useSignUp();
-  const router = useRouter();
 
   const form = useForm<FormType>();
 
