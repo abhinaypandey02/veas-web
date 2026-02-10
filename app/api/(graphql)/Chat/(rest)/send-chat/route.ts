@@ -57,7 +57,7 @@ export const POST = async (req: NextRequest) => {
         encoder.encode(getEncodedMessage(message, ChatStreamRole.Tool)),
       );
     },
-    chats.length === 0,
+    false,
   );
 
   let stream;
