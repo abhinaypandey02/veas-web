@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest) => {
     )
     .orderBy(ChatTable.createdAt, ChatTable.id);
 
-  if (chats.length >= MAXIMUM_MESSAGES.BETA) {
+  if (chats.length >= MAXIMUM_MESSAGES.BETA * 2) {
     return new NextResponse(ERROR_MESSAGES.BETA, {
       status: 403,
     });
