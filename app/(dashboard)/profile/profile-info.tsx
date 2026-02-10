@@ -2,18 +2,7 @@
 
 import { QueryResponseType } from "naystack/graphql";
 import type getPlanets from "@/app/api/(graphql)/User/resolvers/get-planets";
-
-const PLANET_SYMBOLS: Record<string, string> = {
-  Sun: "\u2609",
-  Moon: "\u263D",
-  Mars: "\u2642",
-  Mercury: "\u263F",
-  Jupiter: "\u2643",
-  Venus: "\u2640",
-  Saturn: "\u2644",
-  Rahu: "\u260A",
-  Ketu: "\u260B",
-};
+import { getPlanetDisplayName, PLANET_SYMBOLS } from "@/utils/planet-display";
 
 interface HouseGroup {
   house: number;
@@ -78,7 +67,7 @@ export default function ProfileInfo({
                   <div className="grow border-r border-white/10 px-4 py-3">
                     <span className="text-base font-light">
                       {PLANET_SYMBOLS[planet.name] || ""}{" "}
-                      {planet.name.toUpperCase()}
+                      {getPlanetDisplayName(planet.name).toUpperCase()}
                     </span>
                   </div>
 
