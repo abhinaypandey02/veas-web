@@ -71,15 +71,12 @@ export default query(
       chartData.timezoneOffset,
     );
 
-    await generateChartSummaries(
+    return generateChartSummaries(
       user.chartId,
       input.type,
       chart,
       localDateOfBirth,
     );
-
-    const newSummary = await getChartSummary(user.chartId, input.type);
-    return newSummary?.summary || null;
   },
   {
     input: GetSummaryInput,
