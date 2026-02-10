@@ -12,6 +12,7 @@ import { cn } from "@/components/utils";
 import { renderRichText } from "../utils";
 import { useStreaming } from "./streaming";
 import { ERROR_MESSAGES } from "@/app/api/(graphql)/Chat/constants";
+import FeedbackModal from "@/components/feedback-modal";
 
 export function ChatWindow({
   data,
@@ -33,6 +34,7 @@ export function ChatWindow({
   const [toolMessage, setToolMessage] = useState<string>();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [firstTouch, setFirstTouch] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   useEffect(() => {
     const lastToolMessage = toolMessages[0];
@@ -53,7 +55,7 @@ export function ChatWindow({
 
   useEffect(() => {
     if (data && data.length === 0) {
-      // TODO: Open feedback modal
+      setFeedbackOpen(true);
     }
   }, [data]);
 
@@ -104,7 +106,7 @@ export function ChatWindow({
       },
       onError: (message) => {
         if (message === ERROR_MESSAGES.BETA) {
-          // TODO: Open feedback modal
+          setFeedbackOpen(true);
           return;
         }
         setErrorMessage(message);
@@ -118,6 +120,10 @@ export function ChatWindow({
 
   return (
     <div className="flex flex-col grow min-h-0">
+      <FeedbackModal
+        open={feedbackOpen}
+        close={() => setFeedbackOpen(false)}
+      />
       {/* Messages Area */}
       <div className="grow flex flex-col overflow-y-auto px-4 pt-6 space-y-4">
         {chats.length === 0 ? (
