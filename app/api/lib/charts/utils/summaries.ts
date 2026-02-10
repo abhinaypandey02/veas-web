@@ -192,7 +192,7 @@ export async function updateChartSummaries(
   chartId: number,
   summary: string,
   type: ChartSummaryType,
-  expiresAt?: Date,
+  to?: Date,
   from?: Date,
 ) {
   await db
@@ -201,14 +201,14 @@ export async function updateChartSummaries(
       chartId,
       summary,
       type,
-      expiresAt,
+      to,
       from,
     })
     .onConflictDoUpdate({
       target: [UserChartSummariesTable.chartId, UserChartSummariesTable.type],
       set: {
         summary,
-        expiresAt,
+        to,
         from,
         updatedAt: new Date(),
       },
