@@ -47,6 +47,8 @@ export default query(
         id: UserTable.id,
         name: UserTable.name,
         email: UserTable.email,
+        placeOfBirth: UserTable.placeOfBirth,
+        timezoneOffset: UserTable.timezoneOffset,
       });
 
     if (!updated) {
