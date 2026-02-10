@@ -1,5 +1,5 @@
-import { Field, ObjectType } from "type-graphql";
-import { Gender } from "./enum";
+import { Field, ObjectType, registerEnumType } from "type-graphql";
+import { ChartSummaryType, Gender } from "./enum";
 
 @ObjectType("User")
 export class User {
@@ -30,3 +30,11 @@ export class User {
   @Field(() => Gender, { nullable: true })
   gender?: Gender;
 }
+
+registerEnumType(ChartSummaryType, {
+  name: "ChartSummaryType",
+});
+
+registerEnumType(Gender, {
+  name: "Gender",
+});
