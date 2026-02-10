@@ -26,3 +26,9 @@ export const UPDATE_USER_CHART = gqlTag`
     updateUserChart(input: $input)
   }
 `;
+
+export const SUBMIT_FEEDBACK = gqlTag`
+  mutation SubmitFeedback($input: SubmitFeedbackInput!) {
+    submitFeedback(input: $input)
+  }
+`;
