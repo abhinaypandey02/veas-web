@@ -210,7 +210,7 @@ function ChartInfoSection({
         />
         <Input
           name="dob"
-          label="Date of Birth (UTC)"
+          label="Date of Birth"
           rules={{ required: true }}
           type="datetime-local"
         />
