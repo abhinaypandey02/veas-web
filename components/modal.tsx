@@ -27,7 +27,7 @@ export default function Modal({
 }>) {
   return (
     <Transition show={open}>
-      <Dialog className="relative z-10" onClose={close}>
+      <Dialog className="relative z-30" onClose={close}>
         <TransitionChild
           enter="ease-out duration-300"
           enterFrom="opacity-0"

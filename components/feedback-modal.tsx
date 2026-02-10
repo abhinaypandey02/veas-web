@@ -1,9 +1,11 @@
-"use client";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuthMutation } from "naystack/graphql/client";
-import { ChatCircleDots, PaperPlaneTilt } from "@phosphor-icons/react";
+import {
+  ChatCircleDots,
+  InstagramLogoIcon,
+  PaperPlaneTilt,
+} from "@phosphor-icons/react";
 
 import Modal from "@/components/modal";
 import { Button } from "@/components/button";
@@ -27,9 +29,11 @@ interface FeedbackFormValues {
 export default function FeedbackModal({
   open,
   close,
+  name,
 }: {
   open: boolean;
   close: () => void;
+  name: string;
 }) {
   const [showFeedback, setShowFeedback] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -62,27 +66,45 @@ export default function FeedbackModal({
     <Modal
       open={open}
       close={handleClose}
-      title="Thank You!"
+      title="We love you ❤️"
       panelClassName="sm:max-w-md"
     >
       <div className="mt-3 space-y-4">
         <p className="text-sm text-gray-600">
-          Thank you for testing our app during beta! We are currently in the
-          early stages and only allow <strong>5 messages</strong> for each user.
+          Dear {name.split(" ")[0]},
+          <br />
+          Thanks a lot for using our app! This means so much to us 🥳
+          <br />
+          We are currently in <b>beta</b> and improving our app. We need your
+          feedback to make this experience better!
         </p>
         <p className="text-sm text-gray-600">
-          Your patience and feedback mean a lot to us as we continue to improve.
+          Oh and also, we only allow <b>5 messages per user for now.</b> If you
+          need more, please let us know :D
         </p>
-
+        <p className="text-sm text-gray-600">
+          With love,
+          <br />
+          Abhinay & Kush
+        </p>
         {!showFeedback && !submitted && (
-          <button
-            type="button"
-            onClick={() => setShowFeedback(true)}
-            className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-          >
-            <ChatCircleDots size={18} weight="bold" />
-            Give Feedback
-          </button>
+          <div className="flex justify-between">
+            <button
+              type="button"
+              onClick={() => setShowFeedback(true)}
+              className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+            >
+              <ChatCircleDots size={18} />
+              Give Feedback
+            </button>
+            <a
+              href="https://www.instagram.com/veasapp/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <InstagramLogoIcon size={18} />
+            </a>
+          </div>
         )}
 
         {showFeedback && !submitted && (

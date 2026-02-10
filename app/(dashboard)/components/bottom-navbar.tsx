@@ -15,7 +15,7 @@ export function BottomNavbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="w-full fixed bottom-0 z-50 shadow-md bg-surface pb-[env(safe-area-inset-bottom)]">
+    <nav className="w-full fixed bottom-0 z-20 shadow-md bg-surface pb-[env(safe-area-inset-bottom)]">
       <div className="mx-auto flex max-w-sm items-center justify-around px-2 py-1">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive =

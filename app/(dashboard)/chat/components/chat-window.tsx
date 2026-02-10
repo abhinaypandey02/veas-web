@@ -13,13 +13,17 @@ import { renderRichText } from "../utils";
 import { useStreaming } from "./streaming";
 import { ERROR_MESSAGES } from "@/app/api/(graphql)/Chat/constants";
 import FeedbackModal from "@/components/feedback-modal";
+import getCurrentUser from "@/app/api/(graphql)/User/resolvers/get-current-user";
 
 export function ChatWindow({
   data,
 }: {
-  data?: QueryResponseType<typeof getChats>;
+  data?: {
+    user: QueryResponseType<typeof getCurrentUser>;
+    chats: QueryResponseType<typeof getChats>;
+  };
 }) {
-  const previousChats = data || [];
+  const previousChats = data?.chats || [];
   const [chats, setChats] = useState<
     {
       message: string;
@@ -54,7 +58,7 @@ export function ChatWindow({
   }, [chats]);
 
   useEffect(() => {
-    if (data && data.length === 0) {
+    if (data?.chats && data.chats.length === 0) {
       setFeedbackOpen(true);
     }
   }, [data]);
@@ -123,6 +127,7 @@ export function ChatWindow({
       <FeedbackModal
         open={feedbackOpen}
         close={() => setFeedbackOpen(false)}
+        name={data?.user?.name || ""}
       />
       {/* Messages Area */}
       <div className="grow flex flex-col overflow-y-auto px-4 pt-6 space-y-4">
