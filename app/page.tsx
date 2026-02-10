@@ -1130,7 +1130,7 @@ export default function Home() {
                   {/* Content */}
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
-                      Nakshatras
+                      Lunar Mansions
                     </span>
                     <h3 className="text-xl font-serif text-white mb-2">
                       Dive deeper than zodiac signs
@@ -1151,7 +1151,7 @@ export default function Home() {
                   {/* Background Image */}
                   <img
                     src="/section1image2.jpg"
-                    alt="Nakshatras"
+                    alt="Lunar Mansions"
                     className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />
                   {/* Overlay */}

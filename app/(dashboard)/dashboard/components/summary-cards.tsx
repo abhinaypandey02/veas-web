@@ -20,18 +20,18 @@ const SUMMARY_ITEMS: {
   },
   {
     type: ChartSummaryType.Mahadasha,
-    title: "Mahadasha Summary",
-    subtitle: "Know about your current mahadasha",
+    title: "Major Period Summary",
+    subtitle: "Understand your current major planetary period",
   },
   {
     type: ChartSummaryType.Antardasha,
-    title: "Antardasha Summary",
-    subtitle: "Know about your current antardasha",
+    title: "Sub-Period Summary",
+    subtitle: "See the focus of your current sub-period",
   },
   {
     type: ChartSummaryType.Pratyantardasha,
-    title: "Pratyantardasha Summary",
-    subtitle: "Know about your current pratyantardasha",
+    title: "Trigger Period Summary",
+    subtitle: "Zoom into your current short activation window",
   },
 ];
 

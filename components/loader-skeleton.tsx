@@ -21,11 +21,7 @@ export default function LoaderSkeleton({
       {...props}
       className={cn("flex flex-col items-center mt-20", props.className)}
     >
-      {Icon && !loading ? (
-        <Icon size={32} />
-      ) : (
-        <Loader width={32} height={32} />
-      )}
+      {Icon && !loading ? <Icon size={32} /> : <Loader size={32} />}
       <div className="mt-2 block text-lg font-medium ">{title}</div>
       {subtitle && (
         <span className="mt-1.5 block text-sm font-medium text-gray-600">

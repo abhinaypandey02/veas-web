@@ -15,8 +15,8 @@ importers:
         specifier: ^2.0.33
         version: 2.0.33(zod@4.2.1)
       '@flasd/whatsapp-formatting':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.1.4
+        version: 0.1.4
       '@graphql-typed-document-node/core':
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.12.0)
@@ -1125,8 +1125,8 @@ packages:
   '@fastify/busboy@3.2.0':
     resolution: {integrity: sha512-m9FVDXU3GT2ITSe0UaMA5rU3QkfC/UXtCU8y0gSN/GugTqtVldOBWIB5V6V3sbmenVZUIpU6f+mPEO2+m5iTaA==}
 
-  '@flasd/whatsapp-formatting@0.2.0':
-    resolution: {integrity: sha512-1m1HZM7XKOdVJTeilfkzeywoV7LbIp9K4YhrLGaWo4POyEdgd8lRpfYbCpemoRbpj/KE4CucV7gYOfv+TPYvqQ==}
+  '@flasd/whatsapp-formatting@0.1.4':
+    resolution: {integrity: sha512-7kJMYpaU8FiR4age0vABy6djWJ+oLD8c+vylxdUWMZhO9tBUEk/1p4OVurdkMq+l8v+6gXJDoQLRY9nnOnukXg==}
 
   '@floating-ui/core@1.7.3':
     resolution: {integrity: sha512-sGnvb5dmrJaKEZ+LDIpguvdX3bDlEllmv4/ClQ9awcmCZrlx5jQyyMWFM5kBI+EyNOCDDiKk8il0zeuX3Zlg/w==}
@@ -6932,7 +6932,7 @@ snapshots:
 
   '@fastify/busboy@3.2.0': {}
 
-  '@flasd/whatsapp-formatting@0.2.0': {}
+  '@flasd/whatsapp-formatting@0.1.4': {}
 
   '@floating-ui/core@1.7.3':
     dependencies:
