@@ -22,12 +22,14 @@ const SIGNS = [
   "Pisces",
 ];
 
-function getAscendant(planets: { name: string; sign: string; house: number }[]) {
+function getAscendant(
+  planets: { name: string; sign: string; house: number }[],
+) {
   if (planets.length === 0) return null;
   const planet = planets[0];
   const signIndex = SIGNS.indexOf(planet.sign);
   if (signIndex === -1) return null;
-  const ascendantIndex = ((signIndex - (planet.house - 1)) % 12 + 12) % 12;
+  const ascendantIndex = (((signIndex - (planet.house - 1)) % 12) + 12) % 12;
   return SIGNS[ascendantIndex];
 }
 
@@ -62,19 +64,15 @@ export default function ProfileClient({
         <div className="mx-auto max-w-7xl">
           <h1 className="text-3xl font-editorial">{userData?.name || "You"}</h1>
           {userData?.email && (
-            <p className="mt-0.5 text-sm text-white/50">@{userData.email.split("@")[0]}</p>
+            <p className="mt-0.5 text-sm text-white/50">
+              @{userData.email.split("@")[0]}
+            </p>
           )}
           {(sunPlanet || moonPlanet || ascendant) && (
             <p className="mt-2 text-sm text-white/70 flex items-center gap-3 flex-wrap">
-              {sunPlanet && (
-                <span>&#9737; {sunPlanet.sign}</span>
-              )}
-              {moonPlanet && (
-                <span>&#9789; {moonPlanet.sign}</span>
-              )}
-              {ascendant && (
-                <span>&uarr; {ascendant}</span>
-              )}
+              {sunPlanet && <span>&#9737; {sunPlanet.sign}</span>}
+              {moonPlanet && <span>&#9789; {moonPlanet.sign}</span>}
+              {ascendant && <span>&uarr; {ascendant}</span>}
             </p>
           )}
 

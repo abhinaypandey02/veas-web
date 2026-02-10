@@ -51,6 +51,7 @@ export function Select({ options, rules, multiple, ...rest }: SelectProps) {
   useEffect(() => {
     if (!rest.name) return;
     const value = formContext?.getValues(rest.name);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- form value sync is required for controlled display state
     updateValue(value);
     const sub = formContext?.watch((values, { name }) => {
       if (!rest.name || name !== rest.name) return;
