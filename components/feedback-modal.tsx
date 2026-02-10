@@ -75,12 +75,13 @@ export default function FeedbackModal({
           <br />
           Thanks a lot for using our app! This means so much to us 🥳
           <br />
-          We are currently in <b className="font-medium">beta</b> and improving
-          our app. We need your feedback to make this experience better!
+          We are currently in <b className="font-semibold">beta</b> and
+          improving our app. We need your feedback to make this experience
+          better!
         </p>
         <p className="text-sm text-gray-600">
           Oh and also, we only allow{" "}
-          <b className="font-medium">5 messages per user for now.</b> If you
+          <b className="font-semibold">5 messages per user</b> for now. If you
           need more, please let us know :D
         </p>
         <p className="text-sm text-gray-600">
