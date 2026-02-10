@@ -7,7 +7,7 @@ import {
   getD1Planets,
   getPratyantardashas,
 } from "./tools";
-import { GROQ_MODEL } from "@/app/api/lib/ai";
+import { LLM_MODEL } from "@/app/api/lib/ai";
 import { db } from "@/app/api/lib/db";
 import {
   UserChartSummariesTable,
@@ -43,7 +43,7 @@ export async function generateD1Summary(
   chartId: number,
 ) {
   const summary = await generateText({
-    model: GROQ_MODEL,
+    model: LLM_MODEL,
     system: INITIAL_SUMMARIZE_SYSTEM_PROMPT,
     prompt: `D1 Planets: ${JSON.stringify(getD1Planets(chart))} \n\n D1 Houses: ${JSON.stringify(getD1Houses(chart))}`,
   });
@@ -100,7 +100,7 @@ export async function generateTransitSummaries(
   };
 
   const { object } = await generateObject({
-    model: GROQ_MODEL,
+    model: LLM_MODEL,
     schema: WeeklyDailySummarySchema,
     system: getTransitSummarySystemPrompt(dob),
     prompt: JSON.stringify(payload),
@@ -149,7 +149,7 @@ export async function generateDashaSummaries(
   };
 
   const { object } = await generateObject({
-    model: GROQ_MODEL,
+    model: LLM_MODEL,
     schema: DashaSummariesSchema,
     system: getDashaSummarySystemPrompt(dob),
     prompt: JSON.stringify(payload),

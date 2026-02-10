@@ -1,6 +1,6 @@
 import { generateText, ToolLoopAgent } from "ai";
 import { CHAT_SUMMARIZE_SYSTEM_PROMPT } from "./prompts";
-import { GROQ_MODEL } from "../../lib/ai";
+import { LLM_MODEL } from "../../lib/ai";
 import { ChatDB, ChatRole, ChatTable } from "./db";
 import { and, eq, lte, ne } from "drizzle-orm";
 import { db } from "../../lib/db";
@@ -15,7 +15,7 @@ export const getAstrologerAssistant = (
   chartData: GetChartsResponse,
 ) =>
   new ToolLoopAgent({
-    model: GROQ_MODEL as unknown as string,
+    model: LLM_MODEL,
     tools: getTools(chartData),
     instructions: getChatSystemPrompt(user, userChart),
   });
@@ -44,7 +44,7 @@ export async function processChat(
   if (previousMessages.length < MAXIMUM_MESSAGES + MESSAGE_THRESHOLD) return;
   const messagesToSummarize = previousMessages.slice(0, -MAXIMUM_MESSAGES + 3);
   const summary = await generateText({
-    model: GROQ_MODEL,
+    model: LLM_MODEL,
     system: CHAT_SUMMARIZE_SYSTEM_PROMPT,
     prompt: JSON.stringify(messagesToSummarize, null, 2),
   });
