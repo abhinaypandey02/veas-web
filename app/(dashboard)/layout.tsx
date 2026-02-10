@@ -12,10 +12,7 @@ export default async function layout({
   return (
     <div className="flex pb-16 flex-col min-h-svh">
       {children}
-      <Injector
-        fetch={() => getCurrentUser.authCall()}
-        Component={AuthChecker}
-      />
+      <Injector fetch={getCurrentUser.authCall} Component={AuthChecker} />
       <div className="h-(--vv-bottom-inset)" />
       <BottomNavbar />
     </div>
