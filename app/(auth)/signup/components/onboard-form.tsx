@@ -14,10 +14,17 @@ import Form from "@/components/form";
 import { Button } from "@/components/button";
 import { OnboardData } from "./form";
 import { ArrowRight } from "@phosphor-icons/react";
+import { Gender } from "@/app/api/(graphql)/User/enum";
+
+const GENDER_OPTIONS = Object.values(Gender).map((g) => ({
+  label: g,
+  value: g,
+}));
 
 interface FormType {
   dob: string;
   place: string;
+  gender: string;
 }
 
 export default function OnboardForm({
@@ -85,6 +92,7 @@ export default function OnboardForm({
             chartId: result.data.onboardUser,
             placeOfBirth: selectedPlace.display_name,
             timezoneOffset: timezone,
+            gender: data.gender,
           });
           return;
         }
@@ -119,6 +127,13 @@ export default function OnboardForm({
           rules={{ required: true }}
           placeholder="2000-01-01"
           type="datetime-local"
+        />
+        <Input
+          name="gender"
+          label="Gender"
+          rules={{ required: true }}
+          placeholder="Select your gender"
+          options={GENDER_OPTIONS}
         />
         <Button className="w-full" loading={loading || loadingTimezone}>
           Next <ArrowRight className="ml-2" />

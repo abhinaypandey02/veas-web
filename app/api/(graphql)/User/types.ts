@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
+import { Gender } from "./enum";
 
 @ObjectType("User")
 export class User {
@@ -25,4 +26,7 @@ export class User {
 
   @Field({ nullable: true })
   placeOfBirthLong?: number;
+
+  @Field(() => Gender, { nullable: true })
+  gender?: Gender;
 }

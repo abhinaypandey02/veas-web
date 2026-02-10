@@ -16,6 +16,7 @@ export const GET_CURRENT_USER = gqlTag`
       name
       placeOfBirth
       timezoneOffset
+      gender
       dateOfBirth
       placeOfBirthLat
       placeOfBirthLong

@@ -11,3 +11,13 @@ export enum ChartSummaryType {
 registerEnumType(ChartSummaryType, {
   name: "ChartSummaryType",
 });
+
+export enum Gender {
+  Male = "Male",
+  Female = "Female",
+  NonBinary = "NonBinary",
+}
+
+registerEnumType(Gender, {
+  name: "Gender",
+});

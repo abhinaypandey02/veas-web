@@ -18,11 +18,18 @@ import {
 } from "@/utils/location";
 import type { QueryResponseType } from "naystack/graphql";
 import type getCurrentUser from "@/app/api/(graphql)/User/resolvers/get-current-user";
+import { Gender } from "@/app/api/(graphql)/User/enum";
+
+const GENDER_OPTIONS = Object.values(Gender).map((g) => ({
+  label: g,
+  value: g,
+}));
 
 interface UserInfoForm {
   name: string;
   email: string;
   placeOfBirth: string;
+  gender: string;
 }
 
 interface ChartInfoForm {
@@ -52,6 +59,7 @@ function UserInfoSection({
       name: user?.name || "",
       email: user?.email || "",
       placeOfBirth: user?.placeOfBirth || "",
+      gender: user?.gender || "",
     },
   });
 
@@ -62,6 +70,7 @@ function UserInfoSection({
         name: data.name,
         email: data.email,
         placeOfBirth: data.placeOfBirth,
+        gender: data.gender || undefined,
       });
       setMessage("Saved!");
     } catch (error) {
@@ -90,6 +99,12 @@ function UserInfoSection({
           name="placeOfBirth"
           label="Place of Birth"
           placeholder="City, Country"
+        />
+        <Input
+          name="gender"
+          label="Gender"
+          placeholder="Select your gender"
+          options={GENDER_OPTIONS}
         />
         <div className="flex items-center gap-3">
           <Button loading={loading} compact>

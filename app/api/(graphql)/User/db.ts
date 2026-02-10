@@ -8,7 +8,12 @@ import {
   unique,
   pgEnum,
 } from "drizzle-orm/pg-core";
-import { ChartSummaryType } from "./enum";
+import { ChartSummaryType, Gender } from "./enum";
+
+export const genderEnum = pgEnum(
+  "gender",
+  Object.values(Gender) as [Gender, ...Gender[]],
+);
 
 export const UserTable = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -20,6 +25,7 @@ export const UserTable = pgTable("users", {
     .references(() => UserChartTable.id),
   placeOfBirth: text("place_of_birth").notNull(),
   timezoneOffset: real("timezone_offset").notNull(),
+  gender: genderEnum("gender"),
 });
 
 export type UserDB = typeof UserTable.$inferSelect;

@@ -31,7 +31,7 @@ export function getUserContext(userChart: UserChartDB, user: UserDB) {
   );
 
   return `• User's Name is ${user.name}.
-• User's Date of birth is ${localDateOfBirth.toUTCString()}.
+${user.gender ? `• User's Gender is ${user.gender}.\n` : ""}• User's Date of birth is ${localDateOfBirth.toUTCString()}.
 • User's Place of birth is ${user.placeOfBirth}.
 • User's Current Time: ${new Date().toLocaleString()}`;
 }
