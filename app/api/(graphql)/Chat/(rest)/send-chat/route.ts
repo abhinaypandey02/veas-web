@@ -8,6 +8,7 @@ import { getContext } from "naystack/auth";
 import { UserChartTable, UserRawChartTable, UserTable } from "../../../User/db";
 import { decompressChartData } from "@/app/api/lib/charts/utils/compress";
 import { ChatStreamRole } from "../../enum";
+import { ERROR_MESSAGES, MAXIMUM_MESSAGES } from "../../constants";
 
 export const POST = async (req: NextRequest) => {
   const ctx = await getContext(req);
@@ -21,6 +22,12 @@ export const POST = async (req: NextRequest) => {
       and(eq(ChatTable.isSummarized, false), eq(ChatTable.userId, ctx.userId)),
     )
     .orderBy(ChatTable.createdAt, ChatTable.id);
+
+  if (chats.length >= MAXIMUM_MESSAGES.BETA) {
+    return new NextResponse(ERROR_MESSAGES.BETA, {
+      status: 403,
+    });
+  }
 
   const [data] = await db
     .select()

@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useToken } from "naystack/auth/email/client";
 import { ChatStreamRole } from "@/app/api/(graphql)/Chat/enum";
+import { ERROR_MESSAGES } from "@/app/api/(graphql)/Chat/constants";
 
 export function useStreaming(url: string) {
   const token = useToken();
@@ -71,7 +72,9 @@ export function useStreaming(url: string) {
           }
         })
         .catch((error) => {
-          console.error("Request error:", error);
+          if (error.message === ERROR_MESSAGES.BETA) {
+            return onError(ERROR_MESSAGES.BETA);
+          }
           return onError(
             "Sorry, something went wrong while generating a response. Please try again.",
           );

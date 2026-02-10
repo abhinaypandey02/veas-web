@@ -5,7 +5,6 @@ export enum ChatRole {
 }
 
 export enum ChatStreamRole {
-  Thinking,
   Tool,
   Response,
   Error,

@@ -11,6 +11,7 @@ import { ArrowRightIcon } from "@phosphor-icons/react";
 import { cn } from "@/components/utils";
 import { renderRichText } from "../utils";
 import { useStreaming } from "./streaming";
+import { ERROR_MESSAGES } from "@/app/api/(graphql)/Chat/constants";
 
 export function ChatWindow({
   data,
@@ -49,6 +50,12 @@ export function ChatWindow({
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chats]);
+
+  useEffect(() => {
+    if (data && data.length === 0) {
+      // TODO: Open feedback modal
+    }
+  }, [data]);
 
   // Focus input when loading becomes false
   useEffect(() => {
@@ -96,6 +103,10 @@ export function ChatWindow({
         );
       },
       onError: (message) => {
+        if (message === ERROR_MESSAGES.BETA) {
+          // TODO: Open feedback modal
+          return;
+        }
         setErrorMessage(message);
       },
       onComplete: () => {
