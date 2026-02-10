@@ -21,6 +21,7 @@ export interface OnboardData {
   chartId: number;
   timezoneOffset: number;
   placeOfBirth: string;
+  gender: string;
 }
 
 function SignUpDetailsForm({

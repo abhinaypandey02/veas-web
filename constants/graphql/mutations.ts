@@ -16,6 +16,7 @@ export const UPDATE_USER = gqlTag`
       email
       placeOfBirth
       timezoneOffset
+      gender
     }
   }
 `;

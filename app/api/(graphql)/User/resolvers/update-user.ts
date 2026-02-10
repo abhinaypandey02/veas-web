@@ -4,6 +4,7 @@ import { db } from "@/app/api/lib/db";
 import { UserTable } from "@/app/api/(graphql)/User/db";
 import { eq } from "drizzle-orm";
 import { User } from "../types";
+import { Gender } from "../enum";
 
 @InputType("UpdateUserInput")
 export class UpdateUserInput {
@@ -18,6 +19,9 @@ export class UpdateUserInput {
 
   @Field({ nullable: true })
   timezoneOffset?: number;
+
+  @Field(() => Gender, { nullable: true })
+  gender?: Gender;
 }
 
 export default query(
@@ -34,6 +38,7 @@ export default query(
       updates.placeOfBirth = input.placeOfBirth;
     if (input.timezoneOffset !== undefined)
       updates.timezoneOffset = input.timezoneOffset;
+    if (input.gender !== undefined) updates.gender = input.gender;
 
     if (Object.keys(updates).length === 0) {
       throw new Error("No fields to update");
@@ -49,6 +54,7 @@ export default query(
         email: UserTable.email,
         placeOfBirth: UserTable.placeOfBirth,
         timezoneOffset: UserTable.timezoneOffset,
+        gender: UserTable.gender,
       });
 
     if (!updated) {

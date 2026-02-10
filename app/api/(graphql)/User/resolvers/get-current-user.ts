@@ -15,6 +15,7 @@ export default query(
         name: UserTable.name,
         placeOfBirth: UserTable.placeOfBirth,
         timezoneOffset: UserTable.timezoneOffset,
+        gender: UserTable.gender,
         dateOfBirth: UserChartTable.dateOfBirth,
         placeOfBirthLat: UserChartTable.placeOfBirthLat,
         placeOfBirthLong: UserChartTable.placeOfBirthLong,
