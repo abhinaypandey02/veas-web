@@ -31,33 +31,39 @@ export function getD1Houses(chart: GetChartsResponse) {
 
 export function getTools(
   chart: GetChartsResponse,
-  ...rest: Parameters<typeof tool> | []
+  onToolCall: (message: string) => void,
+  rest?: Partial<Parameters<typeof tool>[0]>,
 ) {
   const tools = [
     {
       name: "getD1Planets",
+      callMessage: "Fetching your primary chart...",
       description: "Get the planets in the D1 chart",
       execute: async () => getD1Planets(chart),
     },
     {
       name: "getD1Shadbala",
+      callMessage: "Fetching your personality numbers...",
       description: "Get the shadbala of the planets in the D1 chart",
       execute: async () =>
         chart.d1_chart?.planets.map((planet) => planet.shadbala) || [],
     },
     {
       name: "getD1Aspects",
+      callMessage: "Fetching your personality aspects...",
       description: "Get the aspects of the planets in the D1 chart",
       execute: async () =>
         chart.d1_chart?.planets.map((planet) => planet.aspects) || [],
     },
     {
       name: "getD1Houses",
+      callMessage: "Fetching your houses...",
       description: "Get the houses of the planets in the D1 chart",
       execute: async () => getD1Houses(chart),
     },
     {
       name: "getDivisionalCharts",
+      callMessage: "Fetching advanced charts to get more details...",
       description: "Get the divisional charts of the chart",
       inputSchema: z.object({
         chartType: z.enum(Object.keys(chart.divisional_charts)),
@@ -68,21 +74,25 @@ export function getTools(
 
     {
       name: "getAshtakavarga",
+      callMessage: "Fetching your ashtakavarga...",
       description: "Get the ashtakavarga",
       execute: async () => chart.ashtakavarga,
     },
     {
       name: "getPanchanga",
+      callMessage: "Fetching your panchanga...",
       description: "Get the panchanga",
       execute: async () => chart.panchanga,
     },
     {
       name: "getAyanamsa",
+      callMessage: "Fetching your ayanamsa...",
       description: "Get the ayanamsa",
       execute: async () => chart.ayanamsa,
     },
     {
       name: "getMahadashas",
+      callMessage: "Fetching your mahadashas...",
       description: "Get the Mahadashas",
       execute: async () =>
         Object.entries(chart.dashas.all?.mahadashas || {}).map(
@@ -95,6 +105,7 @@ export function getTools(
     },
     {
       name: "getAntardashas",
+      callMessage: "Fetching your antardashas...",
       description: "Get the Antardashas",
       inputSchema: z.object({
         from: z.iso.date(),
@@ -105,6 +116,7 @@ export function getTools(
     },
     {
       name: "getPratyantardashas",
+      callMessage: "Fetching your pratyantardashas...",
       description: "Get the Pratyantardashas",
       inputSchema: z.object({
         from: z.iso.date(),
@@ -115,6 +127,7 @@ export function getTools(
     },
     {
       name: "getTransits",
+      callMessage: "Fetching your transits...",
       description:
         "Get the transits for daily/weekly horoscopes. From and to can be same for single day. Maxmimum range is 30 days.",
       inputSchema: z.object({
@@ -131,8 +144,8 @@ export function getTools(
       [_tool.name]: tool({
         // @ts-expect-error - zod object is not a flexible schema
         inputSchema: z.object({}),
-        onInputAvailable({ input }) {
-          console.log("Input started", _tool.name, input);
+        onInputAvailable: ({ input }) => {
+          onToolCall(_tool.callMessage);
         },
         ...rest,
         ..._tool,

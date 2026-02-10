@@ -10,6 +10,8 @@ import { useForm } from "react-hook-form";
 import Form from "@/components/form";
 import { ArrowRightIcon } from "@phosphor-icons/react";
 import { cn } from "@/components/utils";
+import { renderRichText } from "../utils";
+
 export function ChatWindow({
   data,
 }: {
@@ -168,14 +170,21 @@ export function ChatWindow({
                           ? "font-serif text-s3m"
                           : "text-white text-sm3",
                       )}
+                      dangerouslySetInnerHTML={
+                        message
+                          ? {
+                              __html: renderRichText(message),
+                            }
+                          : undefined
+                      }
                     >
-                      {message || (
+                      {!message ? (
                         <span className="inline-flex items-center gap-1">
                           <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse" />
                           <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse delay-75" />
                           <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse delay-150" />
                         </span>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                 </div>

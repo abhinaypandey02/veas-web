@@ -17,6 +17,7 @@
   "dependencies": {
     "@ai-sdk/google": "^3.0.1",
     "@ai-sdk/groq": "^2.0.33",
+    "@flasd/whatsapp-formatting": "^0.2.0",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@headlessui/react": "^2.2.9",
     "@phosphor-icons/react": "^2.1.10",

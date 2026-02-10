@@ -13,11 +13,19 @@ export const getAstrologerAssistant = (
   user: UserDB,
   userChart: UserChartDB,
   chartData: GetChartsResponse,
+  onToolCall: (message: string) => void,
 ) =>
   new ToolLoopAgent({
     model: LLM_MODEL,
-    tools: getTools(chartData),
+    tools: getTools(chartData, onToolCall),
     instructions: getChatSystemPrompt(user, userChart),
+    providerOptions: {
+      google: {
+        thinkingConfig: {
+          thinkingLevel: "medium",
+        },
+      },
+    },
   });
 
 const MAXIMUM_MESSAGES = 15;

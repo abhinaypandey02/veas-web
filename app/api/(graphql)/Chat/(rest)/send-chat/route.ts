@@ -37,7 +37,17 @@ export const POST = async (req: NextRequest) => {
   if (!chartData)
     return new NextResponse("Chart data not found", { status: 404 });
 
-  const astrologer = getAstrologerAssistant(user, user_charts, chartData);
+  let _controller: ReadableStreamDefaultController<Uint8Array>;
+  const encoder = new TextEncoder();
+
+  const astrologer = getAstrologerAssistant(
+    user,
+    user_charts,
+    chartData,
+    (message) => {
+      _controller.enqueue(encoder.encode(`_${message}_\n\n`));
+    },
+  );
 
   let stream;
   try {
@@ -64,10 +74,10 @@ export const POST = async (req: NextRequest) => {
   }
 
   let response = "";
-  const encoder = new TextEncoder();
 
   const transformedStream = new ReadableStream({
     async start(controller) {
+      _controller = controller;
       const reader = stream.textStream.getReader();
 
       try {
