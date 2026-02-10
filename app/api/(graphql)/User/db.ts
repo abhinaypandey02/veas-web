@@ -25,7 +25,7 @@ export const UserTable = pgTable("users", {
     .references(() => UserChartTable.id),
   placeOfBirth: text("place_of_birth").notNull(),
   timezoneOffset: real("timezone_offset").notNull(),
-  gender: genderEnum("gender"),
+  gender: genderEnum("gender").notNull().default(Gender.Male),
 });
 
 export type UserDB = typeof UserTable.$inferSelect;
