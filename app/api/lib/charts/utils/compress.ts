@@ -4,7 +4,11 @@ import { UserRawChartTable, UserTable } from "@/app/api/(graphql)/User/db";
 import { eq } from "drizzle-orm";
 import { db } from "../../db";
 import { getCharts } from "./fetch";
-import { OnboardUserInput } from "@/app/api/(graphql)/User/resolvers/onboard-user";
+interface RawChartInput {
+  dateOfBirth: Date;
+  placeOfBirthLat: number;
+  placeOfBirthLong: number;
+}
 
 /**
  * Compresses JSON data using GZIP and returns as base64 string
@@ -52,7 +56,7 @@ export async function getRawChart(userId: number) {
   return decompressChartData(chartRecord.user_raw_charts.rawChart);
 }
 
-export async function updateRawChart(chartId: number, input: OnboardUserInput) {
+export async function updateRawChart(chartId: number, input: RawChartInput) {
   // Fetch chart data
   const chartData = await getCharts({
     datetime: input.dateOfBirth,
