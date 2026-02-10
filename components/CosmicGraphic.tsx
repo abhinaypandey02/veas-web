@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // Generate particles only on client side to avoid hydration mismatch
 const generateParticles = () =>
@@ -16,13 +16,9 @@ const generateParticles = () =>
   }));
 
 export const CosmicGraphic = () => {
-  const [particles, setParticles] = useState<
-    ReturnType<typeof generateParticles>
-  >([]);
-
-  useEffect(() => {
-    setParticles(generateParticles());
-  }, []);
+  const [particles] = useState<ReturnType<typeof generateParticles>>(() =>
+    generateParticles(),
+  );
 
   return (
     <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">

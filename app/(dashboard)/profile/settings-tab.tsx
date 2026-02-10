@@ -14,7 +14,6 @@ import {
   SearchPlaceResponse,
   searchTimezone,
   getUTCDate,
-  getLocalTime,
 } from "@/utils/location";
 import type { QueryResponseType } from "naystack/graphql";
 import type getCurrentUser from "@/app/api/(graphql)/User/resolvers/get-current-user";
@@ -30,12 +29,12 @@ interface ChartInfoForm {
   place: string;
 }
 
-function toDatetimeLocal(date: Date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  const h = String(date.getHours()).padStart(2, "0");
-  const min = String(date.getMinutes()).padStart(2, "0");
+function toDatetimeUTC(date: Date) {
+  const y = date.getUTCFullYear();
+  const m = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(date.getUTCDate()).padStart(2, "0");
+  const h = String(date.getUTCHours()).padStart(2, "0");
+  const min = String(date.getUTCMinutes()).padStart(2, "0");
   return `${y}-${m}-${d}T${h}:${min}`;
 }
 
@@ -95,9 +94,7 @@ function UserInfoSection({
           <Button loading={loading} compact>
             Save
           </Button>
-          {message && (
-            <span className="text-sm text-faded">{message}</span>
-          )}
+          {message && <span className="text-sm text-faded">{message}</span>}
         </div>
       </Form>
     </div>
@@ -120,10 +117,9 @@ function ChartInfoSection({
   const [selectedPlace, setSelectedPlace] = useState<SearchPlaceResponse>();
   const [message, setMessage] = useState<string | null>(null);
 
-  const defaultDob =
-    user?.dateOfBirth && user?.timezoneOffset != null
-      ? toDatetimeLocal(getLocalTime(new Date(user.dateOfBirth), user.timezoneOffset))
-      : "";
+  const defaultDob = user?.dateOfBirth
+    ? toDatetimeUTC(new Date(user.dateOfBirth))
+    : "";
 
   const form = useForm<ChartInfoForm>({
     defaultValues: {
@@ -214,7 +210,7 @@ function ChartInfoSection({
         />
         <Input
           name="dob"
-          label="Date of Birth"
+          label="Date of Birth (UTC)"
           rules={{ required: true }}
           type="datetime-local"
         />
@@ -222,9 +218,7 @@ function ChartInfoSection({
           <Button loading={chartLoading || loadingTimezone} compact>
             Update Chart
           </Button>
-          {message && (
-            <span className="text-sm text-faded">{message}</span>
-          )}
+          {message && <span className="text-sm text-faded">{message}</span>}
         </div>
       </Form>
     </div>
