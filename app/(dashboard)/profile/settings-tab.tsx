@@ -161,12 +161,15 @@ function ChartInfoSection({
 
     const timeout = setTimeout(() => {
       setLoadingResults(true);
-      searchLocation(place).then((results) => {
-        setLoadingResults(false);
-        setPlaces(results);
-        setTimezone(undefined);
-        setSelectedPlace(undefined);
-      });
+      searchLocation(place)
+        .then((results) => {
+          setPlaces(results);
+          setTimezone(undefined);
+          setSelectedPlace(undefined);
+        })
+        .finally(() => {
+          setLoadingResults(false);
+        });
     }, 500);
     return () => clearTimeout(timeout);
   }, [place]);

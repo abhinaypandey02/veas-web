@@ -35,6 +35,7 @@ export default function OnboardForm({
   const router = useRouter();
   const [onboardUser, { loading }] = useAuthMutation(ONBOARD_USER);
   const [places, setPlaces] = useState<SearchPlaceResponse[]>([]);
+  const [loadingPlaces, setLoadingPlaces] = useState(false);
   const [loadingTimezone, setLoadingTimezone] = useState(false);
   const [timezone, setTimezone] = useState<number>();
   const form = useForm<FormType>();
@@ -60,10 +61,15 @@ export default function OnboardForm({
     if (!isNaN(Number(place))) return;
 
     const timeout = setTimeout(() => {
-      searchLocation(place).then((places) => {
-        setPlaces(places);
-        setTimezone(undefined);
-      });
+      setLoadingPlaces(true);
+      searchLocation(place)
+        .then((places) => {
+          setPlaces(places);
+          setTimezone(undefined);
+        })
+        .finally(() => {
+          setLoadingPlaces(false);
+        });
     }, 500);
     return () => {
       if (timeout) clearTimeout(timeout);
@@ -111,6 +117,7 @@ export default function OnboardForm({
     <div className="">
       <Form form={form} onSubmit={handleSubmit} className="space-y-4 px-4">
         <Input
+          loading={loadingPlaces}
           name="place"
           label="City of Birth"
           rules={{ required: true }}
