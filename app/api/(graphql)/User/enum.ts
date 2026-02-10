@@ -15,7 +15,7 @@ registerEnumType(ChartSummaryType, {
 export enum Gender {
   Male = "Male",
   Female = "Female",
-  NonBinary = "Non-binary",
+  NonBinary = "NonBinary",
 }
 
 registerEnumType(Gender, {
