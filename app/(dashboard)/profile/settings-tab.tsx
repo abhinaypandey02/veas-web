@@ -14,6 +14,7 @@ import {
   SearchPlaceResponse,
   searchTimezone,
   getUTCDate,
+  getLocalTime,
 } from "@/utils/location";
 import type { QueryResponseType } from "naystack/graphql";
 import type getCurrentUser from "@/app/api/(graphql)/User/resolvers/get-current-user";
@@ -118,7 +119,7 @@ function ChartInfoSection({
   const [message, setMessage] = useState<string | null>(null);
 
   const defaultDob = user?.dateOfBirth
-    ? toDatetimeUTC(new Date(user.dateOfBirth))
+    ? toDatetimeUTC(getLocalTime(user.dateOfBirth, user.timezoneOffset))
     : "";
 
   const form = useForm<ChartInfoForm>({
