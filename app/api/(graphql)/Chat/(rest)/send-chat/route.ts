@@ -7,6 +7,7 @@ import { waitUntil } from "@vercel/functions";
 import { getContext } from "naystack/auth";
 import { UserChartTable, UserRawChartTable, UserTable } from "../../../User/db";
 import { decompressChartData } from "@/app/api/lib/charts/utils/compress";
+import { ChatStreamRole } from "../../enum";
 
 export const POST = async (req: NextRequest) => {
   const ctx = await getContext(req);
@@ -45,8 +46,11 @@ export const POST = async (req: NextRequest) => {
     user_charts,
     chartData,
     (message) => {
-      _controller.enqueue(encoder.encode(`_${message}_\n\n`));
+      _controller.enqueue(
+        encoder.encode(getEncodedMessage(message, ChatStreamRole.Tool)),
+      );
     },
+    chats.length === 0,
   );
 
   let stream;
@@ -89,8 +93,9 @@ export const POST = async (req: NextRequest) => {
               waitUntil(processChat(ctx.userId, chats, message, response));
             else {
               controller.enqueue(
-                encoder.encode(
+                getEncodedMessage(
                   "I am not able to process your message. Please try again.",
+                  ChatStreamRole.Error,
                 ),
               );
             }
@@ -102,7 +107,7 @@ export const POST = async (req: NextRequest) => {
           response += value;
 
           // Forward the chunk to the client
-          controller.enqueue(encoder.encode(value));
+          controller.enqueue(encoder.encode(getEncodedMessage(value)));
         }
       } catch (error) {
         console.error("Stream error:", error);
@@ -110,7 +115,9 @@ export const POST = async (req: NextRequest) => {
         // send a final friendly message and close the stream cleanly.
         const errorMessage =
           "Sorry, something went wrong while generating a response. Please try again.";
-        controller.enqueue(encoder.encode(errorMessage));
+        controller.enqueue(
+          encoder.encode(getEncodedMessage(errorMessage, ChatStreamRole.Error)),
+        );
         controller.close();
       } finally {
         reader.releaseLock();
@@ -124,3 +131,12 @@ export const POST = async (req: NextRequest) => {
     },
   });
 };
+
+function getEncodedMessage(message: string | undefined, type?: ChatStreamRole) {
+  return (
+    JSON.stringify({
+      message,
+      type: type || ChatStreamRole.Response,
+    }) + "\n"
+  );
+}

@@ -1,6 +1,5 @@
 "use client";
 
-import { useToken } from "naystack/auth/email/client";
 import { useState, useRef, useEffect } from "react";
 import { QueryResponseType } from "naystack/graphql";
 import type getChats from "@/app/api/(graphql)/Chat/resolvers/get-chats";
@@ -11,6 +10,7 @@ import Form from "@/components/form";
 import { ArrowRightIcon } from "@phosphor-icons/react";
 import { cn } from "@/components/utils";
 import { renderRichText } from "../utils";
+import { useStreaming } from "./streaming";
 
 export function ChatWindow({
   data,
@@ -18,7 +18,6 @@ export function ChatWindow({
   data?: QueryResponseType<typeof getChats>;
 }) {
   const previousChats = data || [];
-  const token = useToken();
   const [chats, setChats] = useState<
     {
       message: string;
@@ -29,7 +28,23 @@ export function ChatWindow({
   const form = useForm<{ message: string }>();
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [toolMessages, setToolMessages] = useState<string[]>([]);
+  const [toolMessage, setToolMessage] = useState<string>();
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [firstTouch, setFirstTouch] = useState(false);
+
+  useEffect(() => {
+    const lastToolMessage = toolMessages[0];
+    setToolMessage(lastToolMessage);
+    const timeout = setTimeout(() => {
+      if (toolMessages.length <= 1) return;
+      setToolMessages((prev) => prev.slice(1));
+    }, 2000);
+    return () => clearTimeout(timeout);
+  }, [toolMessages]);
+
   const message = form.watch("message");
+  const stream = useStreaming("/api/Chat/send-chat");
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -64,71 +79,30 @@ export function ChatWindow({
         role: ChatRole.assistant,
       },
     ]);
-
-    fetch("/api/Chat/send-chat", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
+    stream(userMessage, {
+      onTool: (message) => {
+        setToolMessages((prev) => [...prev, message]);
       },
-      body: userMessage,
-    })
-      .then(async (res) => {
-        if (!res.body) {
-          throw new Error("No response body");
-        }
-
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let accumulatedText = "";
-
-        try {
-          while (true) {
-            const { done, value } = await reader.read();
-
-            if (done) {
-              break;
-            }
-
-            // Decode the chunk and accumulate
-            const chunk = decoder.decode(value, { stream: true });
-            accumulatedText += chunk;
-
-            // Update the assistant message incrementally
-            setChats((prev) =>
-              prev.map((chat) =>
-                chat.createdAt === assistantMessageId
-                  ? { ...chat, message: accumulatedText }
-                  : chat,
-              ),
-            );
-          }
-        } catch (error) {
-          console.error("Stream error:", error);
-          // Update the message with error state if needed
-          setChats((prev) =>
-            prev.map((chat) =>
-              chat.createdAt === assistantMessageId
-                ? { ...chat, message: accumulatedText + "\n[Error occurred]" }
-                : chat,
-            ),
-          );
-        } finally {
-          reader.releaseLock();
-        }
-      })
-      .catch((error) => {
-        console.error("Request error:", error);
+      onResponse: (message) => {
+        setFirstTouch(true);
+        setToolMessages([]);
+        setErrorMessage(undefined);
         setChats((prev) =>
           prev.map((chat) =>
             chat.createdAt === assistantMessageId
-              ? { ...chat, message: "[Error: Failed to send message]" }
+              ? { ...chat, message: chat.message + message }
               : chat,
           ),
         );
-      })
-      .finally(() => {
+      },
+      onError: (message) => {
+        setErrorMessage(message);
+      },
+      onComplete: () => {
+        setFirstTouch(false);
         setIsLoading(false);
-      });
+      },
+    });
   };
 
   return (
@@ -191,8 +165,16 @@ export function ChatWindow({
               )),
           )
         )}
+
         <div ref={messagesEndRef} />
       </div>
+      {errorMessage && (
+        <div className="flex justify-start text-red-600 items-center gap-1 px-4">
+          <div className="font-serif text-sm  ">
+            {renderRichText(errorMessage)}
+          </div>
+        </div>
+      )}
 
       <Form form={form} onSubmit={handleSendMessage} className="p-4">
         <div className="flex items-end gap-2 max-w-4xl mx-auto relative">
@@ -202,7 +184,15 @@ export function ChatWindow({
               disabled={isLoading}
               autoFocus
               name="message"
-              placeholder={isLoading ? "thinking..." : "Type your message..."}
+              placeholder={
+                isLoading
+                  ? toolMessage
+                    ? `👀 ${toolMessage}`
+                    : firstTouch
+                      ? "🧐 analysing..."
+                      : "thinking..."
+                  : "type your message..."
+              }
               rows={1}
               className="ring-primary bg-gray-50"
             />

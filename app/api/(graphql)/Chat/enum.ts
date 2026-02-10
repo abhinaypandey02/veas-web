@@ -3,3 +3,10 @@ export enum ChatRole {
   user = "user",
   assistant = "assistant",
 }
+
+export enum ChatStreamRole {
+  Thinking,
+  Tool,
+  Response,
+  Error,
+}

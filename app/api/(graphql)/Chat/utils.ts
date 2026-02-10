@@ -1,6 +1,6 @@
 import { generateText, ToolLoopAgent } from "ai";
 import { CHAT_SUMMARIZE_SYSTEM_PROMPT } from "./prompts";
-import { LLM_MODEL } from "../../lib/ai";
+import { LLM_MODEL, LLM_MODEL_LITE } from "../../lib/ai";
 import { ChatDB, ChatRole, ChatTable } from "./db";
 import { and, eq, lte, ne } from "drizzle-orm";
 import { db } from "../../lib/db";
@@ -14,18 +14,21 @@ export const getAstrologerAssistant = (
   userChart: UserChartDB,
   chartData: GetChartsResponse,
   onToolCall: (message: string) => void,
+  isFirstChat: boolean,
 ) =>
   new ToolLoopAgent({
-    model: LLM_MODEL,
+    model: isFirstChat ? LLM_MODEL_LITE : LLM_MODEL,
     tools: getTools(chartData, onToolCall),
     instructions: getChatSystemPrompt(user, userChart),
-    providerOptions: {
-      google: {
-        thinkingConfig: {
-          thinkingLevel: "medium",
-        },
-      },
-    },
+    providerOptions: !isFirstChat
+      ? {
+          google: {
+            thinkingConfig: {
+              thinkingLevel: "medium",
+            },
+          },
+        }
+      : undefined,
   });
 
 const MAXIMUM_MESSAGES = 15;

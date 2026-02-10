@@ -1,6 +1,7 @@
 import { format, whatsappRules } from "@flasd/whatsapp-formatting";
+
 export function renderRichText(text: string) {
-  return format(text, [
+  return format(text.replace(/\*\s+\*/g, "- *"), [
     {
       wildcard: "*",
       openTag: '<span class="font-semibold">',

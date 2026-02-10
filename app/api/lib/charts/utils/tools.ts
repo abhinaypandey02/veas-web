@@ -37,33 +37,33 @@ export function getTools(
   const tools = [
     {
       name: "getD1Planets",
-      callMessage: "Fetching your primary chart...",
+      callMessage: "looking at your core birth chart",
       description: "Get the planets in the D1 chart",
       execute: async () => getD1Planets(chart),
     },
     {
       name: "getD1Shadbala",
-      callMessage: "Fetching your personality numbers...",
+      callMessage: "checking your planetary strength levels",
       description: "Get the shadbala of the planets in the D1 chart",
       execute: async () =>
         chart.d1_chart?.planets.map((planet) => planet.shadbala) || [],
     },
     {
       name: "getD1Aspects",
-      callMessage: "Fetching your personality aspects...",
+      callMessage: "analyzing how your planets interact",
       description: "Get the aspects of the planets in the D1 chart",
       execute: async () =>
         chart.d1_chart?.planets.map((planet) => planet.aspects) || [],
     },
     {
       name: "getD1Houses",
-      callMessage: "Fetching your houses...",
+      callMessage: "reviewing your life areas and placements",
       description: "Get the houses of the planets in the D1 chart",
       execute: async () => getD1Houses(chart),
     },
     {
       name: "getDivisionalCharts",
-      callMessage: "Fetching advanced charts to get more details...",
+      callMessage: "digging into deeper layers of your chart",
       description: "Get the divisional charts of the chart",
       inputSchema: z.object({
         chartType: z.enum(Object.keys(chart.divisional_charts)),
@@ -74,25 +74,25 @@ export function getTools(
 
     {
       name: "getAshtakavarga",
-      callMessage: "Fetching your ashtakavarga...",
+      callMessage: "calculating your planetary support scores",
       description: "Get the ashtakavarga",
       execute: async () => chart.ashtakavarga,
     },
     {
       name: "getPanchanga",
-      callMessage: "Fetching your panchanga...",
+      callMessage: "checking your birth day influences",
       description: "Get the panchanga",
       execute: async () => chart.panchanga,
     },
     {
       name: "getAyanamsa",
-      callMessage: "Fetching your ayanamsa...",
+      callMessage: "adjusting your chart to the sidereal system",
       description: "Get the ayanamsa",
       execute: async () => chart.ayanamsa,
     },
     {
       name: "getMahadashas",
-      callMessage: "Fetching your mahadashas...",
+      callMessage: "reviewing your major life cycles",
       description: "Get the Mahadashas",
       execute: async () =>
         Object.entries(chart.dashas.all?.mahadashas || {}).map(
@@ -105,7 +105,7 @@ export function getTools(
     },
     {
       name: "getAntardashas",
-      callMessage: "Fetching your antardashas...",
+      callMessage: "looking at your sub-cycle influences",
       description: "Get the Antardashas",
       inputSchema: z.object({
         from: z.iso.date(),
@@ -116,7 +116,7 @@ export function getTools(
     },
     {
       name: "getPratyantardashas",
-      callMessage: "Fetching your pratyantardashas...",
+      callMessage: "zooming into short-term timing influences...",
       description: "Get the Pratyantardashas",
       inputSchema: z.object({
         from: z.iso.date(),
@@ -127,7 +127,7 @@ export function getTools(
     },
     {
       name: "getTransits",
-      callMessage: "Fetching your transits...",
+      callMessage: "checking current planetary movements...",
       description:
         "Get the transits for daily/weekly horoscopes. From and to can be same for single day. Maxmimum range is 30 days.",
       inputSchema: z.object({
