@@ -71,6 +71,7 @@ export const UserChartSummariesTable = pgTable(
     chartId: integer("chart_id")
       .notNull()
       .references(() => UserChartTable.id),
+    from: timestamp("from"),
     expiresAt: timestamp("expires_at"),
     createdAt: timestamp("created_at").defaultNow(),
     updatedAt: timestamp("updated_at").defaultNow(),

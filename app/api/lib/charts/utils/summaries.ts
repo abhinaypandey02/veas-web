@@ -111,6 +111,7 @@ export async function generateTransitSummaries(
       object.dailySummary,
       ChartSummaryType.Daily,
       new Date(today.getTime() + 24 * 60 * 60 * 1000),
+      today,
     ),
   );
   waitUntil(
@@ -119,6 +120,7 @@ export async function generateTransitSummaries(
       object.weeklySummary,
       ChartSummaryType.Weekly,
       new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000),
+      today,
     ),
   );
 
@@ -161,6 +163,7 @@ export async function generateDashaSummaries(
       object.mahadashaSummary,
       ChartSummaryType.Mahadasha,
       mahadasha ? new Date(mahadasha?.end) : undefined,
+      mahadasha ? new Date(mahadasha?.start) : undefined,
     ),
   );
   waitUntil(
@@ -169,6 +172,7 @@ export async function generateDashaSummaries(
       object.antardashaSummary,
       ChartSummaryType.Antardasha,
       antardasha ? new Date(antardasha?.end) : undefined,
+      antardasha ? new Date(antardasha?.start) : undefined,
     ),
   );
   waitUntil(
@@ -177,6 +181,7 @@ export async function generateDashaSummaries(
       object.pratyantardashaSummary,
       ChartSummaryType.Pratyantardasha,
       pratyantardasha ? new Date(pratyantardasha?.end) : undefined,
+      pratyantardasha ? new Date(pratyantardasha?.start) : undefined,
     ),
   );
 
@@ -188,6 +193,7 @@ export async function updateChartSummaries(
   summary: string,
   type: ChartSummaryType,
   expiresAt?: Date,
+  from?: Date,
 ) {
   await db
     .insert(UserChartSummariesTable)
@@ -196,12 +202,14 @@ export async function updateChartSummaries(
       summary,
       type,
       expiresAt,
+      from,
     })
     .onConflictDoUpdate({
       target: [UserChartSummariesTable.chartId, UserChartSummariesTable.type],
       set: {
         summary,
         expiresAt,
+        from,
         updatedAt: new Date(),
       },
     });
