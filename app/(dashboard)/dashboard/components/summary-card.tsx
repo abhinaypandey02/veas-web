@@ -6,6 +6,7 @@ import { GET_SUMMARY } from "@/constants/graphql/queries";
 import { ChartSummaryType } from "@/__generated__/graphql";
 import { ArrowRight, X } from "@phosphor-icons/react";
 import Loader from "@/components/loader";
+import { renderRichText } from "../../chat/utils";
 
 interface SummaryCardProps {
   title: string;
@@ -49,7 +50,7 @@ export default function SummaryCard({
             aria-label="Get summary"
           >
             {loading ? (
-              <Loader width={20} height={20} className="text-white" />
+              <Loader size={20} className="text-white" />
             ) : (
               <ArrowRight size={20} weight="bold" />
             )}
@@ -67,7 +68,12 @@ export default function SummaryCard({
           >
             <X size={20} weight="bold" />
           </button>
-          <p className="text-sm leading-relaxed pr-6">{summary}</p>
+          {summary && (
+            <p
+              dangerouslySetInnerHTML={{ __html: renderRichText(summary) }}
+              className="text-sm leading-relaxed pr-6"
+            />
+          )}
         </div>
       </div>
     </div>

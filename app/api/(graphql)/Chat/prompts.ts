@@ -329,7 +329,10 @@ You must return content that fits exactly into this Zod schema:
 
 - **Daily summary**: focus on the next 24 hours within the given transit_range.
 - **Weekly summary**: focus on the full start–end window of transit_range.
-- Each summary must be **under 250 words**, conversational, and easy to read.
+- Each summary must be **under 150 words**, non-conversational, and easy to read.
+- Don't start with "Hello" or "Hi" or "Hey" or anything like that. Just start with the summary.
+- Don't end with "Thank you" or "Bye" or "Goodbye" or anything like that. Just end with the summary.
+- Don't continue the summary from daily to weekly. Ex- dont do "Now let's move on to the weekly summary...". Just start with fresh weekly summary.
 `;
 };
 
@@ -398,8 +401,12 @@ You must return content that fits exactly into this Zod schema:
   "pratyantardashaSummary": string
 }
 
-- Each summary should be **short, under 250 words**.
+
+- Each summary must be **under 150 words**, non-conversational, and easy to read.
+- Don't start with "Hello" or "Hi" or "Hey" or anything like that. Just start with the summary.
+- Don't end with "Thank you" or "Bye" or "Goodbye" or anything like that. Just end with the summary.
+- Don't continue the summary from one summary to another. Ex- dont do "Now let's move on to the antardasha summary...". Just start with fresh next summary.
 - Focus on what the user is likely to **feel, experience, and work on** during each dasha level.
-- Make it conversational and easy to read, as if talking directly to the user.
+
 `;
 };
