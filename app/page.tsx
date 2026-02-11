@@ -1,9 +1,13 @@
 "use client";
 
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import LandingNavbar from "./_components/landing-navbar";
 import HeroInputInterface from "./_components/hero-input-interface";
 import LandingSidebar from "./_components/landing-sidebar";
 import SmoothScroll from "./_components/smooth-scroll";
@@ -402,19 +406,21 @@ function PricingSection() {
           >
             <button
               onClick={() => setBillingPeriod("monthly")}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${billingPeriod === "monthly"
-                ? "bg-foreground text-white"
-                : "text-muted hover:text-foreground"
-                }`}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                billingPeriod === "monthly"
+                  ? "bg-foreground text-white"
+                  : "text-muted hover:text-foreground"
+              }`}
             >
               Monthly
             </button>
             <button
               onClick={() => setBillingPeriod("yearly")}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${billingPeriod === "yearly"
-                ? "bg-foreground text-white"
-                : "text-muted hover:text-foreground"
-                }`}
+              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                billingPeriod === "yearly"
+                  ? "bg-foreground text-white"
+                  : "text-muted hover:text-foreground"
+              }`}
             >
               Yearly
             </button>
@@ -435,10 +441,11 @@ function PricingSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 * i }}
               viewport={{ once: true }}
-              className={`relative p-8 rounded-2xl ${plan.isPopular
-                ? "bg-gradient-to-br from-cosmic-lavender/20 to-cosmic-purple/10 border-2 border-cosmic-purple/30"
-                : "bg-white border border-foreground/10"
-                }`}
+              className={`relative p-8 rounded-2xl ${
+                plan.isPopular
+                  ? "bg-gradient-to-br from-cosmic-lavender/20 to-cosmic-purple/10 border-2 border-cosmic-purple/30"
+                  : "bg-white border border-foreground/10"
+              }`}
             >
               {/* Popular Badge */}
               {plan.isPopular && (
@@ -477,10 +484,11 @@ function PricingSection() {
 
               {/* CTA Button */}
               <button
-                className={`w-full h-12 rounded-full font-medium text-sm uppercase tracking-wide transition-colors mb-8 ${plan.isPopular
-                  ? "bg-foreground text-white hover:bg-cosmic-cobalt"
-                  : "border border-foreground/20 text-foreground hover:bg-foreground/5"
-                  }`}
+                className={`w-full h-12 rounded-full font-medium text-sm uppercase tracking-wide transition-colors mb-8 ${
+                  plan.isPopular
+                    ? "bg-foreground text-white hover:bg-cosmic-cobalt"
+                    : "border border-foreground/20 text-foreground hover:bg-foreground/5"
+                }`}
               >
                 Get Started
               </button>
@@ -676,10 +684,11 @@ function TestimonialsSection() {
               <button
                 key={i}
                 onClick={() => setCurrentIndex(i)}
-                className={`w-2 h-2 rounded-full transition-all ${i === currentIndex
-                  ? "bg-foreground w-6"
-                  : "bg-foreground/30 hover:bg-foreground/50"
-                  }`}
+                className={`w-2 h-2 rounded-full transition-all ${
+                  i === currentIndex
+                    ? "bg-foreground w-6"
+                    : "bg-foreground/30 hover:bg-foreground/50"
+                }`}
               />
             ))}
           </div>
@@ -716,7 +725,7 @@ const faqs = [
   {
     question: "What makes Veas different?",
     answer:
-      "We align your chart with the real sky using NASA JPL ephemeris data, a precise ayanamsa, and 5,000 years of Jyotish wisdom — translated into clear, grounded language.",
+      "We align your chart with the real sky using NASA JPL ephemeris data, a precise ayanamsa, and 5,000 years of astrology wisdom — translated into clear, grounded language.",
   },
 ];
 
@@ -929,8 +938,6 @@ When your inner world becomes peaceful, your relationships will begin to reflect
     }, 2000);
   };
 
-
-
   return (
     <>
       <AnimatePresence>
@@ -964,7 +971,9 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                     style={{ backgroundImage: "url('/askmveas.jpeg')" }}
                   >
                     {/* Dark Overlay */}
-                    <div className={`absolute inset-0 bg-black/20 transition-opacity duration-700 ${hasStartedChat ? "bg-black/60" : ""}`} />
+                    <div
+                      className={`absolute inset-0 bg-black/20 transition-opacity duration-700 ${hasStartedChat ? "bg-black/60" : ""}`}
+                    />
 
                     {/* Top Bar / Header Strip - Only visible when chat started */}
                     <AnimatePresence>
@@ -977,13 +986,28 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                         >
                           <div className="flex items-center gap-4">
                             <div className="bg-white/10 p-2 rounded-full">
-                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-cosmic-lavender">
-                                <path d="M12 2C6.48 2 2 4.5 2 7.5C2 9.2 3.6 10.7 6.1 11.6C5.4 12.3 5 13.3 5 14.5C5 17.5 8.1 20 12 20C15.9 20 19 17.5 19 14.5C19 13.3 18.6 12.3 17.9 11.6C20.4 10.7 22 9.2 22 7.5C22 4.5 17.5 2 12 2ZM12 18C9.2 18 7 16.4 7 14.5C7 12.6 9.2 11 12 11C14.8 11 17 12.6 17 14.5C17 16.4 14.8 18 12 18ZM12 4C16.4 4 20 5.6 20 7.5C20 8.7 18.6 9.8 16.3 10.4C15.2 10 13.9 9.8 12.6 9.8C12.4 9.8 12.2 9.8 12 9.8C11.8 9.8 11.6 9.8 11.4 9.8C10.1 9.8 8.8 10 7.7 10.4C5.4 9.8 4 8.7 4 7.5C4 5.6 7.6 4 12 4Z" fill="currentColor" />
+                              <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="w-5 h-5 text-cosmic-lavender"
+                              >
+                                <path
+                                  d="M12 2C6.48 2 2 4.5 2 7.5C2 9.2 3.6 10.7 6.1 11.6C5.4 12.3 5 13.3 5 14.5C5 17.5 8.1 20 12 20C15.9 20 19 17.5 19 14.5C19 13.3 18.6 12.3 17.9 11.6C20.4 10.7 22 9.2 22 7.5C22 4.5 17.5 2 12 2ZM12 18C9.2 18 7 16.4 7 14.5C7 12.6 9.2 11 12 11C14.8 11 17 12.6 17 14.5C17 16.4 14.8 18 12 18ZM12 4C16.4 4 20 5.6 20 7.5C20 8.7 18.6 9.8 16.3 10.4C15.2 10 13.9 9.8 12.6 9.8C12.4 9.8 12.2 9.8 12 9.8C11.8 9.8 11.6 9.8 11.4 9.8C10.1 9.8 8.8 10 7.7 10.4C5.4 9.8 4 8.7 4 7.5C4 5.6 7.6 4 12 4Z"
+                                  fill="currentColor"
+                                />
                               </svg>
                             </div>
                             <div>
-                              <div className="text-white font-medium text-lg leading-none h-5">{headerText}<span className="animate-pulse">|</span></div>
-                              <div className="text-white/50 text-xs uppercase tracking-wider mt-1">Ask anything about your stars</div>
+                              <div className="text-white font-medium text-lg leading-none h-5">
+                                {headerText}
+                                <span className="animate-pulse">|</span>
+                              </div>
+                              <div className="text-white/50 text-xs uppercase tracking-wider mt-1">
+                                Ask anything about your stars
+                              </div>
                             </div>
                           </div>
                           {/* Placeholder for tool icons */}
@@ -995,8 +1019,9 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                     </AnimatePresence>
 
                     {/* Center Area */}
-                    <div className={`flex-1 flex flex-col relative z-10 px-6 pb-6 transition-all duration-500 overflow-hidden ${hasStartedChat ? "justify-between pt-24" : "justify-center items-center pb-20"}`}>
-
+                    <div
+                      className={`flex-1 flex flex-col relative z-10 px-6 pb-6 transition-all duration-500 overflow-hidden ${hasStartedChat ? "justify-between pt-24" : "justify-center items-center pb-20"}`}
+                    >
                       {/* Chat History Area */}
                       {hasStartedChat && (
                         <div className="flex-1 overflow-y-auto w-full max-w-3xl mx-auto space-y-6 pr-2 custom-scrollbar">
@@ -1008,15 +1033,20 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                               className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                             >
                               <div
-                                className={`max-w-[85%] rounded-2xl px-5 py-3 text-sm leading-relaxed whitespace-pre-wrap ${msg.role === "user"
-                                  ? "bg-white text-black font-medium"
-                                  : "bg-white/10 text-white border border-white/10 backdrop-blur-md"
-                                  }`}
+                                className={`max-w-[85%] rounded-2xl px-5 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
+                                  msg.role === "user"
+                                    ? "bg-white text-black font-medium"
+                                    : "bg-white/10 text-white border border-white/10 backdrop-blur-md"
+                                }`}
                               >
                                 {msg.role === "assistant" && (
                                   <div className="flex items-center gap-2 mb-2">
-                                    <span className="text-cosmic-purple text-lg">✧</span>
-                                    <span className="font-medium text-xs uppercase tracking-wider opacity-70">Veas</span>
+                                    <span className="text-cosmic-purple text-lg">
+                                      ✧
+                                    </span>
+                                    <span className="font-medium text-xs uppercase tracking-wider opacity-70">
+                                      Veas
+                                    </span>
                                   </div>
                                 )}
                                 {msg.content}
@@ -1030,9 +1060,18 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                               className="flex justify-start"
                             >
                               <div className="bg-white/10 rounded-2xl px-5 py-4 border border-white/10 flex items-center gap-1 backdrop-blur-md">
-                                <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                                <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                                <span className="w-1.5 h-1.5 bg-white rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                                <span
+                                  className="w-1.5 h-1.5 bg-white rounded-full animate-bounce"
+                                  style={{ animationDelay: "0ms" }}
+                                />
+                                <span
+                                  className="w-1.5 h-1.5 bg-white rounded-full animate-bounce"
+                                  style={{ animationDelay: "150ms" }}
+                                />
+                                <span
+                                  className="w-1.5 h-1.5 bg-white rounded-full animate-bounce"
+                                  style={{ animationDelay: "300ms" }}
+                                />
                               </div>
                             </motion.div>
                           )}
@@ -1055,10 +1094,17 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                       {/* Input Bar Area */}
                       <motion.div
                         layout
-                        transition={{ duration: 0.5, type: "spring", bounce: 0.2 }}
+                        transition={{
+                          duration: 0.5,
+                          type: "spring",
+                          bounce: 0.2,
+                        }}
                         className={`w-full max-w-2xl mx-auto ${hasStartedChat ? "mt-4" : ""}`}
                       >
-                        <HeroInputInterface onSendMessage={handleSendMessage} isDisabled={isThinking} />
+                        <HeroInputInterface
+                          onSendMessage={handleSendMessage}
+                          isDisabled={isThinking}
+                        />
                       </motion.div>
 
                       {/* Get Started Button - Landing Only */}
@@ -1138,7 +1184,9 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                             <br />
                             shape your emotional rhythm
                           </h3>
-                          <p className="text-white/60 text-sm">Emotional alignment</p>
+                          <p className="text-white/60 text-sm">
+                            Emotional alignment
+                          </p>
                         </div>
                       </motion.div>
 
@@ -1200,7 +1248,9 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                             <br />
                             planetary placements, and blueprint
                           </h3>
-                          <p className="text-white/60 text-sm">Inner architecture</p>
+                          <p className="text-white/60 text-sm">
+                            Inner architecture
+                          </p>
                         </div>
                       </motion.div>
 
@@ -1230,7 +1280,9 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                             <br />
                             through Synastry and Vedic principles
                           </h3>
-                          <p className="text-white/60 text-sm">Connection insights</p>
+                          <p className="text-white/60 text-sm">
+                            Connection insights
+                          </p>
                         </div>
                       </motion.div>
 
@@ -1288,7 +1340,9 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                             <br />
                             in the real sky
                           </h3>
-                          <p className="text-white/60 text-sm">Core alignment</p>
+                          <p className="text-white/60 text-sm">
+                            Core alignment
+                          </p>
                         </div>
                       </motion.div>
                     </div>
@@ -1350,7 +1404,9 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                         >
                           Your true sign
                           <br />
-                          <span className="italic text-cosmic-purple">revealed.</span>
+                          <span className="italic text-cosmic-purple">
+                            revealed.
+                          </span>
                         </motion.h2>
 
                         {/* Social Proof */}
@@ -1375,7 +1431,10 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                           <div>
                             <div className="flex items-center gap-1 mb-0.5">
                               {[...Array(5)].map((_, i) => (
-                                <span key={i} className="text-cosmic-gold text-sm">
+                                <span
+                                  key={i}
+                                  className="text-cosmic-gold text-sm"
+                                >
                                   ★
                                 </span>
                               ))}
@@ -1444,11 +1503,13 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                           </p>
                           <ul className="mt-4 space-y-3 text-base sm:text-lg text-foreground/80">
                             <li>
-                              Aligned with the actual sky using NASA JPL ephemeris
-                              data
+                              Aligned with the actual sky using NASA JPL
+                              ephemeris data
                             </li>
-                            <li>Rooted in 5,000 years of Jyotish wisdom</li>
-                            <li>Designed for the modern mind, clear and grounded</li>
+                            <li>Rooted in 5,000 years of astrology wisdom</li>
+                            <li>
+                              Designed for the modern mind, clear and grounded
+                            </li>
                           </ul>
                         </motion.div>
                       </div>
@@ -1488,21 +1549,20 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                 {/* Testimonials Section - Full Width with Gradient */}
                 <TestimonialsSection />
 
-
-
                 {/* FAQ Section */}
                 <FAQSection />
 
                 {/* Detailed Footer */}
-                <footer className="relative z-10 text-white bg-cover bg-center" style={{ backgroundImage: "url('/footerbg.jpg')" }}>
+                <footer
+                  className="relative z-10 text-white bg-cover bg-center"
+                  style={{ backgroundImage: "url('/footerbg.jpg')" }}
+                >
                   {/* Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-b from-[#130b25] via-[#130b25]/80 to-transparent z-0" />
 
                   {/* CTA Section - Integrated into Footer */}
                   <div className="relative z-20 w-full bg-gradient-to-b from-[#130b25] via-[#130b25]/90 to-transparent pt-16 pb-12 sm:pt-32 sm:pb-20 px-6 sm:px-12 text-center">
                     <div className="max-w-4xl mx-auto flex flex-col items-center">
-
-
                       <motion.h2
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -1523,9 +1583,9 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                         viewport={{ once: true }}
                         className="text-lg text-white/60 mb-10 max-w-xl"
                       >
-                        The sky hasn&apos;t changed, only our understanding of it has.
-                        Discover what the heavens actually looked like when you were
-                        born.
+                        The sky hasn&apos;t changed, only our understanding of
+                        it has. Discover what the heavens actually looked like
+                        when you were born.
                       </motion.p>
 
                       <motion.div
@@ -1558,7 +1618,6 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                         </span>
                         <p className="text-white/50 text-sm leading-relaxed max-w-sm mb-6">
                           Authentic Vedic astrology, aligned with the true sky.
-
                         </p>
                         <div className="flex gap-4">
                           <a
