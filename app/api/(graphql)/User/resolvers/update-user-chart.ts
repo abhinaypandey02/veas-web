@@ -38,12 +38,15 @@ export default query(
       throw new Error("User not found");
     }
 
-    const chartId = await createUserChart({
-      lat: input.lat,
-      long: input.long,
-      dob: input.dateOfBirth,
-      timezone: user.timezoneOffset,
-    });
+    const chartId = await createUserChart(
+      {
+        lat: input.lat,
+        long: input.long,
+        dob: input.dateOfBirth,
+        timezone: user.timezoneOffset,
+      },
+      true,
+    );
 
     await db
       .update(UserTable)

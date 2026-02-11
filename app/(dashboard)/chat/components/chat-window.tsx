@@ -14,6 +14,7 @@ import { useStreaming } from "./streaming";
 import { ERROR_MESSAGES } from "@/app/api/(graphql)/Chat/constants";
 import FeedbackModal from "@/components/feedback-modal";
 import getCurrentUser from "@/app/api/(graphql)/User/resolvers/get-current-user";
+import { MAXIMUM_MESSAGES } from "@/app/api/(graphql)/Chat/constants";
 
 export function ChatWindow({
   data,
@@ -70,6 +71,10 @@ export function ChatWindow({
   }, [isLoading, form]);
 
   const handleSendMessage = (data: { message: string }) => {
+    if (chats.length >= MAXIMUM_MESSAGES.BETA) {
+      setFeedbackOpen(true);
+      return;
+    }
     if (!data.message.trim() || isLoading) return;
     form.reset({ message: "" });
 

@@ -9,6 +9,7 @@ import {
   generateDashaSummaries,
 } from "@/app/api/lib/charts/utils/summaries";
 import { getLocalTime } from "@/utils/location";
+import { GetChartsResponse } from "@/app/api/lib/charts/types";
 
 interface CreateUserChartInput {
   lat: number;
@@ -17,7 +18,10 @@ interface CreateUserChartInput {
   timezone: number;
 }
 
-export async function createUserChart(input: CreateUserChartInput) {
+export async function createUserChart(
+  input: CreateUserChartInput,
+  sync?: boolean,
+) {
   const [existingChart] = await db
     .select({
       id: UserChartTable.id,
@@ -45,14 +49,25 @@ export async function createUserChart(input: CreateUserChartInput) {
     })
     .returning({ id: UserChartTable.id });
 
+  let chart: GetChartsResponse | undefined;
+
+  if (sync) {
+    chart = await updateRawChart(newChart.id, {
+      dateOfBirth: input.dob,
+      placeOfBirthLat: input.lat,
+      placeOfBirthLong: input.long,
+    });
+  }
+
   waitUntil(
     (async () => {
       const localDateOfBirth = getLocalTime(input.dob, input.timezone);
-      const chart = await updateRawChart(newChart.id, {
-        dateOfBirth: input.dob,
-        placeOfBirthLat: input.lat,
-        placeOfBirthLong: input.long,
-      });
+      if (!sync)
+        chart = await updateRawChart(newChart.id, {
+          dateOfBirth: input.dob,
+          placeOfBirthLat: input.lat,
+          placeOfBirthLong: input.long,
+        });
 
       if (!chart) {
         throw new Error("Failed to update chart");
