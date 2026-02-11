@@ -71,7 +71,7 @@ export function ChatWindow({
   }, [isLoading, form]);
 
   const handleSendMessage = (data: { message: string }) => {
-    if (chats.length >= MAXIMUM_MESSAGES.BETA) {
+    if (chats.length >= MAXIMUM_MESSAGES.BETA * 2) {
       setFeedbackOpen(true);
       return;
     }
