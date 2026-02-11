@@ -206,7 +206,7 @@ export function ChatWindow({
             "Why is my love life a mess? 💀",
             "Is someone thinking about me rn? 🤭",
             "Will I marry rich or cry rich? 😭",
-            "Why does my family judge everything I do? 🙄",
+            "Why does my family always judge me? 🙄",
             "When is the money coming in? 💰",
           ].map((suggestion) => (
             <button
