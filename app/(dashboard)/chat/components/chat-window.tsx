@@ -54,7 +54,7 @@ export function ChatWindow({
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [chats]);
+  }, [chats, toolMessage]);
 
   useEffect(() => {
     if (data?.chats && data.chats.length === 0) {
@@ -232,11 +232,9 @@ export function ChatWindow({
               name="message"
               placeholder={
                 isLoading
-                  ? toolMessage
-                    ? `👀 ${toolMessage}`
-                    : firstTouch
-                      ? "🧐 analysing..."
-                      : "thinking..."
+                  ? firstTouch
+                    ? "🧐 analysing..."
+                    : "thinking..."
                   : "type your message..."
               }
               rows={1}
