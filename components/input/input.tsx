@@ -86,6 +86,7 @@ function Input({
       rest.variant || Variants.PRIMARY,
       rest.type === "checkbox" || rest.type === "radio",
       !!rest.type?.startsWith("date"),
+      loading,
     ),
     rest.className,
   );

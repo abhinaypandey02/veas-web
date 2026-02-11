@@ -5,9 +5,10 @@ export const getBaseClassName = (
   variant: Variants | undefined,
   isCheckbox: boolean,
   isDate: boolean,
+  loading: boolean,
 ) =>
   cn(
-    `m-px disabled:text-gray-500 accent-primary block py-2.5 px-4  shadow-xs placeholder:text-gray-400 outline-0 text-base sm:leading-6`,
+    `m-px disabled:text-gray-500 accent-primary block py-2.5 px-4 placeholder:text-sm shadow-xs placeholder:text-gray-400 outline-0 text-base sm:leading-6`,
     {
       "w-full ": !isCheckbox,
     },
@@ -19,6 +20,7 @@ export const getBaseClassName = (
       "focus:ring-primary focus:border-primary": variant === Variants.PRIMARY,
       "focus:ring-danger focus:border-danger": variant === Variants.DANGER,
     },
+    loading && "pr-10",
   );
 
 export const getInputErrorMessages = (type?: string) => {

@@ -39,7 +39,6 @@ export function ChatWindow({
   const [errorMessage, setErrorMessage] = useState<string>();
   const [firstTouch, setFirstTouch] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
-
   useEffect(() => {
     const lastToolMessage = toolMessages[0];
     setToolMessage(lastToolMessage);
@@ -180,7 +179,7 @@ export function ChatWindow({
                             ? `👀 ${toolMessage}`
                             : firstTouch
                               ? "🧐 analysing..."
-                              : "thinking..."}
+                              : "just a sec..."}
                         </span>
                       ) : null}
                     </div>
@@ -197,6 +196,29 @@ export function ChatWindow({
           <div className="font-serif text-sm  ">
             {renderRichText(errorMessage)}
           </div>
+        </div>
+      )}
+
+      {chats.length === 0 && (
+        <div className="flex flex-wrap gap-2 px-4 sm:px-0 max-w-4xl mx-auto w-full">
+          {[
+            "Am I dating the right person? 👀",
+            "When will I get rich? 💸",
+            "What's my secret superpower? ✨",
+            "Is someone thinking about me rn? 🤭",
+            "What should I do with my life? 🌀",
+          ].map((suggestion) => (
+            <button
+              key={suggestion}
+              type="button"
+              className="w-full md:w-auto px-3 py-1.5 text-sm border border-dashed border-primary/30 text-primary hover:bg-primary/10 transition-colors"
+              onClick={() => {
+                handleSendMessage({ message: suggestion });
+              }}
+            >
+              {suggestion}
+            </button>
+          ))}
         </div>
       )}
 
