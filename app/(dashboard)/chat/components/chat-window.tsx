@@ -203,11 +203,11 @@ export function ChatWindow({
         <div className="flex flex-wrap gap-2 px-4 sm:px-0 max-w-4xl mx-auto w-full">
           {[
             "Is my ex stalking me? 👀",
-            "When will I get rich? 💸",
             "Why is my love life a mess? 💀",
             "Is someone thinking about me rn? 🤭",
             "Will I marry rich or cry rich? 😭",
             "Why does my family judge everything I do? 🙄",
+            "When is the money coming in? 💰",
           ].map((suggestion) => (
             <button
               key={suggestion}
