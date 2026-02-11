@@ -10,5 +10,7 @@ export function renderRichText(text: string) {
       .replace(/\*(\S(?:.*?\S)?)\*/g, '<span class="font-semibold">$1</span>')
       // _ italic _, must contain a non-whitespace char
       .replace(/_(\S(?:.*?\S)?)_/g, "<em>$1</em>")
+      // clean up any leftover * and _
+      .replace(/[*_]/g, "")
   );
 }
