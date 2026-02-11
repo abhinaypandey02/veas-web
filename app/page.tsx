@@ -276,44 +276,41 @@ function ConstellationField() {
 
 const pricingPlans = [
   {
-    name: "Explorer",
+    name: "Free",
     icon: "☆",
-    description: "Start with your true chart",
-    price: { monthly: "Free", yearly: "Free" },
+    description: "Get started at no cost",
+    price: "Free",
     isPopular: false,
     features: [
+      "1 message per day",
       "Sidereal birth chart",
       "Sun, Moon & Rising signs",
-      "Core planetary placements",
-      "Shareable chart",
     ],
   },
   {
-    name: "Seeker",
+    name: "Pro",
     icon: "★",
-    description: "Go deeper into the patterns",
-    price: { monthly: "$12", yearly: "$99" },
+    description: "For daily guidance seekers",
+    price: "$5",
     isPopular: true,
     features: [
-      "Everything in Explorer",
-      "Planetary aspects",
-      "Monthly transit reports",
-      "Compatibility insights",
+      "10 messages per day",
+      "Major & minor life cycle summaries",
+      "Everything in Free",
       "Priority support",
     ],
   },
   {
-    name: "Mystic",
+    name: "Ultra",
     icon: "✧",
-    description: "Full-spectrum self-understanding",
-    price: { monthly: "$29", yearly: "$249" },
+    description: "Full access, no limits",
+    price: "$10",
     isPopular: false,
     features: [
-      "Everything in Seeker",
-      "Unlimited chart readings",
-      "AI-powered interpretations",
-      "Academy access",
-      "1-on-1 consultation each month",
+      "25 messages per day",
+      "Major & minor life cycle summaries",
+      "Daily & weekly precise summaries",
+      "Everything in Pro",
     ],
   },
 ];
@@ -343,14 +340,10 @@ const courses = [
 ];
 
 function PricingSection() {
-  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">(
-    "monthly",
-  );
-
   return (
     <>
       <LandingNavbar />
-      <section className="py-24 px-6 sm:px-12 lg:px-24 border-t border-foreground/10">
+      <section id="pricing" className="py-24 px-6 sm:px-12 lg:px-24 border-t border-foreground/10">
         {/* Header */}
         <div className="text-center mb-12">
           <motion.div
@@ -384,41 +377,6 @@ function PricingSection() {
           >
             Astrology for every stage of your journey.
           </motion.p>
-
-          {/* Billing Toggle */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center p-1 rounded-full bg-white border border-foreground/10"
-          >
-            <button
-              onClick={() => setBillingPeriod("monthly")}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                billingPeriod === "monthly"
-                  ? "bg-foreground text-white"
-                  : "text-muted hover:text-foreground"
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setBillingPeriod("yearly")}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                billingPeriod === "yearly"
-                  ? "bg-foreground text-white"
-                  : "text-muted hover:text-foreground"
-              }`}
-            >
-              Yearly
-            </button>
-          </motion.div>
-          {billingPeriod === "yearly" && (
-            <p className="text-xs text-cosmic-cobalt mt-2">
-              Save up to 30% with yearly billing
-            </p>
-          )}
         </div>
 
         {/* Pricing Cards */}
@@ -462,11 +420,11 @@ function PricingSection() {
               {/* Price */}
               <div className="mb-6">
                 <span className="text-4xl font-serif text-foreground">
-                  {plan.price[billingPeriod]}
+                  {plan.price}
                 </span>
-                {plan.price[billingPeriod] !== "Free" && (
+                {plan.price !== "Free" && (
                   <span className="text-sm text-muted ml-1">
-                    /{billingPeriod === "monthly" ? "month" : "year"}
+                    /month
                   </span>
                 )}
               </div>
@@ -760,7 +718,7 @@ function FAQSection() {
   };
 
   return (
-    <section className="relative z-10 py-24 sm:py-32 bg-background">
+    <section id="faq" className="relative z-10 py-24 sm:py-32 bg-background">
       <div className="max-w-7xl mx-auto px-6 sm:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* Left Column - Header */}
@@ -869,7 +827,7 @@ export default function Home() {
     <SmoothScroll>
       <div className="relative font-sans selection:bg-cosmic-lavender selection:text-foreground">
         {/* Hero Section - Fixed Background */}
-        <section className="fixed inset-0 flex items-center justify-center overflow-hidden bg-background p-2 sm:p-4 lg:p-6">
+        <section id="hero" className="fixed inset-0 flex items-center justify-center overflow-hidden bg-background p-2 sm:p-4 lg:p-6">
           {/* Rounded Background Container */}
           <div className="absolute inset-2 sm:inset-4 lg:inset-6 rounded-[1.25rem] sm:rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden shadow-2xl">
             {/* Background Image */}
@@ -918,11 +876,11 @@ export default function Home() {
                   {token ? "Dashboard" : "Get Your Free Chart"}
                 </button>
               </Link>
-              <Link href="/pricing">
+              <a href="#pricing">
                 <button className="h-12 px-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 text-white hover:bg-white/20 transition-colors text-base">
                   See Plans
                 </button>
-              </Link>
+              </a>
             </motion.div>
           </div>
 
@@ -988,7 +946,7 @@ export default function Home() {
               <div className="relative z-10 bg-background rounded-t-[3rem] shadow-2xl">
                 <main className="mx-auto flex max-w-7xl flex-col px-6 pb-20 sm:px-12">
                   {/* Bento Grid Section */}
-                  <section id="bento-grid" className="py-24">
+                  <section id="features" className="py-24">
                     {/* Header */}
                     <motion.h2
                       initial={{ opacity: 0, y: 20 }}
@@ -1238,7 +1196,7 @@ export default function Home() {
         */}
 
                   {/* Big Feature Section with Background Text */}
-                  <section className="relative py-32 sm:py-40 overflow-hidden">
+                  <section id="about" className="relative py-32 sm:py-40 overflow-hidden">
                     {/* Large Background Text */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
                       <span className="font-editorial text-[7rem] sm:text-[28rem] lg:text-[22rem] text-gray-500/10 leading-none tracking-tighter">
@@ -1455,11 +1413,11 @@ export default function Home() {
                             {token ? "Dashboard" : "Get Your Chart Free"}
                           </button>
                         </Link>
-                        <Link href="/pricing">
+                        <a href="#pricing">
                           <button className="h-14 px-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition-colors tracking-wide text-sm uppercase">
                             See Plans
                           </button>
-                        </Link>
+                        </a>
                       </motion.div>
                     </div>
                   </div>
