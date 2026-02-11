@@ -10,11 +10,11 @@ import {
 import { useToken } from "naystack/auth/email/client";
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/about", label: "About" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/academy", label: "Academy" },
-  { href: "/blog", label: "Blog" },
+  { href: "#hero", label: "Home" },
+  { href: "#features", label: "Features" },
+  { href: "#about", label: "About" },
+  { href: "#pricing", label: "Pricing" },
+  { href: "#faq", label: "FAQ" },
 ];
 
 export default function LandingNavbar() {
@@ -38,16 +38,16 @@ export default function LandingNavbar() {
       <motion.nav
         layout
         transition={{ type: "spring", stiffness: 200, damping: 28, mass: 0.8 }}
-        className={`fixed z-50 flex items-center text-white ${isScrolled
-            ? "top-4 sm:top-6 left-1/2 -translate-x-1/2 px-2 sm:px-2 py-2 rounded-full border border-white/50"
-            : "top-0 left-0 w-full justify-center sm:justify-start px-6 sm:px-16 py-8 sm:py-12 border border-transparent"
+        className={`fixed z-50 flex items-center text-white top-0 left-0 w-full ${isScrolled
+            ? "px-6 sm:px-16 py-3 sm:py-4"
+            : "justify-center sm:justify-start px-6 sm:px-16 py-8 sm:py-12"
           }`}
         style={{
-          backdropFilter: isScrolled ? "blur(12px)" : "none",
-          WebkitBackdropFilter: isScrolled ? "blur(12px)" : "none",
-          boxShadow: isScrolled ? "0 4px 30px rgba(0, 0, 0, 0.15)" : "none",
+          backdropFilter: isScrolled ? "blur(16px)" : "none",
+          WebkitBackdropFilter: isScrolled ? "blur(16px)" : "none",
+          boxShadow: isScrolled ? "0 1px 0 rgba(255, 255, 255, 0.1)" : "none",
           backgroundColor: isScrolled
-            ? "rgba(255, 255, 255, 0.05)"
+            ? "rgba(19, 11, 37, 0.9)"
             : "transparent",
         }}
         initial={{ y: -100, opacity: 0 }}
@@ -66,32 +66,8 @@ export default function LandingNavbar() {
           </Link>
         </motion.div>
 
-        {/* Spacer - desktop only, pushes content apart when expanded */}
-        <AnimatePresence>
-          {!isScrolled && (
-            <motion.div
-              initial={{ flexGrow: 0, opacity: 0 }}
-              animate={{ flexGrow: 1, opacity: 1 }}
-              exit={{ flexGrow: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="hidden sm:block flex-1"
-            />
-          )}
-        </AnimatePresence>
-
-        {/* Divider - pill mode, desktop only */}
-        <AnimatePresence>
-          {isScrolled && (
-            <motion.div
-              initial={{ opacity: 0, scaleY: 0, width: 0 }}
-              animate={{ opacity: 1, scaleY: 1, width: "auto" }}
-              exit={{ opacity: 0, scaleY: 0, width: 0 }}
-              className="hidden sm:block mx-1"
-            >
-              <div className="w-px h-6 bg-white/30" />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Spacer - desktop only, pushes content apart */}
+        <div className="hidden sm:block flex-1" />
 
         {/* Nav Links - desktop only */}
         <motion.div
@@ -102,7 +78,7 @@ export default function LandingNavbar() {
             }`}
         >
           {navLinks.map((link) => (
-            <Link
+            <a
               key={link.href}
               href={link.href}
               className={`relative group transition-colors duration-300 ${isScrolled
@@ -119,23 +95,9 @@ export default function LandingNavbar() {
               {isScrolled && (
                 <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-cosmic-lavender transition-all duration-300 scale-0 group-hover:scale-100" />
               )}
-            </Link>
+            </a>
           ))}
         </motion.div>
-
-        {/* Divider - pill mode, desktop only */}
-        <AnimatePresence>
-          {isScrolled && (
-            <motion.div
-              initial={{ opacity: 0, scaleY: 0, width: 0 }}
-              animate={{ opacity: 1, scaleY: 1, width: "auto" }}
-              exit={{ opacity: 0, scaleY: 0, width: 0 }}
-              className="hidden sm:block mx-1"
-            >
-              <div className="w-px h-6 bg-white/30" />
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         {/* CTA Button - desktop only */}
         <motion.div layout className={`hidden sm:block ${isScrolled ? "" : "ml-2"}`}>
@@ -150,78 +112,68 @@ export default function LandingNavbar() {
           </Link>
         </motion.div>
 
-        {/* Mobile hamburger - appears next to logo in pill mode */}
-        <AnimatePresence>
-          {isScrolled && (
-            <motion.button
-              type="button"
-              aria-label="Toggle menu"
-              initial={{ opacity: 0, width: 0, scale: 0 }}
-              animate={{ opacity: 1, width: "auto", scale: 1 }}
-              exit={{ opacity: 0, width: 0, scale: 0 }}
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              onClick={() => setIsMenuOpen((prev) => !prev)}
-              className="sm:hidden p-2 rounded-full hover:bg-white/10 ml-1"
-            >
-              <svg
-                className="w-5 h-5 text-white"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                {isMenuOpen ? (
-                  <>
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </>
-                ) : (
-                  <>
-                    <line x1="3" y1="7" x2="21" y2="7" />
-                    <line x1="3" y1="12" x2="21" y2="12" />
-                    <line x1="3" y1="17" x2="21" y2="17" />
-                  </>
-                )}
-              </svg>
-            </motion.button>
-          )}
-        </AnimatePresence>
+        {/* Mobile hamburger */}
+        <div className="sm:hidden flex-1" />
+        <button
+          type="button"
+          aria-label="Toggle menu"
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+          className="sm:hidden p-2 rounded-full hover:bg-white/10"
+        >
+          <svg
+            className="w-5 h-5 text-white"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            {isMenuOpen ? (
+              <>
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </>
+            ) : (
+              <>
+                <line x1="3" y1="7" x2="21" y2="7" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="17" x2="21" y2="17" />
+              </>
+            )}
+          </svg>
+        </button>
       </motion.nav>
 
       {/* Mobile dropdown menu */}
       <AnimatePresence>
-        {isScrolled && isMenuOpen && (
+        {isMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="fixed top-16 left-1/2 -translate-x-1/2 z-50 w-[calc(100vw-2rem)] max-w-sm border border-white/50 p-4 text-white sm:hidden"
+            className="fixed top-0 left-0 right-0 z-40 pt-20 pb-6 px-6 text-white sm:hidden"
             style={{
-              background: "rgba(255, 255, 255, 0.08)",
-              borderRadius: "24px",
-              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.15)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
+              background: "rgba(19, 11, 37, 0.97)",
+              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.3)",
             }}
           >
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
-                <Link
+                <a
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMenuOpen(false)}
                   className="px-4 py-3 rounded-xl text-white/90 hover:text-white hover:bg-white/10 transition-colors"
                 >
                   {link.label}
-                </Link>
+                </a>
               ))}
               <Link
                 href={token ? "/dashboard" : "/signup"}
                 onClick={() => setIsMenuOpen(false)}
-                className="mt-2 px-4 py-3 rounded-xl bg-white/10 text-white text-center font-medium hover:bg-white/20 transition-colors"
+                className="mt-2 px-4 py-3 rounded-xl bg-white/15 text-white text-center font-medium hover:bg-white/25 transition-colors"
               >
                 {token ? "Dashboard" : "Get Started"}
               </Link>
