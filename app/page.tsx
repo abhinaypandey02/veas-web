@@ -350,7 +350,7 @@ function PricingSection() {
   return (
     <>
       <LandingNavbar />
-      <section className="py-24 px-6 sm:px-12 lg:px-24 border-t border-foreground/10">
+      <section id="pricing" className="py-24 px-6 sm:px-12 lg:px-24 border-t border-foreground/10">
         {/* Header */}
         <div className="text-center mb-12">
           <motion.div
@@ -760,7 +760,7 @@ function FAQSection() {
   };
 
   return (
-    <section className="relative z-10 py-24 sm:py-32 bg-background">
+    <section id="faq" className="relative z-10 py-24 sm:py-32 bg-background">
       <div className="max-w-7xl mx-auto px-6 sm:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           {/* Left Column - Header */}
@@ -869,7 +869,7 @@ export default function Home() {
     <SmoothScroll>
       <div className="relative font-sans selection:bg-cosmic-lavender selection:text-foreground">
         {/* Hero Section - Fixed Background */}
-        <section className="fixed inset-0 flex items-center justify-center overflow-hidden bg-background p-2 sm:p-4 lg:p-6">
+        <section id="hero" className="fixed inset-0 flex items-center justify-center overflow-hidden bg-background p-2 sm:p-4 lg:p-6">
           {/* Rounded Background Container */}
           <div className="absolute inset-2 sm:inset-4 lg:inset-6 rounded-[1.25rem] sm:rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden shadow-2xl">
             {/* Background Image */}
@@ -918,11 +918,11 @@ export default function Home() {
                   {token ? "Dashboard" : "Get Your Free Chart"}
                 </button>
               </Link>
-              <Link href="/pricing">
+              <a href="#pricing">
                 <button className="h-12 px-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 text-white hover:bg-white/20 transition-colors text-base">
                   See Plans
                 </button>
-              </Link>
+              </a>
             </motion.div>
           </div>
 
@@ -988,7 +988,7 @@ export default function Home() {
               <div className="relative z-10 bg-background rounded-t-[3rem] shadow-2xl">
                 <main className="mx-auto flex max-w-7xl flex-col px-6 pb-20 sm:px-12">
                   {/* Bento Grid Section */}
-                  <section id="bento-grid" className="py-24">
+                  <section id="features" className="py-24">
                     {/* Header */}
                     <motion.h2
                       initial={{ opacity: 0, y: 20 }}
@@ -1238,7 +1238,7 @@ export default function Home() {
         */}
 
                   {/* Big Feature Section with Background Text */}
-                  <section className="relative py-32 sm:py-40 overflow-hidden">
+                  <section id="about" className="relative py-32 sm:py-40 overflow-hidden">
                     {/* Large Background Text */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
                       <span className="font-editorial text-[7rem] sm:text-[28rem] lg:text-[22rem] text-gray-500/10 leading-none tracking-tighter">
@@ -1455,11 +1455,11 @@ export default function Home() {
                             {token ? "Dashboard" : "Get Your Chart Free"}
                           </button>
                         </Link>
-                        <Link href="/pricing">
+                        <a href="#pricing">
                           <button className="h-14 px-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition-colors tracking-wide text-sm uppercase">
                             See Plans
                           </button>
-                        </Link>
+                        </a>
                       </motion.div>
                     </div>
                   </div>
