@@ -1,23 +1,11 @@
 "use client";
 
-import {
-  motion,
-  useScroll,
-  useTransform,
-  AnimatePresence,
-} from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import HeroInputInterface from "./_components/hero-input-interface";
-import LandingSidebar from "./_components/landing-sidebar";
+import LandingNavbar from "./_components/landing-navbar";
 import SmoothScroll from "./_components/smooth-scroll";
 import { useToken } from "naystack/auth/email/client";
-import IntroSequence from "./_components/intro-sequence";
-
-type Message = {
-  role: "user" | "assistant";
-  content: string;
-};
 
 function LiveTimer() {
   const [time, setTime] = useState({
@@ -361,6 +349,7 @@ function PricingSection() {
 
   return (
     <>
+      <LandingNavbar />
       <section className="py-24 px-6 sm:px-12 lg:px-24 border-t border-foreground/10">
         {/* Header */}
         <div className="text-center mb-12">
@@ -747,15 +736,15 @@ function ScrollingTextBanner() {
         style={{ x }}
         className="whitespace-nowrap flex items-center gap-8"
       >
-        <span className="font-editorial text-[8rem] sm:text-[12rem] lg:text-[16rem] text-black leading-none">
-          The universe has a story about you. Let’s read it.
+        <span className="font-editorial text-[3.5rem] sm:text-[12rem] lg:text-[16rem] text-black leading-none">
+          The universe has a story about you. Let's read it.
         </span>
-        <span className="text-6xl sm:text-8xl text-cosmic-purple/30">✧</span>
-        <span className="font-editorial text-[8rem] sm:text-[12rem] lg:text-[16rem] text-foreground/10 leading-none">
+        <span className="text-3xl sm:text-8xl text-cosmic-purple/30">✧</span>
+        <span className="font-editorial text-[3.5rem] sm:text-[12rem] lg:text-[16rem] text-foreground/10 leading-none">
           Astrology aligned with the real heavens
         </span>
-        <span className="text-6xl sm:text-8xl text-cosmic-purple/30">✧</span>
-        <span className="font-editorial text-[8rem] sm:text-[12rem] lg:text-[16rem] text-foreground/10 leading-none">
+        <span className="text-3xl sm:text-8xl text-cosmic-purple/30">✧</span>
+        <span className="font-editorial text-[3.5rem] sm:text-[12rem] lg:text-[16rem] text-foreground/10 leading-none">
           Discover your true chart
         </span>
       </motion.div>
@@ -875,259 +864,125 @@ function FAQSection() {
 
 export default function Home() {
   const token = useToken();
-  const [showIntro, setShowIntro] = useState(true);
-  const [hasStartedChat, setHasStartedChat] = useState(false);
-  const [chatHistory, setChatHistory] = useState<Message[]>([]);
-  const [isThinking, setIsThinking] = useState(false);
-  const [headerText, setHeaderText] = useState("");
-
-  const fullHeaderText = "Your Personal AI Astrologer";
-
-  // Header typing effect
-  useEffect(() => {
-    if (hasStartedChat) {
-      let i = 0;
-      const interval = setInterval(() => {
-        setHeaderText(fullHeaderText.slice(0, i));
-        i++;
-        if (i > fullHeaderText.length) clearInterval(interval);
-      }, 50);
-      return () => clearInterval(interval);
-    } else {
-      setHeaderText("");
-    }
-  }, [hasStartedChat]);
-
-  const handleSendMessage = (message: string) => {
-    if (!hasStartedChat) setHasStartedChat(true);
-    setChatHistory((prev) => [...prev, { role: "user", content: message }]);
-    setIsThinking(true);
-
-    // Simulate AI response
-    setTimeout(() => {
-      setIsThinking(false);
-      setChatHistory((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content: `You often feel like your relationships begin with a strong emotional pull, almost as if you recognize the person on a deeper level. There is usually excitement, intensity, and a sense of possibility. But after some time, the same feelings return—confusion, emotional distance, or the sense that you are giving more than you receive.
-
-This pattern does not happen because you are unlucky in love. It usually comes from the emotional rhythms within you.
-
-Your chart suggests that you feel deeply and form bonds quickly. You are someone who sees potential in people. You believe in growth, in second chances, and in the idea that love can transform someone. This is a beautiful quality, but it also means you may stay longer than you should, hoping things will change.
-
-You may also be drawn to people who feel familiar, even if that familiarity comes from past wounds or old emotional patterns. The heart sometimes chooses what it already understands, not what is truly peaceful.
-
-In many of your relationships, you become the one who holds things together. You listen more, forgive more, and adjust more. Over time, this can leave you feeling unseen or emotionally tired.
-
-But this pattern is not permanent. It is simply a lesson your life is trying to show you.
-
-You are learning the difference between love and attachment.
-Between chemistry and compatibility.
-Between caring for someone and losing yourself in the process.
-
-As you grow more confident in your own worth, your choices in love will begin to change. You will feel less attracted to chaos and more drawn to calm, steady connections.
-
-The right relationship for you will not feel like a constant emotional test. It will feel like support. Like breathing easier. Like being understood without having to explain yourself all the time.
-
-Your chart shows that this shift begins when you start choosing yourself first—not out of selfishness, but out of self-respect.
-
-When your inner world becomes peaceful, your relationships will begin to reflect that peace.`,
-        },
-      ]);
-    }, 2000);
-  };
 
   return (
-    <>
-      <AnimatePresence>
-        {showIntro && <IntroSequence onComplete={() => setShowIntro(false)} />}
-      </AnimatePresence>
+    <SmoothScroll>
+      <div className="relative font-sans selection:bg-cosmic-lavender selection:text-foreground">
+        {/* Hero Section - Fixed Background */}
+        <section className="fixed inset-0 flex items-center justify-center overflow-hidden bg-background p-2 sm:p-4 lg:p-6">
+          {/* Rounded Background Container */}
+          <div className="absolute inset-2 sm:inset-4 lg:inset-6 rounded-[1.25rem] sm:rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden shadow-2xl">
+            {/* Background Image */}
+            <img
+              src="/landingsectionbg.png"
+              alt="Background"
+              className="object-cover w-full h-full"
+            />
+          </div>
 
-      {!showIntro && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5 }}
-        >
-          <SmoothScroll>
-            <div className="relative font-sans selection:bg-cosmic-lavender selection:text-foreground">
-              {/* Hero Section - Warden-Style Layout */}
-              <section className="fixed inset-0 flex overflow-hidden bg-background">
-                {/* Sidebar */}
-                <LandingSidebar />
+          {/* Animated Floating Constellations - inside the rounded area */}
+          <div className="absolute inset-2 sm:inset-4 lg:inset-6 rounded-[1.25rem] sm:rounded-[1.5rem] lg:rounded-[2rem] overflow-hidden">
+            <ConstellationField />
+          </div>
 
-                {/* Main Content Area */}
-                <div className="flex-1 flex flex-col relative min-w-0">
-                  {/* Background Glow Effect - Behind the card */}
-                  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full bg-cosmic-lavender/20 blur-[120px]" />
-                    <div className="absolute top-1/3 left-1/3 w-[400px] h-[400px] rounded-full bg-cosmic-purple/10 blur-[100px]" />
-                  </div>
+          {/* Content */}
+          <div className="relative z-10 text-center px-6">
+            <motion.h1
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="font-editorial font-medium text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1.1] text-white tracking-[-0.04em]"
+            >
+              See the Sky
+              <br />
+              <span className="italic">as It Truly Was</span>
+            </motion.h1>
 
-                  {/* Glass Card Container */}
-                  <div
-                    className={`flex-1 m-4 sm:m-6 rounded-[3rem] border border-white/20 overflow-hidden flex flex-col relative bg-cover bg-center transition-all duration-700`}
-                    style={{ backgroundImage: "url('/askmveas.jpeg')" }}
-                  >
-                    {/* Dark Overlay */}
-                    <div
-                      className={`absolute inset-0 bg-black/20 transition-opacity duration-700 ${hasStartedChat ? "bg-black/60" : ""}`}
-                    />
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="mt-4 text-sm sm:text-base text-white/80 max-w-md mx-auto"
+            >
+              Sidereal astrology mapped to the real positions of the stars.
+            </motion.p>
 
-                    {/* Top Bar / Header Strip - Only visible when chat started */}
-                    <AnimatePresence>
-                      {hasStartedChat && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          className="absolute top-0 left-0 right-0 z-20 bg-black/40 backdrop-blur-md border-b border-white/10 p-4 flex items-center justify-between"
-                        >
-                          <div className="flex items-center gap-4">
-                            <div className="bg-white/10 p-2 rounded-full">
-                              <svg
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="w-5 h-5 text-cosmic-lavender"
-                              >
-                                <path
-                                  d="M12 2C6.48 2 2 4.5 2 7.5C2 9.2 3.6 10.7 6.1 11.6C5.4 12.3 5 13.3 5 14.5C5 17.5 8.1 20 12 20C15.9 20 19 17.5 19 14.5C19 13.3 18.6 12.3 17.9 11.6C20.4 10.7 22 9.2 22 7.5C22 4.5 17.5 2 12 2ZM12 18C9.2 18 7 16.4 7 14.5C7 12.6 9.2 11 12 11C14.8 11 17 12.6 17 14.5C17 16.4 14.8 18 12 18ZM12 4C16.4 4 20 5.6 20 7.5C20 8.7 18.6 9.8 16.3 10.4C15.2 10 13.9 9.8 12.6 9.8C12.4 9.8 12.2 9.8 12 9.8C11.8 9.8 11.6 9.8 11.4 9.8C10.1 9.8 8.8 10 7.7 10.4C5.4 9.8 4 8.7 4 7.5C4 5.6 7.6 4 12 4Z"
-                                  fill="currentColor"
-                                />
-                              </svg>
-                            </div>
-                            <div>
-                              <div className="text-white font-medium text-lg leading-none h-5">
-                                {headerText}
-                                <span className="animate-pulse">|</span>
-                              </div>
-                              <div className="text-white/50 text-xs uppercase tracking-wider mt-1">
-                                Ask anything about your stars
-                              </div>
-                            </div>
-                          </div>
-                          {/* Placeholder for tool icons */}
-                          <div className="flex gap-2">
-                            <div className="w-2 h-2 rounded-full bg-green-400"></div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8"
+            >
+              <Link href={token ? "/dashboard" : "/signup"}>
+                <button className="h-12 px-8 rounded-full bg-white text-foreground hover:bg-white/90 transition-colors text-base font-medium">
+                  {token ? "Dashboard" : "Get Your Free Chart"}
+                </button>
+              </Link>
+              <Link href="/pricing">
+                <button className="h-12 px-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 text-white hover:bg-white/20 transition-colors text-base">
+                  See Plans
+                </button>
+              </Link>
+            </motion.div>
+          </div>
 
-                    {/* Center Area */}
-                    <div
-                      className={`flex-1 flex flex-col relative z-10 px-6 pb-6 transition-all duration-500 overflow-hidden ${hasStartedChat ? "justify-between pt-24" : "justify-center items-center pb-20"}`}
-                    >
-                      {/* Chat History Area */}
-                      {hasStartedChat && (
-                        <div className="flex-1 overflow-y-auto w-full max-w-3xl mx-auto space-y-6 pr-2 custom-scrollbar">
-                          {chatHistory.map((msg, i) => (
-                            <motion.div
-                              key={i}
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                            >
-                              <div
-                                className={`max-w-[85%] rounded-2xl px-5 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
-                                  msg.role === "user"
-                                    ? "bg-white text-black font-medium"
-                                    : "bg-white/10 text-white border border-white/10 backdrop-blur-md"
-                                }`}
-                              >
-                                {msg.role === "assistant" && (
-                                  <div className="flex items-center gap-2 mb-2">
-                                    <span className="text-cosmic-purple text-lg">
-                                      ✧
-                                    </span>
-                                    <span className="font-medium text-xs uppercase tracking-wider opacity-70">
-                                      Veas
-                                    </span>
-                                  </div>
-                                )}
-                                {msg.content}
-                              </div>
-                            </motion.div>
-                          ))}
-                          {isThinking && (
-                            <motion.div
-                              initial={{ opacity: 0, y: 10 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              className="flex justify-start"
-                            >
-                              <div className="bg-white/10 rounded-2xl px-5 py-4 border border-white/10 flex items-center gap-1 backdrop-blur-md">
-                                <span
-                                  className="w-1.5 h-1.5 bg-white rounded-full animate-bounce"
-                                  style={{ animationDelay: "0ms" }}
-                                />
-                                <span
-                                  className="w-1.5 h-1.5 bg-white rounded-full animate-bounce"
-                                  style={{ animationDelay: "150ms" }}
-                                />
-                                <span
-                                  className="w-1.5 h-1.5 bg-white rounded-full animate-bounce"
-                                  style={{ animationDelay: "300ms" }}
-                                />
-                              </div>
-                            </motion.div>
-                          )}
-                        </div>
-                      )}
+          {/* Bottom Left - Coordinates */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="absolute bottom-12 left-12 sm:bottom-16 sm:left-16 lg:bottom-20 lg:left-20 z-10"
+          >
+            <div className="flex flex-col gap-1">
+              <span className="font-mono text-[10px] sm:text-xs tracking-[0.3em] text-white/70 uppercase">
+                Location
+              </span>
+              <span className="font-mono text-lg sm:text-xl tracking-wider text-white font-medium">
+                42°21&apos;N
+              </span>
+              <span className="font-mono text-lg sm:text-xl tracking-wider text-white font-medium">
+                71°03&apos;W
+              </span>
+            </div>
+          </motion.div>
 
-                      {/* Main Heading - Landing Only */}
-                      {!hasStartedChat && (
-                        <motion.h1
-                          initial={{ opacity: 0, y: 30 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.7, delay: 0.25 }}
-                          className="font-editorial font-medium text-5xl sm:text-7xl lg:text-[6rem] text-white text-center leading-none tracking-tight mb-8 drop-shadow-lg"
-                        >
-                          Ask Veas anything
-                        </motion.h1>
-                      )}
+          {/* Bottom Right - Live Cosmic Timer */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="absolute bottom-12 right-12 sm:bottom-16 sm:right-16 lg:bottom-20 lg:right-20 z-10"
+          >
+            <div className="flex items-center gap-3">
+              {/* Saturn SVG Icon */}
+              <svg
+                className="w-8 h-8 sm:w-10 sm:h-10 text-white"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
+                <circle cx="12" cy="12" r="5" />
+                <ellipse
+                  cx="12"
+                  cy="12"
+                  rx="10"
+                  ry="3"
+                  transform="rotate(-20 12 12)"
+                />
+              </svg>
+              <div className="flex flex-col items-end">
+                <span className="font-mono text-[10px] sm:text-xs tracking-[0.3em] text-white/70 uppercase">
+                  Cosmic Time
+                </span>
+                <LiveTimer />
+              </div>
+            </div>
+          </motion.div>
+        </section>
 
-                      {/* Input Bar Area */}
-                      <motion.div
-                        layout
-                        transition={{
-                          duration: 0.5,
-                          type: "spring",
-                          bounce: 0.2,
-                        }}
-                        className={`w-full max-w-2xl mx-auto ${hasStartedChat ? "mt-4" : ""}`}
-                      >
-                        <HeroInputInterface
-                          onSendMessage={handleSendMessage}
-                          isDisabled={isThinking}
-                        />
-                      </motion.div>
-
-                      {/* Get Started Button - Landing Only */}
-                      {!hasStartedChat && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: 20 }}
-                          transition={{ duration: 0.5, delay: 0.45 }}
-                          className="mt-8"
-                        >
-                          <button className="px-8 py-3 rounded-full border border-white/30 text-sm font-medium text-white hover:bg-white/10 transition-colors uppercase tracking-wider bg-black/20 backdrop-blur-sm shadow-lg">
-                            Get Started
-                          </button>
-                        </motion.div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              {/* Spacer to push content below the fixed hero */}
-              <div className="h-screen" />
+        {/* Spacer to push content below the fixed hero */}
+        <div className="h-screen" />
 
               {/* Main Content Wrapper - Scrolls over the hero */}
               <div className="relative z-10 bg-background rounded-t-[3rem] shadow-2xl">
@@ -1386,7 +1241,7 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                   <section className="relative py-32 sm:py-40 overflow-hidden">
                     {/* Large Background Text */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-                      <span className="font-editorial text-[20rem] sm:text-[28rem] lg:text-[22rem] text-gray-500/10 leading-none tracking-tighter">
+                      <span className="font-editorial text-[7rem] sm:text-[28rem] lg:text-[22rem] text-gray-500/10 leading-none tracking-tighter">
                         Sidereal
                       </span>
                     </div>
@@ -1806,12 +1661,9 @@ When your inner world becomes peaceful, your relationships will begin to reflect
                     </div>
                   </div>
                 </footer>
-              </div>
-              {/* End of content wrapper */}
-            </div>
-          </SmoothScroll>
-        </motion.div>
-      )}
-    </>
+          </div>
+          {/* End of content wrapper */}
+        </div>
+      </SmoothScroll>
   );
 }
