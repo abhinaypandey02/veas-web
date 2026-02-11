@@ -6,19 +6,26 @@
   --faded: #484848;
   --danger: #ad7070;
   /* Light Theme Backgrounds */
-  --background: #F9F5FF; /* Lavender Mist */
+  --background: #F9F5FF;
+  /* Lavender Mist */
   --surface: #ffffff;
   --surface-highlight: #f0ebf8;
 
   /* Text Colors */
-  --foreground: (var(--primary)); /* Shadow Grey - primary text */
-  --muted: #706e77; /* Darker muted for readability on light */
-  --accent: #998FC7; /* Soft Periwinkle */
+  --foreground: var(--primary);
+  /* Shadow Grey - primary text */
+  --muted: #706e77;
+  /* Darker muted for readability on light */
+  --accent: #998FC7;
+  /* Soft Periwinkle */
 
   /* Cosmic / Astrology Colors */
-  --cosmic-purple: #998FC7; /* Soft Periwinkle */
-  --cosmic-lavender: #D4C2FC; /* Periwinkle */
-  --cosmic-cobalt: #14248A; /* True Cobalt */
+  --cosmic-purple: #998FC7;
+  /* Soft Periwinkle */
+  --cosmic-lavender: #D4C2FC;
+  /* Periwinkle */
+  --cosmic-cobalt: #14248A;
+  /* True Cobalt */
   --cosmic-gold: #b8a06e;
 
   --border: #D4C2FC;
@@ -43,7 +50,8 @@
   --font-sans: var(--font-sans);
 }
 
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
@@ -71,7 +79,9 @@ body {
 }
 
 /* Custom cursor for interactive elements */
-a, button, [role="button"] {
+a,
+button,
+[role="button"] {
   cursor: url('/cursor-pointer.png') 64 64, pointer;
 }
 
