@@ -1,5 +1,5 @@
 export const MAXIMUM_MESSAGES = {
-  BETA: 3,
+  BETA: 20,
 };
 
 export const ERROR_MESSAGES = {
