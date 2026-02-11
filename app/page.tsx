@@ -276,44 +276,39 @@ function ConstellationField() {
 
 const pricingPlans = [
   {
-    name: "Explorer",
+    name: "Free",
     icon: "☆",
-    description: "Start with your true chart",
-    price: { monthly: "Free", yearly: "Free" },
+    description: "Get started at no cost",
+    price: "Free",
     isPopular: false,
     features: [
+      "1 message per day",
       "Sidereal birth chart",
       "Sun, Moon & Rising signs",
-      "Core planetary placements",
-      "Shareable chart",
     ],
   },
   {
-    name: "Seeker",
+    name: "Pro",
     icon: "★",
-    description: "Go deeper into the patterns",
-    price: { monthly: "$12", yearly: "$99" },
+    description: "For daily guidance seekers",
+    price: "$5",
     isPopular: true,
     features: [
-      "Everything in Explorer",
-      "Planetary aspects",
-      "Monthly transit reports",
-      "Compatibility insights",
+      "10 messages per day",
+      "Everything in Free",
       "Priority support",
     ],
   },
   {
-    name: "Mystic",
+    name: "Ultra",
     icon: "✧",
-    description: "Full-spectrum self-understanding",
-    price: { monthly: "$29", yearly: "$249" },
+    description: "Full access, no limits",
+    price: "$10",
     isPopular: false,
     features: [
-      "Everything in Seeker",
-      "Unlimited chart readings",
-      "AI-powered interpretations",
-      "Academy access",
-      "1-on-1 consultation each month",
+      "25 messages per day",
+      "Everything in Pro",
+      "Early access to new features",
     ],
   },
 ];
@@ -343,10 +338,6 @@ const courses = [
 ];
 
 function PricingSection() {
-  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "yearly">(
-    "monthly",
-  );
-
   return (
     <>
       <LandingNavbar />
@@ -384,41 +375,6 @@ function PricingSection() {
           >
             Astrology for every stage of your journey.
           </motion.p>
-
-          {/* Billing Toggle */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center p-1 rounded-full bg-white border border-foreground/10"
-          >
-            <button
-              onClick={() => setBillingPeriod("monthly")}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                billingPeriod === "monthly"
-                  ? "bg-foreground text-white"
-                  : "text-muted hover:text-foreground"
-              }`}
-            >
-              Monthly
-            </button>
-            <button
-              onClick={() => setBillingPeriod("yearly")}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                billingPeriod === "yearly"
-                  ? "bg-foreground text-white"
-                  : "text-muted hover:text-foreground"
-              }`}
-            >
-              Yearly
-            </button>
-          </motion.div>
-          {billingPeriod === "yearly" && (
-            <p className="text-xs text-cosmic-cobalt mt-2">
-              Save up to 30% with yearly billing
-            </p>
-          )}
         </div>
 
         {/* Pricing Cards */}
@@ -462,11 +418,11 @@ function PricingSection() {
               {/* Price */}
               <div className="mb-6">
                 <span className="text-4xl font-serif text-foreground">
-                  {plan.price[billingPeriod]}
+                  {plan.price}
                 </span>
-                {plan.price[billingPeriod] !== "Free" && (
+                {plan.price !== "Free" && (
                   <span className="text-sm text-muted ml-1">
-                    /{billingPeriod === "monthly" ? "month" : "year"}
+                    /month
                   </span>
                 )}
               </div>
