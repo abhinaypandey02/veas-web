@@ -7,7 +7,7 @@ import { ChatRole } from "@/app/api/(graphql)/Chat/enum";
 import { Input } from "@/components/input";
 import { useForm } from "react-hook-form";
 import Form from "@/components/form";
-import { ArrowRightIcon, ShieldCheckIcon } from "@phosphor-icons/react";
+import { ArrowRightIcon } from "@phosphor-icons/react";
 import { cn } from "@/components/utils";
 import { renderRichText } from "../utils";
 import { useStreaming } from "./streaming";
@@ -230,12 +230,6 @@ export function ChatWindow({
 
       <Form form={form} onSubmit={handleSendMessage} className="p-4 relative">
         <div className="flex items-end gap-2 max-w-4xl mx-auto relative">
-          {chats.length === 0 && (
-            <div className="absolute flex items-center gap-1 -top-1.5 text-xs right-0 text-gray-500 -translate-y-full">
-              <ShieldCheckIcon size={12} /> all messages are end-to-end
-              encrypted
-            </div>
-          )}
           <div className="flex-1 relative">
             <Input
               loading={isLoading}
