@@ -175,10 +175,12 @@ export function ChatWindow({
                       }
                     >
                       {!message ? (
-                        <span className="inline-flex items-center gap-1">
-                          <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse" />
-                          <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse delay-75" />
-                          <span className="w-1 h-1 bg-current/60 rounded-full animate-pulse delay-150" />
+                        <span className="inline-flex items-end gap-1 italic">
+                          {toolMessage
+                            ? `👀 ${toolMessage}`
+                            : firstTouch
+                              ? "🧐 analysing..."
+                              : "thinking..."}
                         </span>
                       ) : null}
                     </div>

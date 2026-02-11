@@ -40,17 +40,14 @@ export function useStreaming(url: string) {
               const { done, value } = await reader.read();
 
               if (done) {
-                console.log("done");
                 break;
               }
 
               // Decode the chunk and accumulate
               const chunk = decoder.decode(value, { stream: true });
               chunk.split("\n").forEach((line) => {
-                console.log(line);
                 if (line.trim()) {
                   const json = JSON.parse(line);
-                  console.log(json);
                   if (json.type === ChatStreamRole.Tool) {
                     onTool(json.message);
                   } else if (json.type === ChatStreamRole.Response) {

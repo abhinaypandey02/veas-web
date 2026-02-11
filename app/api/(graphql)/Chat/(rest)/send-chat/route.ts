@@ -143,7 +143,7 @@ function getEncodedMessage(message: string | undefined, type?: ChatStreamRole) {
   return (
     JSON.stringify({
       message,
-      type: type || ChatStreamRole.Response,
+      type: type ?? ChatStreamRole.Response,
     }) + "\n"
   );
 }
