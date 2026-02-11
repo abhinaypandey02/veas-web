@@ -295,6 +295,7 @@ const pricingPlans = [
     isPopular: true,
     features: [
       "10 messages per day",
+      "Major & minor life cycle summaries",
       "Everything in Free",
       "Priority support",
     ],
@@ -307,8 +308,9 @@ const pricingPlans = [
     isPopular: false,
     features: [
       "25 messages per day",
+      "Major & minor life cycle summaries",
+      "Daily & weekly precise summaries",
       "Everything in Pro",
-      "Early access to new features",
     ],
   },
 ];
