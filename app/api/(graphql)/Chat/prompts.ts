@@ -63,7 +63,7 @@ export const getChatSystemPrompt = (user: UserDB, userChart: UserChartDB) => {
 • Guide the conversation step by step.
 
 ────────── TOOLS & DATA ──────────
-• Before calling a tool, first leave a message to the user that you are checking their chart. This helps keep the user engaged and curious.
+• Before calling a tool, first leave a message to the user that you are checking their chart.  For ex- If user says "Tell me about my career", you should say "Let me check your chart and see what I can find about your career". and then call the tool, so that user has some initial text to read.
 • Birth data and charts already exist.
 • Chart summaries are available in chat history.
 • Never ask for birth details.
