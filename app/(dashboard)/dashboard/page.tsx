@@ -81,8 +81,10 @@ export default function Page() {
             className="absolute inset-0 w-full h-full object-cover"
             aria-hidden="true"
           />
-          {/* Overlay for contrast */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/50" />
+          {/* Overlay - Cosmic purple tones instead of gray */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#14248A]/50 via-purple-900/30 to-[#1a1a1a]/60" />
+          {/* Additional subtle vignette for text contrast */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(20,36,138,0.3)_100%)]" />
 
           {/* Content */}
           <div className="relative z-10 px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
@@ -95,7 +97,7 @@ export default function Page() {
                     Cosmic cycle active
                   </span>
                 </span>
-                <h1 className="font-editorial font-medium text-2xl sm:text-3xl lg:text-4xl text-white tracking-[-0.03em] leading-[1.15]">
+                <h1 className="font-editorial font-semibold text-3xl sm:text-4xl lg:text-5xl text-white tracking-[-0.03em] leading-[1.15]">
                   {greeting},{" "}
                   <span className="italic text-cosmic-lavender">Explorer</span>
                 </h1>
@@ -113,16 +115,16 @@ export default function Page() {
 
             {/* AI Chat CTA — featured card inside the hero */}
             <Link href="/chat" className="group block">
-              <div className="relative rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 p-4 sm:p-5 transition-all duration-500 hover:bg-white/15 hover:border-white/25 overflow-hidden">
+              <div className="relative rounded-[1.25rem] sm:rounded-[1.5rem] bg-white/15 backdrop-blur-md border-2 border-white/30 p-5 sm:p-6 transition-all duration-500 hover:bg-white/20 hover:border-white/40 hover:-translate-y-1 overflow-hidden shadow-lg hover:shadow-xl hover:shadow-black/20">
                 {/* Subtle glow */}
-                <div className="absolute -top-6 -right-6 w-24 h-24 rounded-full bg-cosmic-lavender/15 blur-2xl group-hover:bg-cosmic-lavender/25 transition-all duration-700 pointer-events-none" />
+                <div className="absolute -top-8 -right-8 w-32 h-32 rounded-full bg-cosmic-lavender/20 blur-3xl group-hover:bg-cosmic-lavender/30 group-hover:scale-150 transition-all duration-700 pointer-events-none" />
 
-                <div className="relative z-10 flex items-center gap-3 sm:gap-4">
+                <div className="relative z-10 flex items-center gap-4 sm:gap-5">
                   {/* Icon */}
-                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 group-hover:bg-white/20 group-hover:scale-105 transition-all duration-500">
+                  <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-xl bg-white/12 border-2 border-white/25 flex items-center justify-center flex-shrink-0 group-hover:bg-white/25 group-hover:border-white/35 group-hover:scale-110 transition-all duration-500 shadow-md">
                     <svg
-                      width="20"
-                      height="20"
+                      width="22"
+                      height="22"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -138,24 +140,24 @@ export default function Page() {
 
                   {/* Text */}
                   <div className="flex-1 min-w-0">
-                    <h2 className="text-sm sm:text-base font-medium text-white leading-tight">
+                    <h2 className="text-base sm:text-lg font-semibold text-white leading-tight mb-0.5">
                       Chat with AI Astrologer
                     </h2>
-                    <p className="text-[11px] sm:text-xs text-white/50 mt-0.5 leading-snug truncate">
+                    <p className="text-xs sm:text-sm text-white/55 leading-snug truncate">
                       Ask about your charts, transits & cosmic insights
                     </p>
                   </div>
 
                   {/* Arrow */}
-                  <div className="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0 group-hover:bg-white/20 transition-all duration-300">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/12 border-2 border-white/25 flex items-center justify-center flex-shrink-0 group-hover:bg-white/25 group-hover:border-white/35 group-hover:shadow-md transition-all duration-300 shadow-sm">
                     <svg
-                      width="14"
-                      height="14"
+                      width="16"
+                      height="16"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
                       strokeWidth="2.5"
-                      className="text-white transition-transform duration-300 group-hover:translate-x-0.5"
+                      className="text-white/90 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white"
                     >
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>
@@ -170,32 +172,32 @@ export default function Page() {
       {/* ── Main Content ── */}
       <div className="px-3 sm:px-4 lg:px-6 pb-6">
         <div className="mx-auto max-w-7xl">
-          {/* Section Label */}
-          <div className="flex items-center gap-3 mt-6 sm:mt-8 mb-4 sm:mb-5">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cosmic-purple/20 bg-white/70 backdrop-blur-sm">
-              <span className="text-cosmic-purple text-xs">✧</span>
-              <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted font-medium">
+          {/* Section Label - Premium styling */}
+          <div className="flex items-center gap-3 mt-8 sm:mt-10 mb-6 sm:mb-7">
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-cosmic-lavender/30 bg-white/80 backdrop-blur-md shadow-sm">
+              <span className="text-cosmic-purple text-sm">✧</span>
+              <span className="text-[11px] sm:text-xs uppercase tracking-[0.15em] text-foreground/70 font-semibold">
                 Your Insights
               </span>
             </div>
-            <div className="h-px flex-1 bg-gradient-to-r from-cosmic-lavender/40 to-transparent" />
+            <div className="h-px flex-1 bg-gradient-to-r from-cosmic-lavender/50 via-cosmic-purple/30 to-transparent" />
           </div>
 
-          {/* Cards Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          {/* Cards Stack - Each card its own section */}
+          <div className="flex flex-col gap-4 sm:gap-4.5">
             <SummaryCards />
           </div>
 
-          {/* Bottom cosmic accent */}
-          <div className="flex justify-center mt-8 sm:mt-10 mb-2">
-            <div className="flex items-center gap-3">
-              <div className="h-px w-12 bg-gradient-to-r from-transparent to-cosmic-lavender/40" />
-              <span className="text-cosmic-purple/30 text-sm">✧</span>
+          {/* Bottom cosmic accent - Polished */}
+          <div className="flex justify-center mt-10 sm:mt-12 mb-3">
+            <div className="flex items-center gap-3.5">
+              <div className="h-px w-16 bg-gradient-to-r from-transparent to-cosmic-lavender/50" />
+              <span className="text-cosmic-purple/40 text-base">✧</span>
               <span className="font-editorial italic text-xs sm:text-sm text-muted/50">
                 aligned with the real sky
               </span>
-              <span className="text-cosmic-purple/30 text-sm">✧</span>
-              <div className="h-px w-12 bg-gradient-to-l from-transparent to-cosmic-lavender/40" />
+              <span className="text-cosmic-purple/40 text-base">✧</span>
+              <div className="h-px w-16 bg-gradient-to-l from-transparent to-cosmic-lavender/50" />
             </div>
           </div>
         </div>

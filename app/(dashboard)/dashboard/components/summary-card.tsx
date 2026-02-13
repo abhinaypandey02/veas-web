@@ -18,31 +18,31 @@ const CARD_STYLES: Record<
 > = {
   [ChartSummaryType.Daily]: {
     bg: "bg-gradient-to-br from-[#14248A] via-[#1e3494] to-[#998FC7]",
-    border: "border-[#4a56b0]/30",
+    border: "border-[#4a56b0]/40",
     glow: "bg-cosmic-lavender/20",
     iconBg: "bg-white/12",
   },
   [ChartSummaryType.Weekly]: {
     bg: "bg-gradient-to-br from-[#1a1a1a] via-[#2a2a35] to-[#3a3a4a]",
-    border: "border-white/10",
+    border: "border-white/15",
     glow: "bg-white/8",
     iconBg: "bg-white/10",
   },
   [ChartSummaryType.Mahadasha]: {
     bg: "bg-gradient-to-br from-[#6b5fa0] via-[#7d6fb8] to-[#14248A]",
-    border: "border-cosmic-lavender/20",
+    border: "border-cosmic-lavender/30",
     glow: "bg-cosmic-lavender/15",
     iconBg: "bg-white/12",
   },
   [ChartSummaryType.Antardasha]: {
     bg: "bg-gradient-to-br from-[#14248A] via-[#1a2e6e] to-[#1a1a1a]",
-    border: "border-[#3a4a8a]/20",
+    border: "border-[#3a4a8a]/30",
     glow: "bg-[#4a5aaa]/15",
     iconBg: "bg-white/10",
   },
   [ChartSummaryType.Pratyantardasha]: {
     bg: "bg-gradient-to-br from-[#2a2240] via-[#3a2e5a] to-[#998FC7]",
-    border: "border-cosmic-purple/20",
+    border: "border-cosmic-purple/30",
     glow: "bg-cosmic-purple/12",
     iconBg: "bg-white/12",
   },
@@ -78,50 +78,54 @@ export default function SummaryCard({
     <div className="relative">
       <button
         onClick={handleClick}
-        className={`relative w-full text-left rounded-2xl sm:rounded-[1.25rem] ${style.bg} border ${style.border} overflow-hidden group transition-all duration-500 hover:shadow-xl hover:shadow-black/10 hover:-translate-y-0.5 active:scale-[0.98]`}
+        className={`relative w-full rounded-[1.25rem] sm:rounded-[1.5rem] ${style.bg} border-2 ${style.border} overflow-hidden group transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-black/30 hover:-translate-y-1 active:scale-[0.99]`}
       >
         {/* ── Decorative layers ── */}
         <div
-          className={`absolute -top-12 -right-12 w-28 h-28 sm:w-36 sm:h-36 rounded-full ${style.glow} blur-2xl pointer-events-none`}
+          className={`absolute -top-10 -right-10 w-40 h-40 rounded-full ${style.glow} blur-3xl pointer-events-none transition-all duration-700 group-hover:scale-150 group-hover:opacity-80`}
         />
-        <div className="absolute bottom-0 left-0 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-white/[0.04] blur-xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-28 h-28 rounded-full bg-white/[0.08] blur-2xl pointer-events-none" />
         {/* Noise/grain texture overlay */}
         <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay"
+          className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-overlay"
           style={{ backgroundImage: "url('/noise.svg')", backgroundSize: "200px" }}
         />
 
-        {/* ── Card content ── */}
-        <div className="relative z-10 p-4 sm:p-5 lg:p-6">
-          {/* Top row: icon + arrow */}
-          <div className="flex items-start justify-between mb-4 sm:mb-6 lg:mb-8">
+        {/* ── Card content - HORIZONTAL LAYOUT ── */}
+        <div className="relative z-10 p-5 sm:p-6">
+          <div className="flex items-center gap-4 sm:gap-5">
+            {/* Icon (Left) */}
             <div
-              className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl ${style.iconBg} backdrop-blur-sm border border-white/15 flex items-center justify-center group-hover:scale-110 group-hover:bg-white/20 transition-all duration-500`}
+              className={`w-12 h-12 sm:w-13 sm:h-13 rounded-xl ${style.iconBg} backdrop-blur-md border-2 border-white/25 flex items-center justify-center shadow-md flex-shrink-0 group-hover:scale-110 group-hover:bg-white/30 group-hover:border-white/35 group-hover:shadow-lg transition-all duration-500`}
             >
               {icon}
             </div>
-            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/8 border border-white/15 flex items-center justify-center group-hover:bg-white/15 transition-all duration-300">
+
+            {/* Text (Center) */}
+            <div className="flex-1 min-w-0">
+              <h3 className="text-base sm:text-lg font-semibold font-editorial text-white tracking-tight leading-tight mb-0.5">
+                {title}
+              </h3>
+              <p className="text-xs sm:text-sm text-white/55 leading-snug truncate">
+                {subtitle}
+              </p>
+            </div>
+
+            {/* Arrow (Right) */}
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/12 border-2 border-white/25 flex items-center justify-center flex-shrink-0 group-hover:bg-white/25 group-hover:border-white/35 group-hover:shadow-md transition-all duration-300 shadow-sm">
               <svg
-                width="12"
-                height="12"
+                width="16"
+                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2.5"
-                className="text-white/70 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-white"
+                className="text-white/90 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white"
               >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </div>
           </div>
-
-          {/* Title & subtitle */}
-          <h3 className="text-[0.8rem] sm:text-base lg:text-lg font-semibold font-editorial text-white tracking-tight leading-tight">
-            {title}
-          </h3>
-          <p className="mt-1 sm:mt-1.5 text-[10px] sm:text-xs text-white/45 leading-relaxed line-clamp-2">
-            {subtitle}
-          </p>
         </div>
       </button>
 
