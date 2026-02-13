@@ -58,15 +58,14 @@ export default function SummaryCard({
   const style = CARD_STYLES[type] || CARD_STYLES[ChartSummaryType.Daily];
 
   // Fetch summary data using the GraphQL query
-  const { data, loading, error, refetch } = useAuthQuery(GetSummaryDocument, {
-    variables: { input: { type } },
-    skip: !showSummary, // Only fetch when user clicks the card
-  });
+  // Fetch summary data using the GraphQL query
+  // useAuthQuery returns [execute, result] tuple
+  const [fetchSummary, { data, loading, error }] = useAuthQuery(GetSummaryDocument);
 
   const handleClick = () => {
     setShowSummary(true);
     if (!data && !loading) {
-      refetch();
+      fetchSummary({ type });
     }
   };
 
