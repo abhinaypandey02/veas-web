@@ -27,7 +27,7 @@ const sans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Veas | Your True Vedic Chart",
+  title: "Veas | Your Astro Best Friend",
   description: "Discover your true zodiac sign with authentic Vedic astrology.",
 };
 export default function RootLayout({
@@ -36,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${sans.className} ${serif.variable} antialiased`}>
         <AuthWrapper>
           <ApolloWrapper>{children}</ApolloWrapper>
