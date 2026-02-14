@@ -8,6 +8,7 @@ import SmoothScroll from "./_components/smooth-scroll";
 import { useToken } from "naystack/auth/email/client";
 
 function LiveTimer() {
+  const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState({
     hours: "00",
     minutes: "00",
@@ -15,6 +16,7 @@ function LiveTimer() {
   });
 
   useEffect(() => {
+    setMounted(true);
     const updateTime = () => {
       const now = new Date();
       setTime({
@@ -28,6 +30,14 @@ function LiveTimer() {
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
+
+  if (!mounted) {
+    return (
+      <div className="font-mono text-lg sm:text-xl tracking-wider text-white tabular-nums opacity-0">
+        00:00:<span className="text-cosmic-lavender">00</span>
+      </div>
+    );
+  }
 
   return (
     <div className="font-mono text-lg sm:text-xl tracking-wider text-white tabular-nums">
@@ -871,7 +881,7 @@ export default function Home() {
             >
               <Link href={token ? "/dashboard" : "/signup"}>
                 <button className="h-12 px-8 rounded-full bg-white text-foreground hover:bg-white/90 transition-colors text-base font-medium">
-                  {token ? "Dashboard" : "Get Your Free Chart"}
+                  {token ? "Dashboard" : "Get Your Free Reading"}
                 </button>
               </Link>
 
