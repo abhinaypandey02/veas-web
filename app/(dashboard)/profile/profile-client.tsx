@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { QueryResponseType } from "naystack/graphql";
 import type getPlanets from "@/app/api/(graphql)/User/resolvers/get-planets";
 import type getCurrentUser from "@/app/api/(graphql)/User/resolvers/get-current-user";
+import { getWesternZodiacSign } from "@/utils/western-zodiac";
 import ProfileInfo from "./profile-info";
 import SettingsTab from "./settings-tab";
 
@@ -51,6 +52,9 @@ export default function ProfileClient({
   const sunPlanet = planets.find((p) => p.name === "Sun");
   const moonPlanet = planets.find((p) => p.name === "Moon");
   const ascendant = getAscendant(planets);
+  const westernSign = userData?.dateOfBirth
+    ? getWesternZodiacSign(userData.dateOfBirth)
+    : null;
 
   const tabs: { key: Tab; label: string }[] = [
     { key: "chart", label: "Chart" },
@@ -68,8 +72,15 @@ export default function ProfileClient({
               @{userData.email.split("@")[0]}
             </p>
           )}
-          {(sunPlanet || moonPlanet || ascendant) && (
+          {westernSign && (
             <p className="mt-2 text-sm text-white/70 flex items-center gap-3 flex-wrap">
+              <span className="text-white/40">Western</span>
+              <span>&#9737; {westernSign}</span>
+            </p>
+          )}
+          {(sunPlanet || moonPlanet || ascendant) && (
+            <p className="mt-1 text-sm text-white/70 flex items-center gap-3 flex-wrap">
+              <span className="text-white/40">Vedic</span>
               {sunPlanet && <span>&#9737; {sunPlanet.sign}</span>}
               {moonPlanet && <span>&#9789; {moonPlanet.sign}</span>}
               {ascendant && <span>&uarr; {ascendant}</span>}
