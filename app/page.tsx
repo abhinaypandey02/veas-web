@@ -669,7 +669,7 @@ const faqs = [
       "Accuracy depends on alignment. Sidereal charts reflect where the planets truly were, astronomically.",
   },
   {
-    question: "How do I get my free chart?",
+    question: "How do I get my free reading?",
     answer: "Just enter your birth details — no payment required.",
   },
   {
