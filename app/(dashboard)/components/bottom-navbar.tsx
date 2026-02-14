@@ -4,6 +4,7 @@ import { cn } from "@/components/utils";
 import { House, User, MagicWandIcon } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 
 const navItems = [
   { href: "/dashboard", label: "Home", icon: House },
@@ -15,34 +16,42 @@ export function BottomNavbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="w-full fixed bottom-0 z-20 shadow-md bg-surface pb-[env(safe-area-inset-bottom)]">
-      <div className="mx-auto flex max-w-sm items-center justify-around px-2 py-1">
+    <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 px-4 w-full max-w-sm">
+      <nav className="relative flex items-center justify-between rounded-full border border-white/20 bg-black/80 p-2 shadow-2xl backdrop-blur-xl">
         {navItems.map(({ href, label, icon: Icon }) => {
           const isActive =
             pathname === href ||
             (href !== "/dashboard" && pathname.startsWith(href));
+
           return (
             <Link
               key={href}
               href={href}
-              className={`flex flex-col items-center gap-1 rounded-lg px-4 py-1.5 transition-colors ${
-                isActive ? "text-primary" : "text-muted hover:text-foreground"
-              }`}
-              aria-current={isActive ? "page" : undefined}
+              className={cn(
+                "relative z-10 flex flex-1 flex-col items-center justify-center gap-1 px-2 py-2 transition-colors duration-200",
+                isActive ? "text-white" : "text-white/50 hover:text-white/80"
+              )}
             >
-              <Icon size={24} weight={isActive ? "fill" : "regular"} />
-              <span
-                className={cn(
-                  "text-xs font-medium ",
-                  isActive ? "text-primary" : "text-muted",
-                )}
-              >
-                {label}
-              </span>
+              {isActive && (
+                <motion.div
+                  layoutId="nav-pill"
+                  className="absolute inset-0 rounded-full bg-white/20"
+                  initial={false}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 30,
+                  }}
+                />
+              )}
+              <div className="relative z-10 flex flex-col items-center gap-0.5">
+                <Icon size={24} weight={isActive ? "fill" : "regular"} />
+                <span className="text-[10px] font-medium">{label}</span>
+              </div>
             </Link>
           );
         })}
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 }

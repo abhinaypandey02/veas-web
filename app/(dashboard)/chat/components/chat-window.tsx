@@ -133,8 +133,14 @@ export function ChatWindow({
         close={() => setFeedbackOpen(false)}
         name={data?.user?.name || ""}
       />
+
+      {/* Fixed Top Bar */}
+      <div className="shrink-0 flex items-center justify-center px-4 py-3 border-b border-black/5 bg-white/80 backdrop-blur-md z-20">
+        <h1 className="font-editorial text-lg font-medium text-[#1a1a1a]">Chat</h1>
+      </div>
+
       {/* Messages Area */}
-      <div className="grow flex flex-col overflow-y-auto px-4 pt-6 space-y-4">
+      <div className="grow flex flex-col overflow-y-auto px-4 pt-4 pb-2 space-y-4">
         {chats.length === 0 ? (
           <div className="flex grow items-center justify-center ">
             <div className="text-center text-foreground/60">
@@ -150,31 +156,29 @@ export function ChatWindow({
               .map((message, i) => (
                 <div
                   key={chat.createdAt + chat.role + i}
-                  className={`flex ${
-                    chat.role === ChatRole.user
-                      ? "justify-end"
-                      : "justify-start"
-                  }`}
+                  className={`flex ${chat.role === ChatRole.user
+                    ? "justify-end"
+                    : "justify-start"
+                    }`}
                 >
                   <div
-                    className={`max-w-[80%] md:max-w-[70%] px-3 py-1 text-sm ${
-                      chat.role !== ChatRole.user
-                        ? "bg-white text-foreground border "
-                        : "bg-primary/90 text-white "
-                    }`}
+                    className={`max-w-[85%] md:max-w-[70%] px-5 py-3 text-sm rounded-[24px] ${chat.role !== ChatRole.user
+                      ? "bg-white text-[#1a1a1a] border border-black/5 shadow-sm rounded-tl-none"
+                      : "bg-violet-600 text-white rounded-tr-none shadow-sm"
+                      }`}
                   >
                     <div
                       className={cn(
                         "whitespace-pre-wrap wrap-break-word ",
                         chat.role !== ChatRole.user
-                          ? "font-serif text-s3m"
-                          : "text-white text-sm3",
+                          ? "font-serif text-[15px] leading-relaxed"
+                          : "font-sans text-[15px]",
                       )}
                       dangerouslySetInnerHTML={
                         message
                           ? {
-                              __html: renderRichText(message),
-                            }
+                            __html: renderRichText(message),
+                          }
                           : undefined
                       }
                     >
@@ -228,7 +232,8 @@ export function ChatWindow({
         </div>
       )}
 
-      <Form form={form} onSubmit={handleSendMessage} className="p-4 relative">
+      {/* Input bar - above bottom nav */}
+      <Form form={form} onSubmit={handleSendMessage} className="shrink-0 p-4 mb-20 relative z-10">
         <div className="flex items-end gap-2 max-w-4xl mx-auto relative">
           <div className="flex-1 relative">
             <Input
@@ -241,23 +246,23 @@ export function ChatWindow({
                   ? firstTouch
                     ? "🧐 analysing..."
                     : "thinking..."
-                  : "type your message..."
+                  : "Type your message..."
               }
               rows={1}
-              className="ring-primary bg-gray-50"
+              className="ring-primary bg-white shadow-sm border-0 rounded-full py-4 px-6 min-h-[56px] text-base"
             />
           </div>
           {isLoading
             ? null
             : message?.trim() && (
-                <button
-                  className=" absolute right-4 top-1/2 -translate-y-1/2"
-                  type="submit"
-                  disabled={isLoading}
-                >
-                  <ArrowRightIcon size={24} weight="light" />
-                </button>
-              )}
+              <button
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-primary hover:bg-primary/10 p-2 rounded-full transition-colors"
+                type="submit"
+                disabled={isLoading}
+              >
+                <ArrowRightIcon size={24} weight="bold" />
+              </button>
+            )}
         </div>
       </Form>
     </div>
