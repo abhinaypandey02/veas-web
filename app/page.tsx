@@ -1414,7 +1414,7 @@ export default function Home() {
                 >
                   <Link href={token ? "/dashboard" : "/signup"}>
                     <button className="h-14 px-10 rounded-full bg-cosmic-purple text-white font-medium hover:bg-cosmic-lavender hover:text-foreground transition-colors tracking-wide text-sm uppercase">
-                      {token ? "Dashboard" : "Get Your Chart Free"}
+                      {token ? "Dashboard" : "Get Your Free Reading"}
                     </button>
                   </Link>
 
@@ -1481,7 +1481,7 @@ export default function Home() {
                         href="#"
                         className="text-sm text-white/70 hover:text-white transition-colors"
                       >
-                        {token ? "Dashboard" : "Get Your Chart"}
+                        {token ? "Dashboard" : "Get Your Free Reading"}
                       </a>
                     </li>
                     <li>
@@ -1523,7 +1523,7 @@ export default function Home() {
                         href="#"
                         className="text-sm text-white/70 hover:text-white transition-colors"
                       >
-                        Free Birth Chart
+                        Free Reading
                       </a>
                     </li>
                     <li>
