@@ -27,7 +27,7 @@ const sans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Veas | Your AstroBest Friend",
+  title: "Veas | Your Astro Best Friend",
   description: "Discover your true zodiac sign with authentic Vedic astrology.",
 };
 export default function RootLayout({
