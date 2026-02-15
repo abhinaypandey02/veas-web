@@ -66,7 +66,7 @@ export default function SummaryCard({
       <div
         onClick={() => handleFetchSummary()}
         className={`group relative overflow-hidden rounded-[2rem] bg-[#FDFCF8] border border-black/5 transition-all duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 cursor-pointer 
-        ${compact ? "p-4 min-w-[160px] aspect-square" : "p-7"}
+        ${compact ? "p-4 min-w-[160px] h-full" : "p-7"}
         ${bgImage ? "text-white" : "text-[#1a1a1a]"}
         ${title === "Daily" ? "w-full h-full" : ""}
         `}
