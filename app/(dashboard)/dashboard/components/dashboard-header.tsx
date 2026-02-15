@@ -12,7 +12,7 @@ export default function DashboardHeader({ onPremiumClick, userName = "User" }: D
     const firstName = userName.split(" ")[0];
 
     return (
-        <div className="w-full max-w-sm pt-8 pb-4 mx-auto">
+        <div className="w-full max-w-sm md:max-w-none pt-8 pb-4 mx-auto">
             <div className="w-full flex items-center justify-between bg-white/80 backdrop-blur-md px-4 py-2 rounded-full shadow-sm border border-white/20">
                 <div className="flex items-center gap-3">
                     <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-violet-100 shadow-sm shrink-0">

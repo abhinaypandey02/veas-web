@@ -29,7 +29,7 @@ export default function Page() {
   }, [getUser]);
 
   return (
-    <main className="relative grow h-svh w-full overflow-hidden bg-white text-[#1a1a1a]">
+    <main className="relative grow min-h-svh w-full overflow-y-auto bg-white text-[#1a1a1a]">
       {/* CosmicGraphic might be hard to see on light bg, maybe hide or adjust opacity/blend mode */}
       <div className="opacity-30 mix-blend-multiply pointer-events-none absolute inset-0">
         <CosmicGraphic />
@@ -57,14 +57,14 @@ export default function Page() {
         )}
       </AnimatePresence>
 
-      <div className="relative z-10 mx-auto flex h-full max-w-md flex-col px-4">
+      <div className="relative z-10 mx-auto max-w-md md:max-w-4xl px-4 md:px-8">
         <DashboardHeader
           onPremiumClick={() => setShowPremium(true)}
           userName={userName}
         />
 
-        <div className="flex flex-1 flex-col gap-3 min-h-0 overflow-hidden pb-32">
-          <div className="flex-1 min-h-0">
+        <div className="flex flex-col gap-3 pb-32 md:pb-24">
+          <div>
             <SummaryCards />
           </div>
 
