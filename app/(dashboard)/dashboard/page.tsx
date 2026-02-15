@@ -63,12 +63,12 @@ export default function Page() {
           userName={userName}
         />
 
-        <div className="flex flex-1 flex-col gap-3 min-h-0 overflow-hidden pb-32">
-          <div className="flex-1 min-h-0">
+        <div className="flex flex-1 flex-col gap-3 overflow-y-auto pb-32">
+          <div className="flex-shrink-0">
             <SummaryCards />
           </div>
 
-          <div className="pt-2 shrink-0">
+          <div className="pt-2 flex-shrink-0">
             <Link href="/chat" className="block w-full">
               <motion.div
                 animate={{ y: [0, -6, 0] }}

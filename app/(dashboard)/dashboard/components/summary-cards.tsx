@@ -44,9 +44,9 @@ const SUMMARY_ITEMS = [
 
 export default function SummaryCards() {
   return (
-    <div className="grid grid-cols-2 grid-rows-[3fr_3fr_3fr] gap-3 h-full">
+    <div className="grid grid-cols-2 auto-rows-auto gap-3">
       {SUMMARY_ITEMS.map((item, index) => (
-        <div key={item.type} className={index === 0 ? "col-span-2 row-span-1" : "col-span-1 row-span-1"}>
+        <div key={item.type} className={index === 0 ? "col-span-2" : "col-span-1"}>
           <SummaryCard
             type={item.type}
             title={item.title}
