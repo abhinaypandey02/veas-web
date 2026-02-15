@@ -26,7 +26,7 @@ export default function PremiumBanner() {
 
             <div className="mt-6">
                 <button className="w-full rounded-full bg-[#1a1a1a] px-4 py-3 text-sm font-semibold text-[var(--cosmic-gold)] transition-transform active:scale-95">
-                    Upgrade Now
+                    Coming Soon
                 </button>
             </div>
         </div>
