@@ -96,7 +96,7 @@ export default function SummaryCards() {
 
         <div className="flex overflow-x-auto gap-4 py-4 mx-2 no-scrollbar snap-x snap-mandatory">
           {/* Weekly */}
-          <div className="snap-start shrink-0 w-40 h-40">
+          <div className="snap-start shrink-0 w-40 h-48">
             <SummaryCard
               type={SUMMARY_ITEMS[1].type}
               title={SUMMARY_ITEMS[1].title}
@@ -107,7 +107,7 @@ export default function SummaryCards() {
           </div>
 
           {/* Major Period */}
-          <div className="snap-start shrink-0 w-40 h-40">
+          <div className="snap-start shrink-0 w-40 h-48">
             <SummaryCard
               type={SUMMARY_ITEMS[2].type}
               title={SUMMARY_ITEMS[2].title}
@@ -118,7 +118,7 @@ export default function SummaryCards() {
           </div>
 
           {/* Sub-Period */}
-          <div className="snap-start shrink-0 w-40 h-40">
+          <div className="snap-start shrink-0 w-40 h-48">
             <SummaryCard
               type={SUMMARY_ITEMS[3].type}
               title={SUMMARY_ITEMS[3].title}
@@ -129,7 +129,7 @@ export default function SummaryCards() {
           </div>
 
           {/* Trigger Period */}
-          <div className="snap-start shrink-0 w-40 h-40">
+          <div className="snap-start shrink-0 w-40 h-48">
             <SummaryCard
               type={SUMMARY_ITEMS[4].type}
               title={SUMMARY_ITEMS[4].title}

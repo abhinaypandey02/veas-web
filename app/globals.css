@@ -102,3 +102,12 @@ button,
 @utility text-balance {
   text-wrap: balance;
 }
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
