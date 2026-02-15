@@ -162,9 +162,9 @@ export function ChatWindow({
                     }`}
                 >
                   <div
-                    className={`max-w-[85%] md:max-w-[70%] px-5 py-3 text-sm rounded-[24px] ${chat.role !== ChatRole.user
-                      ? "bg-white text-[#1a1a1a] border border-black/5 shadow-sm rounded-tl-none"
-                      : "bg-violet-600 text-white rounded-tr-none shadow-sm"
+                    className={`max-w-[85%] md:max-w-[70%] px-6 py-4 text-sm rounded-[2rem] shadow-sm ${chat.role !== ChatRole.user
+                      ? "bg-[#FDFCF8] text-[#1a1a1a] border border-black/5 rounded-tl-none"
+                      : "bg-[#1a1a1a] text-[#FDFCF8] rounded-tr-none"
                       }`}
                   >
                     <div
@@ -233,7 +233,7 @@ export function ChatWindow({
       )}
 
       {/* Input bar - above bottom nav */}
-      <Form form={form} onSubmit={handleSendMessage} className="shrink-0 p-4 mb-20 relative z-10">
+      <Form form={form} onSubmit={handleSendMessage} className="shrink-0 p-4 mb-32 relative z-10">
         <div className="flex items-end gap-2 max-w-4xl mx-auto relative">
           <div className="flex-1 relative">
             <Input
@@ -249,18 +249,18 @@ export function ChatWindow({
                   : "Type your message..."
               }
               rows={1}
-              className="ring-primary bg-white shadow-sm border-0 rounded-full py-4 px-6 min-h-[56px] text-base"
+              className="bg-[#FDFCF8]  rounded-2xl py-4 px-6 min-h-[56px] text-base ring-0 focus:ring-0 outline-none border border-black/5 focus:border-black/10 transition-colors"
             />
           </div>
           {isLoading
             ? null
             : message?.trim() && (
               <button
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-primary hover:bg-primary/10 p-2 rounded-full transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#1a1a1a] hover:bg-black/5 p-2 rounded-full transition-colors"
                 type="submit"
                 disabled={isLoading}
               >
-                <ArrowRightIcon size={24} weight="bold" />
+                <ArrowRightIcon size={24} weight="light" />
               </button>
             )}
         </div>

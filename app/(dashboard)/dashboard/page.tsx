@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useEffect } from "react";
 import SummaryCards from "./components/summary-cards";
 import DashboardHeader from "./components/dashboard-header";
@@ -8,7 +7,6 @@ import PremiumBanner from "./components/premium-banner";
 import { CosmicGraphic } from "@/components/CosmicGraphic"; // Note: CosmicGraphic might need adjustment for light mode visibility
 import { X } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "framer-motion";
-import Image from "next/image";
 import { useAuthQuery } from "naystack/graphql/client";
 import { GET_CURRENT_USER } from "@/constants/graphql/queries";
 
@@ -29,11 +27,9 @@ export default function Page() {
   }, [getUser]);
 
   return (
-    <main className="relative grow h-svh w-full overflow-hidden bg-white text-[#1a1a1a]">
-      {/* CosmicGraphic might be hard to see on light bg, maybe hide or adjust opacity/blend mode */}
-      <div className="opacity-30 mix-blend-multiply pointer-events-none absolute inset-0">
-        <CosmicGraphic />
-      </div>
+    <main className="relative grow h-svh w-full overflow-hidden bg-background text-[#1a1a1a]">
+      {/* Background - Soft Cream / Off-white */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-[#F4EFFC] to-[#E6DCF5]" />
 
       {/* Premium Modal */}
       <AnimatePresence>
@@ -63,36 +59,8 @@ export default function Page() {
           userName={userName}
         />
 
-        <div className="flex flex-1 flex-col gap-3 overflow-y-auto pb-32">
-          <div className="flex-shrink-0">
-            <SummaryCards />
-          </div>
-
-          <div className="pt-2 flex-shrink-0">
-            <Link href="/chat" className="block w-full">
-              <motion.div
-                animate={{ y: [0, -6, 0] }}
-                transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-                className="relative flex items-center justify-between rounded-3xl overflow-hidden p-6 shadow-xl border-2 border-white backdrop-blur-xl"
-              >
-                <Image
-                  src="/askveasbg.png"
-                  alt="Background"
-                  fill
-                  className="object-cover"
-                />
-                <div className="relative z-10 flex items-center justify-between w-full">
-                  <div className="flex flex-col gap-1">
-                    <h3 className="font-editorial text-2xl font-medium text-white">Ask Veas AI</h3>
-                    <p className="text-xs text-white/80 leading-tight">Chat with your personal astrologer</p>
-                  </div>
-                  <div className="h-10 w-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
-                    <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path></svg>
-                  </div>
-                </div>
-              </motion.div>
-            </Link>
-          </div>
+        <div className="flex flex-1 flex-col overflow-y-auto no-scrollbar">
+          <SummaryCards />
         </div>
       </div>
     </main>

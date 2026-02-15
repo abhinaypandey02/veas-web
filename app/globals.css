@@ -28,7 +28,14 @@
   /* True Cobalt */
   --cosmic-gold: #b8a06e;
 
-  --border: #D4C2FC;
+  /* Retro Feminine Palette */
+  --color-cream: #FAF9F6;
+  --color-rose-dust: #E8DCCA;
+  --color-lavender-mist: #F4EFFC;
+  --color-text-soft: #4A4A4A;
+  --color-text-translucent: rgba(74, 74, 74, 0.6);
+
+  --border: #E5E0D8;
 }
 
 @theme inline {

@@ -55,26 +55,26 @@ export default function ProfileInfo({
                   className={`flex items-center ${pi > 0 ? "border-t border-white/5" : ""}`}
                 >
                   {/* Sign column */}
-                  <div className="w-40 shrink-0 border-r border-white/10 px-4 py-3">
+                  <div className="w-40 shrink-0 border-r border-white/10 px-2 py-1.5">
                     {pi === 0 && (
-                      <span className="text-base font-light">
+                      <span className="text-sm font-light">
                         {planet.sign}
                       </span>
                     )}
                   </div>
 
                   {/* Planet column */}
-                  <div className="grow border-r border-white/10 px-4 py-3">
-                    <span className="text-base font-light">
+                  <div className="grow border-r border-white/10 px-2 py-1.5">
+                    <span className="text-sm font-light">
                       {PLANET_SYMBOLS[planet.name] || ""}{" "}
                       {getPlanetDisplayName(planet.name).toUpperCase()}
                     </span>
                   </div>
 
                   {/* House number column */}
-                  <div className="w-16 shrink-0 px-4 py-3 text-center">
+                  <div className="w-16 shrink-0 px-2 py-1.5 text-center">
                     {pi === group.planets.length - 1 && (
-                      <span className="text-2xl font-light">{group.house}</span>
+                      <span className="text-xl font-light">{group.house}</span>
                     )}
                   </div>
                 </div>

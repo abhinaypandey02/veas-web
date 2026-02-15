@@ -21,57 +21,14 @@ interface SummaryCardProps {
   bgImageCover?: boolean;
 }
 
-const VARIANTS = {
-  gold: {
-    bg: "bg-[#FDF6E3]", // Warm light yellow/beige
-    border: "border-amber-200/50",
-    iconBg: "bg-amber-500/10",
-    iconColor: "text-amber-600",
-    title: "text-amber-950",
-    subtitle: "text-amber-700/60",
-    button: "bg-amber-500/10 hover:bg-amber-500/20 text-amber-600",
-    gradient: "from-amber-200/20 to-transparent",
-  },
-  blue: {
-    bg: "bg-[#E0F2FE]", // Light blue
-    border: "border-sky-200/50",
-    iconBg: "bg-sky-500/10",
-    iconColor: "text-sky-600",
-    title: "text-sky-950",
-    subtitle: "text-sky-700/60",
-    button: "bg-sky-500/10 hover:bg-sky-500/20 text-sky-600",
-    gradient: "from-sky-200/20 to-transparent",
-  },
-  purple: {
-    bg: "bg-[#F3E8FF]", // Light purple
-    border: "border-purple-200/50",
-    iconBg: "bg-purple-500/10",
-    iconColor: "text-purple-600",
-    title: "text-purple-950",
-    subtitle: "text-purple-700/60",
-    button: "bg-purple-500/10 hover:bg-purple-500/20 text-purple-600",
-    gradient: "from-purple-200/20 to-transparent",
-  },
-  indigo: {
-    bg: "bg-[#E0E7FF]", // Light indigo
-    border: "border-indigo-200/50",
-    iconBg: "bg-indigo-500/10",
-    iconColor: "text-indigo-600",
-    title: "text-indigo-950",
-    subtitle: "text-indigo-700/60",
-    button: "bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600",
-    gradient: "from-indigo-200/20 to-transparent",
-  },
-  pink: {
-    bg: "bg-[#FCE7F3]", // Light pink
-    border: "border-pink-200/50",
-    iconBg: "bg-pink-500/10",
-    iconColor: "text-pink-600",
-    title: "text-pink-950",
-    subtitle: "text-pink-700/60",
-    button: "bg-pink-500/10 hover:bg-pink-500/20 text-pink-600",
-    gradient: "from-pink-200/20 to-transparent",
-  },
+const MONOCHROME_STYLE = {
+  bg: "bg-[#fdfbf7]", // Warm off-white
+  border: "border-[#f0f0f0]", // Very soft border
+  iconBg: "bg-transparent",
+  iconColor: "text-[#1a1a1a]",
+  title: "text-[#1a1a1a]",
+  subtitle: "text-[#4a4a4a]", // Warmer grey
+  button: "bg-transparent hover:bg-[#1a1a1a]/5 text-[#1a1a1a]",
 };
 
 export default function SummaryCard({
@@ -80,21 +37,18 @@ export default function SummaryCard({
   type,
   icon: Icon,
   compact = false,
-  variant = "purple",
-  bgImage,
-  bgImageCover = false,
+  variant, // Kept for prop compatibility but unused
+  bgImage, // unused in retro mode
+  bgImageCover = false, // unused
 }: SummaryCardProps) {
   const [showModal, setShowModal] = useState(false);
   const [summary, setSummary] = useState<string | null>(null);
   const [getSummary, { loading }] = useAuthQuery(GET_SUMMARY);
 
-  const styles = VARIANTS[variant] || VARIANTS.purple;
-
   const handleFetchSummary = async (e?: React.MouseEvent) => {
     e?.stopPropagation();
     if (loading) return;
 
-    // If we already have the summary, just open the modal
     if (summary) {
       setShowModal(true);
       return;
@@ -111,88 +65,127 @@ export default function SummaryCard({
     <>
       <div
         onClick={() => handleFetchSummary()}
-        style={{ boxShadow: "rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px" }}
-        className={`relative w-full h-full overflow-hidden rounded-3xl border ${styles.border} ${bgImage ? 'bg-black' : styles.bg} transition-transform active:scale-[0.98] cursor-pointer ${compact ? 'p-4' : 'p-6'}`}
+        className={`group relative overflow-hidden rounded-[2rem] bg-[#FDFCF8] border border-black/5 transition-all duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 cursor-pointer 
+        ${compact ? "p-5 min-w-[160px] aspect-square" : "p-7"}
+        ${bgImage ? "text-white" : "text-[#1a1a1a]"}
+        ${title === "Daily" ? "w-full h-full" : ""}
+        `}
       >
-        {/* Background image */}
+        {/* Background Image for Hero/Daily */}
         {bgImage && (
-          <Image
-            src={bgImage}
-            alt=""
-            fill
-            className={bgImageCover ? "object-cover" : "object-contain"}
-            sizes="(max-width: 768px) 100vw, 400px"
-          />
+          <>
+            <Image
+              src={bgImage}
+              alt="Background"
+              fill
+              className="object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+          </>
         )}
 
-        {/* Decorative gradients */}
-        {!bgImage && <div className={`absolute -top-10 -right-10 h-32 w-32 rounded-full bg-gradient-to-br ${styles.gradient} blur-2xl opacity-60`} />}
+        {/* Soft Gradient Overlay on Hover (non-image cards) */}
+        {!bgImage && (
+          <div className="absolute inset-0 bg-gradient-to-br from-white/0 via-white/0 to-[var(--color-rose-dust)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+        )}
 
-        {/* Arrow button at top-right corner */}
+        {/* Arrow button */}
         <button
           onClick={handleFetchSummary}
-          className={`absolute top-0 right-0 z-20 flex items-center justify-center transition-colors ${bgImage ? 'bg-white/20 hover:bg-white/30 text-white backdrop-blur-md' : styles.button} ${compact ? 'h-8 w-8 rounded-bl-2xl rounded-tr-3xl' : 'h-12 w-12 rounded-bl-2xl rounded-tr-3xl'}`}
+          className={`absolute top-4 right-4 z-20 flex items-center justify-center transition-all duration-300 rounded-full aspect-square shadow-sm
+            ${bgImage
+              ? "bg-white/20 hover:bg-white text-white hover:text-black backdrop-blur-md border-white/10"
+              : "bg-white border border-black/5 text-black/60 group-hover:bg-[#1a1a1a] group-hover:text-white"
+            }
+          `}
+          style={{ width: compact ? 28 : 36 }}
           aria-label="Get summary"
         >
           {loading ? (
-            <Loader size={compact ? 14 : 16} className="text-current opacity-70" />
+            <Loader size={12} className="text-current opacity-70" />
           ) : (
-            <ArrowUpRight size={compact ? 14 : 18} weight="bold" />
+            <ArrowUpRight size={compact ? 16 : 20} weight="light" />
           )}
         </button>
 
-        <div className="relative z-10 flex flex-col h-full justify-between">
-          <div className="flex items-start mb-2">
-            <div className={`flex items-center justify-center rounded-2xl ${bgImage ? 'bg-white/20 text-white backdrop-blur-md' : `${styles.iconBg} ${styles.iconColor}`} ring-1 ring-black/5 ${compact ? 'h-8 w-8' : 'h-12 w-12'}`}>
-              <Icon size={compact ? 16 : 24} weight="duotone" />
+        <div className="relative z-10 flex flex-col h-full justify-between pointer-events-none">
+          {/* Icon (Hidden on Hero/Daily to match image style? Or keep it? keeping for now but maybe white) */}
+          {!bgImage && (
+            <div className="flex items-start mb-1 text-black/70 group-hover:text-black transition-colors duration-500">
+              <Icon size={compact ? 24 : 32} weight="light" />
             </div>
-          </div>
+          )}
+          {bgImage && <div />} {/* Spacer */}
 
           <div>
-            <h3 className={`font-editorial font-medium ${bgImage ? 'text-white' : styles.title} ${compact ? 'text-sm' : 'text-3xl'}`}>{title}</h3>
-            <p className={`mt-0.5 font-medium ${bgImage ? 'text-white/80' : styles.subtitle} leading-tight ${compact ? 'text-[10px]' : 'text-sm'}`}>{subtitle}</p>
+            {/* Subtitle / Label */}
+            <p
+              className={`font-sans font-medium uppercase tracking-[0.15em] mb-1.5
+                ${compact ? "text-[9px]" : "text-[10px]"}
+                ${bgImage ? "text-white/80" : "text-black/50"}
+              `}
+            >
+              {subtitle}
+            </p>
+
+            {/* Title */}
+            <div className="relative h-auto w-full">
+              <h3
+                className={`font-editorial font-light leading-none transition-all duration-500
+                  ${compact ? "text-xl" : "text-4xl"}
+                  ${bgImage ? "text-white" : "text-[#1a1a1a]"}
+                  group-hover:tracking-wide
+                `}
+              >
+                {title}
+              </h3>
+            </div>
           </div>
         </div>
       </div>
 
       <AnimatePresence>
         {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setShowModal(false)}>
+          // ... Modal content remains same ...
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-white/90 backdrop-blur-sm"
+            onClick={() => setShowModal(false)}
+          >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className={`relative w-full max-w-sm max-h-[80vh] overflow-hidden rounded-3xl ${styles.bg} shadow-2xl flex flex-col`}
+              className="relative w-full max-w-sm max-h-[80vh] overflow-hidden rounded-[2rem] border border-black/5 bg-[#FDFCF8] shadow-2xl flex flex-col"
             >
               {/* Header */}
-              <div className="flex items-center justify-between p-6 pb-2 border-b border-black/5">
-                <div className="flex items-center gap-3">
-                  <div className={`flex items-center justify-center rounded-xl ${styles.iconBg} ${styles.iconColor} h-10 w-10`}>
-                    <Icon size={20} weight="duotone" />
+              <div className="relative flex items-center justify-between p-8 pb-4 border-b border-black/5">
+                <div className="flex items-center gap-4">
+                  <div className="text-black/80 bg-[var(--color-rose-dust)]/20 p-2.5 rounded-full">
+                    <Icon size={24} weight="light" />
                   </div>
-                  <div>
-                    <h3 className={`font-editorial font-medium ${styles.title} text-lg`}>{title}</h3>
-                  </div>
+                  <h3 className="font-editorial text-3xl font-light text-[#1a1a1a] lowercase">
+                    {title}
+                  </h3>
                 </div>
                 <button
                   onClick={() => setShowModal(false)}
-                  className={`flex h-8 w-8 items-center justify-center rounded-full ${styles.iconBg} ${styles.iconColor} transition-colors hover:bg-black/5`}
+                  className="flex h-10 w-10 items-center justify-center text-black/40 hover:text-black hover:bg-black/5 rounded-full transition-colors"
                 >
-                  <X size={16} weight="bold" />
+                  <X size={24} weight="light" />
                 </button>
               </div>
 
               {/* Content */}
-              <div className="p-6 overflow-y-auto">
+              <div className="relative p-6 overflow-y-auto bg-white">
                 {summary ? (
                   <div
                     dangerouslySetInnerHTML={{ __html: renderRichText(summary) }}
-                    className={`prose prose-sm max-w-none ${styles.title} prose-p:opacity-80 prose-headings:font-editorial prose-strong:font-medium`}
+                    className="prose prose-sm max-w-none text-black prose-headings:font-editorial prose-headings:font-bold prose-p:font-sans prose-p:font-medium text-lg leading-tight"
                   />
                 ) : (
                   <div className="flex justify-center py-8">
-                    <Loader className={styles.iconColor} />
+                    <Loader className="text-black" />
                   </div>
                 )}
               </div>
