@@ -10,7 +10,7 @@ export default async function layout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col h-svh overflow-hidden">
+    <div className="flex flex-col min-h-svh overflow-y-auto">
       {children}
       <Injector fetch={getCurrentUser.authCall} Component={AuthChecker} />
       <div className="h-(--vv-bottom-inset)" />
