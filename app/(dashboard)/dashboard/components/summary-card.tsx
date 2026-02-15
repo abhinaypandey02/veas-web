@@ -66,7 +66,7 @@ export default function SummaryCard({
       <div
         onClick={() => handleFetchSummary()}
         className={`group relative overflow-hidden rounded-[2rem] bg-[#FDFCF8] border border-black/5 transition-all duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:-translate-y-1 cursor-pointer 
-        ${compact ? "p-5 min-w-[160px] aspect-square" : "p-7"}
+        ${compact ? "p-4 min-w-[160px] aspect-square" : "p-7"}
         ${bgImage ? "text-white" : "text-[#1a1a1a]"}
         ${title === "Daily" ? "w-full h-full" : ""}
         `}
@@ -117,7 +117,7 @@ export default function SummaryCard({
           )}
           {bgImage && <div />} {/* Spacer */}
 
-          <div>
+          <div className="z-20 relative">
             {/* Subtitle / Label */}
             <p
               className={`font-sans font-medium uppercase tracking-[0.15em] mb-1.5
@@ -132,7 +132,7 @@ export default function SummaryCard({
             <div className="relative h-auto w-full">
               <h3
                 className={`font-editorial font-light leading-none transition-all duration-500
-                  ${compact ? "text-xl" : "text-4xl"}
+                  ${compact ? "text-xl leading-tight" : "text-4xl"}
                   ${bgImage ? "text-white" : "text-[#1a1a1a]"}
                   group-hover:tracking-wide
                 `}

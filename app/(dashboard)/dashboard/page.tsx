@@ -59,7 +59,7 @@ export default function Page() {
           userName={userName}
         />
 
-        <div className="flex flex-1 flex-col overflow-y-auto no-scrollbar">
+        <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden no-scrollbar">
           <SummaryCards />
         </div>
       </div>

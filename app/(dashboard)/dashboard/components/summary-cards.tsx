@@ -94,7 +94,7 @@ export default function SummaryCards() {
           <span className="text-xs text-black/40 font-sans tracking-wide">Scroll for more</span>
         </div>
 
-        <div className="flex overflow-x-auto gap-4 px-1 pb-4 -mx-1 no-scrollbar snap-x snap-mandatory">
+        <div className="flex overflow-x-auto gap-4 py-4 mx-2 no-scrollbar snap-x snap-mandatory">
           {/* Weekly */}
           <div className="snap-start shrink-0 w-40 h-40">
             <SummaryCard
@@ -138,8 +138,16 @@ export default function SummaryCards() {
               compact
             />
           </div>
-          {/* Spacer for end of list padding */}
-          <div className="w-1 shrink-0" />
+          {/* Spacer for end of list padding is handled by container padding-right effectively due to flex behavior? actually flex containers often ignore right padding on overflow. 
+                 Safe to add a dummy div at the end if needed? Or just maximize padding. 
+                 Layout shift could happen. Let's rely on px-6 for start. Right padding is tricky in flexbox overflow. 
+                 I'll keep the spacer div I had before? No, I removed it in previous steps? Wait, let's check code.
+                 Ah, I see `first:pl-0` on the first item in my replacement content above? No, I shouldn't add padding to item if container has padding.
+                 I will stick to container padding `px-6`.
+                 And remove `first:pl-0`. 
+                 And add a spacer div at the end just in case for right padding.
+             */}
+          <div className="w-2 shrink-0 snap-align-none" />
         </div>
       </section>
 
