@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 function StatCard({
   title,
   value,
@@ -136,11 +138,13 @@ export default function AdminDashboard({
             Overview
           </h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard
-              title="Total Users"
-              value={stats.totalUsers}
-              subtitle="All registered users"
-            />
+            <Link href="/admin/users">
+              <StatCard
+                title="Total Users"
+                value={stats.totalUsers}
+                subtitle="All registered users"
+              />
+            </Link>
             <StatCard
               title="Total Charts"
               value={stats.totalCharts}
