@@ -20,15 +20,7 @@ export const getAstrologerAssistant = (
     model: isFirstChat ? LLM_MODEL_LITE : LLM_MODEL,
     tools: getTools(chartData, onToolCall),
     instructions: getChatSystemPrompt(user, userChart),
-    providerOptions: !isFirstChat
-      ? {
-          google: {
-            thinkingConfig: {
-              thinkingLevel: "medium",
-            },
-          },
-        }
-      : undefined,
+    providerOptions: undefined,
   });
 
 const MAXIMUM_MESSAGES = 15;
