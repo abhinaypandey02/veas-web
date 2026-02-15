@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SummaryCards from "./components/summary-cards";
 import DashboardHeader from "./components/dashboard-header";
 import PremiumBanner from "./components/premium-banner";
@@ -24,9 +24,9 @@ export default function Page() {
   const userName = userData?.getCurrentUser?.name || "User";
 
   // Fetch user data on mount
-  useState(() => {
+  useEffect(() => {
     getUser({});
-  });
+  }, [getUser]);
 
   return (
     <main className="relative grow h-svh w-full overflow-hidden bg-white text-[#1a1a1a]">
