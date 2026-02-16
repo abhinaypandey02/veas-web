@@ -23,7 +23,7 @@ import { cn } from "@/components/utils";
 
 import { SelectProps } from "../input/types";
 
-export function Select({ options, rules, multiple, ...rest }: SelectProps) {
+export function Select({ options, rules, multiple, loading, ...rest }: SelectProps) {
   const [open, setOpen] = useState(false);
   const formContext = useFormContext() as UseFormReturn | undefined;
   const [searchTerm, setSearchTerm] = useState("");
@@ -34,11 +34,11 @@ export function Select({ options, rules, multiple, ...rest }: SelectProps) {
       !searchTerm
         ? options
         : options.filter((option) =>
-            option.label
-              .toLowerCase()
-              .replaceAll(" ", "")
-              .includes(searchTerm.toLowerCase().replaceAll(" ", "")),
-          ),
+          option.label
+            .toLowerCase()
+            .replaceAll(" ", "")
+            .includes(searchTerm.toLowerCase().replaceAll(" ", "")),
+        ),
     [searchTerm, options],
   );
 
@@ -94,12 +94,12 @@ export function Select({ options, rules, multiple, ...rest }: SelectProps) {
             {values.length
               ? labels.join(", ")
               : rest.defaultValue ||
-                rest.placeholder || <span className="opacity-0">.</span>}
+              rest.placeholder || <span className="opacity-0">.</span>}
           </span>
           <CaretDown
             className={cn(
               "ml-4 h-4 w-4 shrink-0 ",
-              rest.loading ? "opacity-0" : "opacity-50",
+              loading ? "opacity-0" : "opacity-50",
             )}
           />
         </button>
@@ -116,7 +116,7 @@ export function Select({ options, rules, multiple, ...rest }: SelectProps) {
           />
           <CommandList>
             <CommandEmpty>
-              {rest.loading
+              {loading
                 ? "Loading results..."
                 : selected.length && options.length
                   ? "No matches found."
