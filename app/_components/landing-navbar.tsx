@@ -13,7 +13,7 @@ const navLinks = [
   { href: "#hero", label: "Home" },
   { href: "#features", label: "Features" },
   { href: "#about", label: "About" },
-  { href: "#pricing", label: "Pricing" },
+
   { href: "#faq", label: "FAQ" },
 ];
 
@@ -39,8 +39,8 @@ export default function LandingNavbar() {
         layout
         transition={{ type: "spring", stiffness: 200, damping: 28, mass: 0.8 }}
         className={`fixed z-50 flex items-center text-white top-0 left-0 w-full ${isScrolled
-            ? "px-6 sm:px-16 py-3 sm:py-4"
-            : "justify-center sm:justify-start px-6 sm:px-16 py-8 sm:py-12"
+          ? "px-6 sm:px-16 py-3 sm:py-4"
+          : "justify-center sm:justify-start px-6 sm:px-16 py-8 sm:py-12"
           }`}
         style={{
           backdropFilter: isScrolled ? "blur(16px)" : "none",
@@ -58,8 +58,8 @@ export default function LandingNavbar() {
           <Link
             href="/"
             className={`font-serif italic text-white font-medium drop-shadow-sm block ${isScrolled
-                ? "text-xl sm:text-3xl px-2 sm:px-3 py-1"
-                : "text-3xl sm:text-5xl"
+              ? "text-xl sm:text-3xl px-2 sm:px-3 py-1"
+              : "text-3xl sm:text-5xl"
               }`}
           >
             veas
@@ -73,8 +73,8 @@ export default function LandingNavbar() {
         <motion.div
           layout
           className={`hidden sm:flex items-center font-sans text-white ${isScrolled
-              ? "gap-1 text-sm"
-              : "gap-6 lg:gap-8 text-sm tracking-wide"
+            ? "gap-1 text-sm"
+            : "gap-6 lg:gap-8 text-sm tracking-wide"
             }`}
         >
           {navLinks.map((link) => (
@@ -82,8 +82,8 @@ export default function LandingNavbar() {
               key={link.href}
               href={link.href}
               className={`relative group transition-colors duration-300 ${isScrolled
-                  ? "px-3 lg:px-4 py-2 rounded-full hover:bg-white/10 text-white/80 hover:text-white"
-                  : "py-2"
+                ? "px-3 lg:px-4 py-2 rounded-full hover:bg-white/10 text-white/80 hover:text-white"
+                : "py-2"
                 }`}
             >
               <span className="relative z-10 font-medium group-hover:text-white/80 transition-colors">
@@ -104,8 +104,8 @@ export default function LandingNavbar() {
           <Link
             href={token ? "/dashboard" : "/signup"}
             className={`inline-flex font-semibold transition-all duration-300 whitespace-nowrap ${isScrolled
-                ? "px-4 lg:px-5 py-2 rounded-full bg-white/10 text-white text-sm hover:bg-white/20"
-                : "px-6 py-2.5 rounded-full border border-white/40 text-white text-sm hover:bg-white/10"
+              ? "px-4 lg:px-5 py-2 rounded-full bg-white/10 text-white text-sm hover:bg-white/20"
+              : "px-6 py-2.5 rounded-full border border-white/40 text-white text-sm hover:bg-white/10"
               }`}
           >
             {token ? "Dashboard" : "Get Started"}

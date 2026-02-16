@@ -388,11 +388,10 @@ function PricingSection() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 * i }}
               viewport={{ once: true }}
-              className={`relative p-8 rounded-2xl ${
-                plan.isPopular
-                  ? "bg-gradient-to-br from-cosmic-lavender/20 to-cosmic-purple/10 border-2 border-cosmic-purple/30"
-                  : "bg-white border border-foreground/10"
-              }`}
+              className={`relative p-8 rounded-2xl ${plan.isPopular
+                ? "bg-gradient-to-br from-cosmic-lavender/20 to-cosmic-purple/10 border-2 border-cosmic-purple/30"
+                : "bg-white border border-foreground/10"
+                }`}
             >
               {/* Popular Badge */}
               {plan.isPopular && (
@@ -431,11 +430,10 @@ function PricingSection() {
 
               {/* CTA Button */}
               <button
-                className={`w-full h-12 rounded-full font-medium text-sm uppercase tracking-wide transition-colors mb-8 ${
-                  plan.isPopular
-                    ? "bg-foreground text-white hover:bg-cosmic-cobalt"
-                    : "border border-foreground/20 text-foreground hover:bg-foreground/5"
-                }`}
+                className={`w-full h-12 rounded-full font-medium text-sm uppercase tracking-wide transition-colors mb-8 ${plan.isPopular
+                  ? "bg-foreground text-white hover:bg-cosmic-cobalt"
+                  : "border border-foreground/20 text-foreground hover:bg-foreground/5"
+                  }`}
               >
                 Get Started
               </button>
@@ -631,11 +629,10 @@ function TestimonialsSection() {
               <button
                 key={i}
                 onClick={() => setCurrentIndex(i)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  i === currentIndex
-                    ? "bg-foreground w-6"
-                    : "bg-foreground/30 hover:bg-foreground/50"
-                }`}
+                className={`w-2 h-2 rounded-full transition-all ${i === currentIndex
+                  ? "bg-foreground w-6"
+                  : "bg-foreground/30 hover:bg-foreground/50"
+                  }`}
               />
             ))}
           </div>
@@ -683,7 +680,7 @@ function ScrollingTextBanner() {
     offset: ["start end", "end start"],
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], ["10%", "-50%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["70%", "-170%"]);
 
   return (
     <section
@@ -695,7 +692,7 @@ function ScrollingTextBanner() {
         className="whitespace-nowrap flex items-center gap-8"
       >
         <span className="font-editorial text-[3.5rem] sm:text-[12rem] lg:text-[16rem] text-black leading-none">
-          The universe has a story about you. Let's read it.
+          Let's read your story.
         </span>
         <span className="text-3xl sm:text-8xl text-cosmic-purple/30">✧</span>
         <span className="font-editorial text-[3.5rem] sm:text-[12rem] lg:text-[16rem] text-foreground/10 leading-none">
@@ -853,7 +850,7 @@ export default function Home() {
             >
               See the Sky
               <br />
-              <span className="italic">as It Truly Was</span>
+              <span className="italic font-extralight">as It Truly Was</span>
             </motion.h1>
 
             <motion.p
@@ -862,7 +859,7 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.3 }}
               className="mt-4 text-sm sm:text-base text-white/80 max-w-md mx-auto"
             >
-              Sidereal astrology mapped to the real positions of the stars.
+              Astrology mapped to the real positions of the stars.
             </motion.p>
 
             <motion.div
@@ -876,11 +873,7 @@ export default function Home() {
                   {token ? "Dashboard" : "Get Your Free Chart"}
                 </button>
               </Link>
-              <a href="#pricing">
-                <button className="h-12 px-8 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 text-white hover:bg-white/20 transition-colors text-base">
-                  See Plans
-                </button>
-              </a>
+
             </motion.div>
           </div>
 
@@ -942,226 +935,226 @@ export default function Home() {
         {/* Spacer to push content below the fixed hero */}
         <div className="h-screen" />
 
-              {/* Main Content Wrapper - Scrolls over the hero */}
-              <div className="relative z-10 bg-background rounded-t-[3rem] shadow-2xl">
-                <main className="mx-auto flex max-w-7xl flex-col px-6 pb-20 sm:px-12">
-                  {/* Bento Grid Section */}
-                  <section id="features" className="py-24">
-                    {/* Header */}
-                    <motion.h2
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6 }}
-                      viewport={{ once: true }}
-                      className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-foreground mb-12 max-w-md"
-                    >
-                      What can your chart actually tell you?
-                    </motion.h2>
+        {/* Main Content Wrapper - Scrolls over the hero */}
+        <div className="relative z-10 bg-background rounded-t-[3rem] shadow-2xl">
+          <main className="mx-auto flex max-w-7xl flex-col px-6 pb-20 sm:px-12">
+            {/* Bento Grid Section */}
+            <section id="features" className="py-24">
+              {/* Header */}
+              <motion.h2
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-foreground mb-12 max-w-md"
+              >
+                What can your chart actually tell you?
+              </motion.h2>
 
-                    <motion.p
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: 0.1 }}
-                      viewport={{ once: true }}
-                      className="text-muted max-w-xl mb-12"
-                    >
-                      A modern guide to the real sky: timeless wisdom, precise
-                      calculations, and clear, grounded language you can use.
-                    </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="text-muted max-w-xl mb-12"
+              >
+                A modern guide to the real sky: timeless wisdom, precise
+                calculations, and clear, grounded language you can use.
+              </motion.p>
 
-                    {/* Bento Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {/* Large Card - Top Left (spans 2 rows on lg) */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                        viewport={{ once: true }}
-                        className="md:col-span-2 lg:col-span-2 lg:row-span-2 relative rounded-3xl overflow-hidden group cursor-pointer min-h-[400px] lg:min-h-[500px]"
-                      >
-                        {/* Background Image */}
-                        <img
-                          src="/section1image1.jpg"
-                          alt="Lunar Cycles"
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                        {/* Content */}
-                        <div className="absolute bottom-0 left-0 right-0 p-8">
-                          <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-4">
-                            Lunar Cycles
-                          </span>
-                          <h3 className="text-2xl sm:text-3xl font-serif text-white mb-2">
-                            Understand how moon phases
-                            <br />
-                            shape your emotional rhythm
-                          </h3>
-                          <p className="text-white/60 text-sm">
-                            Emotional alignment
-                          </p>
-                        </div>
-                      </motion.div>
+              {/* Bento Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* Large Card - Top Left (spans 2 rows on lg) */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  viewport={{ once: true }}
+                  className="md:col-span-2 lg:col-span-2 lg:row-span-2 relative rounded-3xl overflow-hidden group cursor-pointer min-h-[400px] lg:min-h-[500px]"
+                >
+                  {/* Background Image */}
+                  <img
+                    src="/section1image1.jpg"
+                    alt="Lunar Cycles"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-8">
+                    <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-4">
+                      Lunar Cycles
+                    </span>
+                    <h3 className="text-2xl sm:text-3xl font-serif text-white mb-2">
+                      Understand how moon phases
+                      <br />
+                      shape your emotional rhythm
+                    </h3>
+                    <p className="text-white/60 text-sm">
+                      Emotional alignment
+                    </p>
+                  </div>
+                </motion.div>
 
-                      {/* Top Right Card */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                        viewport={{ once: true }}
-                        className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[240px]"
-                      >
-                        {/* Background Image */}
-                        <img
-                          src="/section1image2.jpg"
-                          alt="Transits"
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                        {/* Content */}
-                        <div className="absolute bottom-0 left-0 right-0 p-6">
-                          <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
-                            Planetary Transits
-                          </span>
-                          <h3 className="text-xl font-serif text-white mb-2">
-                            Navigate major life cycles
-                            <br />
-                            with awareness and grace
-                          </h3>
-                          <p className="text-white/60 text-sm">
-                            Saturn Return and beyond
-                          </p>
-                        </div>
-                      </motion.div>
+                {/* Top Right Card */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[240px]"
+                >
+                  {/* Background Image */}
+                  <img
+                    src="/section1image2.jpg"
+                    alt="Transits"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
+                      Planetary Transits
+                    </span>
+                    <h3 className="text-xl font-serif text-white mb-2">
+                      Navigate major life cycles
+                      <br />
+                      with awareness and grace
+                    </h3>
+                    <p className="text-white/60 text-sm">
+                      Saturn Return and beyond
+                    </p>
+                  </div>
+                </motion.div>
 
-                      {/* Bottom Right Card (next to large card on lg) */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        viewport={{ once: true }}
-                        className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[240px]"
-                      >
-                        {/* Background Image */}
-                        <img
-                          src="/section1image3.jpg"
-                          alt="Birth Chart"
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                        {/* Content */}
-                        <div className="absolute bottom-0 left-0 right-0 p-6">
-                          <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
-                            Birth Charts
-                          </span>
-                          <h3 className="text-xl font-serif text-white mb-2">
-                            Decode your Rising sign,
-                            <br />
-                            planetary placements, and blueprint
-                          </h3>
-                          <p className="text-white/60 text-sm">
-                            Inner architecture
-                          </p>
-                        </div>
-                      </motion.div>
+                {/* Bottom Right Card (next to large card on lg) */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[240px]"
+                >
+                  {/* Background Image */}
+                  <img
+                    src="/section1image3.jpg"
+                    alt="Birth Chart"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
+                      Birth Charts
+                    </span>
+                    <h3 className="text-xl font-serif text-white mb-2">
+                      Decode your Rising sign,
+                      <br />
+                      planetary placements, and blueprint
+                    </h3>
+                    <p className="text-white/60 text-sm">
+                      Inner architecture
+                    </p>
+                  </div>
+                </motion.div>
 
-                      {/* Bottom Row - 3 Cards */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                        viewport={{ once: true }}
-                        className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[280px]"
-                      >
-                        {/* Background Image */}
-                        <img
-                          src="/section1image4.webp"
-                          alt="Planets"
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                        {/* Content */}
-                        <div className="absolute bottom-0 left-0 right-0 p-6">
-                          <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
-                            Compatibility
-                          </span>
-                          <h3 className="text-xl font-serif text-white mb-2">
-                            Explore relationship dynamics
-                            <br />
-                            through Synastry and Vedic principles
-                          </h3>
-                          <p className="text-white/60 text-sm">
-                            Connection insights
-                          </p>
-                        </div>
-                      </motion.div>
+                {/* Bottom Row - 3 Cards */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  viewport={{ once: true }}
+                  className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[280px]"
+                >
+                  {/* Background Image */}
+                  <img
+                    src="/section1image4.webp"
+                    alt="Planets"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
+                      Compatibility
+                    </span>
+                    <h3 className="text-xl font-serif text-white mb-2">
+                      Explore relationship dynamics
+                      <br />
+                      through Synastry and Vedic principles
+                    </h3>
+                    <p className="text-white/60 text-sm">
+                      Connection insights
+                    </p>
+                  </div>
+                </motion.div>
 
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                        viewport={{ once: true }}
-                        className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[280px]"
-                      >
-                        {/* Background Image */}
-                        <img
-                          src="/section1image5.jpg"
-                          alt="Compatibility"
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                        {/* Content */}
-                        <div className="absolute bottom-0 left-0 right-0 p-6">
-                          <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
-                            Lunar Mansions
-                          </span>
-                          <h3 className="text-xl font-serif text-white mb-2">
-                            Dive deeper than zodiac signs
-                            <br />
-                            with the 27 lunar mansions
-                          </h3>
-                          <p className="text-white/60 text-sm">Lunar wisdom</p>
-                        </div>
-                      </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  viewport={{ once: true }}
+                  className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[280px]"
+                >
+                  {/* Background Image */}
+                  <img
+                    src="/section1image5.jpg"
+                    alt="Compatibility"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
+                      Lunar Mansions
+                    </span>
+                    <h3 className="text-xl font-serif text-white mb-2">
+                      Dive deeper than zodiac signs
+                      <br />
+                      with the 27 lunar mansions
+                    </h3>
+                    <p className="text-white/60 text-sm">Lunar wisdom</p>
+                  </div>
+                </motion.div>
 
-                      <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: 0.5 }}
-                        viewport={{ once: true }}
-                        className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[280px]"
-                      >
-                        {/* Background Image */}
-                        <img
-                          src="/section1image2.jpg"
-                          alt="Lunar Mansions"
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        />
-                        {/* Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                        {/* Content */}
-                        <div className="absolute bottom-0 left-0 right-0 p-6">
-                          <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
-                            True Chart
-                          </span>
-                          <h3 className="text-xl font-serif text-white mb-2">
-                            See your Sun, Moon & Rising
-                            <br />
-                            in the real sky
-                          </h3>
-                          <p className="text-white/60 text-sm">
-                            Core alignment
-                          </p>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </section>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  viewport={{ once: true }}
+                  className="relative rounded-3xl overflow-hidden group cursor-pointer min-h-[280px]"
+                >
+                  {/* Background Image */}
+                  <img
+                    src="/section1image2.jpg"
+                    alt="Lunar Mansions"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-xs uppercase tracking-wider mb-3">
+                      True Chart
+                    </span>
+                    <h3 className="text-xl font-serif text-white mb-2">
+                      See your Sun, Moon & Rising
+                      <br />
+                      in the real sky
+                    </h3>
+                    <p className="text-white/60 text-sm">
+                      Core alignment
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+            </section>
 
-                  {/* Feature Grid / Philosophy 
+            {/* Feature Grid / Philosophy 
         <section className="py-24 border-t border-foreground/10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="p-8 rounded-2xl bg-white/70 border border-cosmic-lavender/50 backdrop-blur-sm">
@@ -1195,148 +1188,148 @@ export default function Home() {
         </section>
         */}
 
-                  {/* Big Feature Section with Background Text */}
-                  <section id="about" className="relative py-32 sm:py-40 overflow-hidden">
-                    {/* Large Background Text */}
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-                      <span className="font-editorial text-[7rem] sm:text-[28rem] lg:text-[22rem] text-gray-500/10 leading-none tracking-tighter">
-                        Sidereal
-                      </span>
-                    </div>
+            {/* Big Feature Section with Background Text */}
+            <section id="about" className="relative py-32 sm:py-40 overflow-hidden">
+              {/* Large Background Text */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+                <span className="font-editorial text-[7rem] sm:text-[28rem] lg:text-[22rem] text-gray-500/10 leading-none tracking-tighter">
+                  Veas
+                </span>
+              </div>
 
-                    {/* Content */}
-                    <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                      {/* Left Column */}
-                      <div className="lg:col-span-5">
-                        <motion.h2
-                          initial={{ opacity: 0, y: 30 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6 }}
-                          viewport={{ once: true }}
-                          className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-foreground leading-[1.1] mb-8"
+              {/* Content */}
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                {/* Left Column */}
+                <div className="lg:col-span-5">
+                  <motion.h2
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                    className="font-editorial text-4xl sm:text-5xl lg:text-6xl text-foreground leading-[1.1] mb-8"
+                  >
+                    Your true sign
+                    <br />
+                    <span className="italic text-cosmic-purple">
+                      revealed.
+                    </span>
+                  </motion.h2>
+
+                  {/* Social Proof */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    viewport={{ once: true }}
+                    className="flex items-center gap-4"
+                  >
+                    {/* Avatars */}
+                    <div className="flex -space-x-3">
+                      {["E", "M", "P", "J"].map((letter, i) => (
+                        <div
+                          key={i}
+                          className="w-10 h-10 rounded-full bg-gradient-to-br from-cosmic-purple to-cosmic-lavender flex items-center justify-center text-white text-sm font-medium border-2 border-background"
                         >
-                          Your true sign
-                          <br />
-                          <span className="italic text-cosmic-purple">
-                            revealed.
+                          {letter}
+                        </div>
+                      ))}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1 mb-0.5">
+                        {[...Array(5)].map((_, i) => (
+                          <span
+                            key={i}
+                            className="text-cosmic-gold text-sm"
+                          >
+                            ★
                           </span>
-                        </motion.h2>
-
-                        {/* Social Proof */}
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.2 }}
-                          viewport={{ once: true }}
-                          className="flex items-center gap-4"
-                        >
-                          {/* Avatars */}
-                          <div className="flex -space-x-3">
-                            {["E", "M", "P", "J"].map((letter, i) => (
-                              <div
-                                key={i}
-                                className="w-10 h-10 rounded-full bg-gradient-to-br from-cosmic-purple to-cosmic-lavender flex items-center justify-center text-white text-sm font-medium border-2 border-background"
-                              >
-                                {letter}
-                              </div>
-                            ))}
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-1 mb-0.5">
-                              {[...Array(5)].map((_, i) => (
-                                <span
-                                  key={i}
-                                  className="text-cosmic-gold text-sm"
-                                >
-                                  ★
-                                </span>
-                              ))}
-                            </div>
-                            <p className="text-sm text-muted">
-                              12,000+ charts generated
-                            </p>
-                          </div>
-                        </motion.div>
+                        ))}
                       </div>
-
-                      {/* Center - Visual Element */}
-                      <div className="lg:col-span-3 flex justify-center">
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          transition={{ duration: 0.8, delay: 0.2 }}
-                          viewport={{ once: true }}
-                          className="relative"
-                        >
-                          {/* Zodiac Wheel Visual */}
-                          <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-full border-2 border-cosmic-purple/20 flex items-center justify-center relative">
-                            <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full border border-cosmic-lavender/40 flex items-center justify-center">
-                              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-cosmic-lavender/30 to-cosmic-purple/20 flex items-center justify-center">
-                                <span className="text-4xl sm:text-5xl">☉</span>
-                              </div>
-                            </div>
-                            {/* Orbiting dots */}
-                            <motion.div
-                              animate={{ rotate: 360 }}
-                              transition={{
-                                duration: 20,
-                                repeat: Infinity,
-                                ease: "linear",
-                              }}
-                              className="absolute inset-0"
-                            >
-                              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 w-3 h-3 bg-cosmic-purple rounded-full" />
-                            </motion.div>
-                            <motion.div
-                              animate={{ rotate: -360 }}
-                              transition={{
-                                duration: 30,
-                                repeat: Infinity,
-                                ease: "linear",
-                              }}
-                              className="absolute inset-2"
-                            >
-                              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1 w-2 h-2 bg-cosmic-lavender rounded-full" />
-                            </motion.div>
-                          </div>
-                        </motion.div>
-                      </div>
-
-                      {/* Right Column */}
-                      <div className="lg:col-span-4">
-                        <motion.div
-                          initial={{ opacity: 0, y: 30 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.6, delay: 0.3 }}
-                          viewport={{ once: true }}
-                          className="text-right"
-                        >
-                          <p className="text-xl sm:text-2xl text-foreground leading-relaxed font-light">
-                            What makes Veas different:
-                          </p>
-                          <ul className="mt-4 space-y-3 text-base sm:text-lg text-foreground/80">
-                            <li>
-                              Aligned with the actual sky using NASA JPL
-                              ephemeris data
-                            </li>
-                            <li>Rooted in 5,000 years of astrology wisdom</li>
-                            <li>
-                              Designed for the modern mind, clear and grounded
-                            </li>
-                          </ul>
-                        </motion.div>
-                      </div>
+                      <p className="text-sm text-muted">
+                        12,000+ charts generated
+                      </p>
                     </div>
-                  </section>
-                </main>
-                {/* Scrolling Text Banner */}
-                <PricingSection />
-                <ScrollingTextBanner />
-                {/* Bold Vedic Section - Full Width */}
+                  </motion.div>
+                </div>
 
-                <div className="bg-background">
-                  <main className="relative z-10 mx-auto max-w-7xl px-6 sm:px-12">
-                    {/* Courses Section 
+                {/* Center - Visual Element */}
+                <div className="lg:col-span-3 flex justify-center">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    viewport={{ once: true }}
+                    className="relative"
+                  >
+                    {/* Zodiac Wheel Visual */}
+                    <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-full border-2 border-cosmic-purple/20 flex items-center justify-center relative">
+                      <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full border border-cosmic-lavender/40 flex items-center justify-center">
+                        <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-cosmic-lavender/30 to-cosmic-purple/20 flex items-center justify-center">
+                          <span className="text-4xl sm:text-5xl">☉</span>
+                        </div>
+                      </div>
+                      {/* Orbiting dots */}
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{
+                          duration: 20,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
+                        className="absolute inset-0"
+                      >
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 w-3 h-3 bg-cosmic-purple rounded-full" />
+                      </motion.div>
+                      <motion.div
+                        animate={{ rotate: -360 }}
+                        transition={{
+                          duration: 30,
+                          repeat: Infinity,
+                          ease: "linear",
+                        }}
+                        className="absolute inset-2"
+                      >
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1 w-2 h-2 bg-cosmic-lavender rounded-full" />
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* Right Column */}
+                <div className="lg:col-span-4">
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                    viewport={{ once: true }}
+                    className="text-right"
+                  >
+                    <p className="text-xl sm:text-2xl text-foreground leading-relaxed font-light">
+                      What makes Veas different:
+                    </p>
+                    <ul className="mt-4 space-y-3 text-base sm:text-lg text-foreground/80">
+                      <li>
+                        Aligned with the actual sky using NASA JPL
+                        ephemeris data
+                      </li>
+                      <li>Rooted in 5,000 years of astrology wisdom</li>
+                      <li>
+                        Designed for the modern mind, clear and grounded
+                      </li>
+                    </ul>
+                  </motion.div>
+                </div>
+              </div>
+            </section>
+          </main>
+          {/* Scrolling Text Banner */}
+
+          <ScrollingTextBanner />
+          {/* Bold Vedic Section - Full Width */}
+
+          <div className="bg-background">
+            <main className="relative z-10 mx-auto max-w-7xl px-6 sm:px-12">
+              {/* Courses Section 
         <section className="py-24">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
             <div>
@@ -1355,273 +1348,262 @@ export default function Home() {
           </div>
         </section>
 */}
-                    {/* Pricing Section */}
-                  </main>
+              {/* Pricing Section */}
+            </main>
+          </div>
+
+          {/* Testimonials Section - Full Width with Gradient */}
+          <TestimonialsSection />
+
+          {/* FAQ Section */}
+          <FAQSection />
+
+          {/* Detailed Footer */}
+          <footer
+            className="relative z-10 text-white bg-cover bg-center"
+            style={{ backgroundImage: "url('/footerbg.jpg')" }}
+          >
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#130b25] via-[#130b25]/80 to-transparent z-0" />
+
+            {/* CTA Section - Integrated into Footer */}
+            <div className="relative z-20 w-full bg-gradient-to-b from-[#130b25] via-[#130b25]/90 to-transparent pt-16 pb-12 sm:pt-32 sm:pb-20 px-6 sm:px-12 text-center">
+              <div className="max-w-4xl mx-auto flex flex-col items-center">
+                <motion.h2
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  viewport={{ once: true }}
+                  className="font-editorial text-4xl sm:text-6xl lg:text-7xl leading-[1] text-white mb-6"
+                >
+                  Ready to see{" "}
+                  <span className="italic text-cosmic-lavender">
+                    the real you?
+                  </span>
+                </motion.h2>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                  className="text-lg text-white/60 mb-10 max-w-xl"
+                >
+                  The sky hasn&apos;t changed, only our understanding of
+                  it has. Discover what the heavens actually looked like
+                  when you were born.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  viewport={{ once: true }}
+                  className="flex flex-col sm:flex-row gap-4"
+                >
+                  <Link href={token ? "/dashboard" : "/signup"}>
+                    <button className="h-14 px-10 rounded-full bg-cosmic-purple text-white font-medium hover:bg-cosmic-lavender hover:text-foreground transition-colors tracking-wide text-sm uppercase">
+                      {token ? "Dashboard" : "Get Your Chart Free"}
+                    </button>
+                  </Link>
+
+                </motion.div>
+              </div>
+            </div>
+            {/* Main Footer Content */}
+            <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 py-8 sm:py-16">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8">
+                {/* Brand Column */}
+                <div className="col-span-2 lg:col-span-2">
+                  <span className="font-serif italic text-3xl text-white mb-4 block">
+                    veas
+                  </span>
+                  <p className="text-white/50 text-sm leading-relaxed max-w-sm mb-6">
+                    Authentic Vedic astrology, aligned with the true sky.
+                  </p>
+                  <div className="flex gap-4">
+                    <a
+                      href="#"
+                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                    >
+                      <span className="text-sm">𝕏</span>
+                    </a>
+                    <a
+                      href="#"
+                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                    >
+                      <span className="text-sm">in</span>
+                    </a>
+                    <a
+                      href="#"
+                      className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                    >
+                      <span className="text-sm">IG</span>
+                    </a>
+                  </div>
                 </div>
 
-                {/* Testimonials Section - Full Width with Gradient */}
-                <TestimonialsSection />
-
-                {/* FAQ Section */}
-                <FAQSection />
-
-                {/* Detailed Footer */}
-                <footer
-                  className="relative z-10 text-white bg-cover bg-center"
-                  style={{ backgroundImage: "url('/footerbg.jpg')" }}
-                >
-                  {/* Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-[#130b25] via-[#130b25]/80 to-transparent z-0" />
-
-                  {/* CTA Section - Integrated into Footer */}
-                  <div className="relative z-20 w-full bg-gradient-to-b from-[#130b25] via-[#130b25]/90 to-transparent pt-16 pb-12 sm:pt-32 sm:pb-20 px-6 sm:px-12 text-center">
-                    <div className="max-w-4xl mx-auto flex flex-col items-center">
-                      <motion.h2
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                        viewport={{ once: true }}
-                        className="font-editorial text-4xl sm:text-6xl lg:text-7xl leading-[1] text-white mb-6"
+                {/* Navigation */}
+                <div>
+                  <h4 className="text-xs uppercase tracking-widest text-white/40 mb-4">
+                    Navigate
+                  </h4>
+                  <ul className="space-y-3">
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
                       >
-                        Ready to see{" "}
-                        <span className="italic text-cosmic-lavender">
-                          the real you?
-                        </span>
-                      </motion.h2>
-
-                      <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        viewport={{ once: true }}
-                        className="text-lg text-white/60 mb-10 max-w-xl"
+                        Home
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
                       >
-                        The sky hasn&apos;t changed, only our understanding of
-                        it has. Discover what the heavens actually looked like
-                        when you were born.
-                      </motion.p>
-
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                        viewport={{ once: true }}
-                        className="flex flex-col sm:flex-row gap-4"
+                        About Sidereal
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
                       >
-                        <Link href={token ? "/dashboard" : "/signup"}>
-                          <button className="h-14 px-10 rounded-full bg-cosmic-purple text-white font-medium hover:bg-cosmic-lavender hover:text-foreground transition-colors tracking-wide text-sm uppercase">
-                            {token ? "Dashboard" : "Get Your Chart Free"}
-                          </button>
-                        </Link>
-                        <a href="#pricing">
-                          <button className="h-14 px-10 rounded-full border border-white/30 text-white hover:bg-white/10 transition-colors tracking-wide text-sm uppercase">
-                            See Plans
-                          </button>
-                        </a>
-                      </motion.div>
-                    </div>
-                  </div>
-                  {/* Main Footer Content */}
-                  <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-12 py-8 sm:py-16">
-                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-8">
-                      {/* Brand Column */}
-                      <div className="col-span-2 lg:col-span-2">
-                        <span className="font-serif italic text-3xl text-white mb-4 block">
-                          veas
-                        </span>
-                        <p className="text-white/50 text-sm leading-relaxed max-w-sm mb-6">
-                          Authentic Vedic astrology, aligned with the true sky.
-                        </p>
-                        <div className="flex gap-4">
-                          <a
-                            href="#"
-                            className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-                          >
-                            <span className="text-sm">𝕏</span>
-                          </a>
-                          <a
-                            href="#"
-                            className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-                          >
-                            <span className="text-sm">in</span>
-                          </a>
-                          <a
-                            href="#"
-                            className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-                          >
-                            <span className="text-sm">IG</span>
-                          </a>
-                        </div>
-                      </div>
+                        {token ? "Dashboard" : "Get Your Chart"}
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Academy
+                      </a>
+                    </li>
 
-                      {/* Navigation */}
-                      <div>
-                        <h4 className="text-xs uppercase tracking-widest text-white/40 mb-4">
-                          Navigate
-                        </h4>
-                        <ul className="space-y-3">
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              Home
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              About Sidereal
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              {token ? "Dashboard" : "Get Your Chart"}
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              Academy
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              Pricing
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                  </ul>
+                </div>
 
-                      {/* Resources */}
-                      <div>
-                        <h4 className="text-xs uppercase tracking-widest text-white/40 mb-4">
-                          Resources
-                        </h4>
-                        <ul className="space-y-3">
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              Blog
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              Planetary Calendar
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              Free Birth Chart
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              Manifesto
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              FAQ
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+                {/* Resources */}
+                <div>
+                  <h4 className="text-xs uppercase tracking-widest text-white/40 mb-4">
+                    Resources
+                  </h4>
+                  <ul className="space-y-3">
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Blog
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Planetary Calendar
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Free Birth Chart
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Manifesto
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        FAQ
+                      </a>
+                    </li>
+                  </ul>
+                </div>
 
-                      {/* Legal */}
-                      <div>
-                        <h4 className="text-xs uppercase tracking-widest text-white/40 mb-4">
-                          Legal
-                        </h4>
-                        <ul className="space-y-3">
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              Privacy Policy
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              Terms of Service
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              Cookie Policy
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              Refund Policy
-                            </a>
-                          </li>
-                          <li>
-                            <a
-                              href="#"
-                              className="text-sm text-white/70 hover:text-white transition-colors"
-                            >
-                              Contact
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
+                {/* Legal */}
+                <div>
+                  <h4 className="text-xs uppercase tracking-widest text-white/40 mb-4">
+                    Legal
+                  </h4>
+                  <ul className="space-y-3">
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Privacy Policy
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Terms of Service
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Cookie Policy
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Refund Policy
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#"
+                        className="text-sm text-white/70 hover:text-white transition-colors"
+                      >
+                        Contact
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
 
-                  {/* Bottom Bar */}
-                  <div className="relative z-10 border-t border-white/10">
-                    <div className="max-w-7xl mx-auto px-6 sm:px-12 py-4 sm:py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-                      <span className="text-xs text-white/40">
-                        © 2026 Veas Astrology. All rights reserved.
-                      </span>
-                      <div className="flex items-center gap-6 text-xs text-white/40">
-                        <span>Made with ✧ for the cosmos</span>
-                        <span className="hidden sm:inline">•</span>
-                        <span className="hidden sm:inline">
-                          Based on NASA JPL Ephemeris data
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </footer>
-          </div>
-          {/* End of content wrapper */}
+            {/* Bottom Bar */}
+            <div className="relative z-10 border-t border-white/10">
+              <div className="max-w-7xl mx-auto px-6 sm:px-12 py-4 sm:py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <span className="text-xs text-white/40">
+                  © 2026 Veas Astrology. All rights reserved.
+                </span>
+                <div className="flex items-center gap-6 text-xs text-white/40">
+                  <span>Made with ✧ for the cosmos</span>
+                  <span className="hidden sm:inline">•</span>
+                  <span className="hidden sm:inline">
+                    Based on NASA JPL Ephemeris data
+                  </span>
+                </div>
+              </div>
+            </div>
+          </footer>
         </div>
-      </SmoothScroll>
+        {/* End of content wrapper */}
+      </div>
+    </SmoothScroll>
   );
 }
