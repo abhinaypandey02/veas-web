@@ -79,7 +79,7 @@ export default function SummaryCards() {
               <div>
 
                 <h3 className="font-editorial font-light text-white leading-none text-2xl group-hover:tracking-wide transition-all duration-500">
-                  Ask Veas AI
+                  Ask Veas
                 </h3>
               </div>
             </div>
