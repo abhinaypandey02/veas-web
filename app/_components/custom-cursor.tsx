@@ -9,6 +9,10 @@ export default function CustomCursor() {
     const [isHovering, setIsHovering] = useState(false);
 
     useEffect(() => {
+        // Only run on devices with hover capability and fine pointer (mouse/trackpad)
+        const isDesktop = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+        if (!isDesktop) return;
+
         const moveCursor = (e: MouseEvent) => {
             mouseX.set(e.clientX - 16); // Center the 32x32 cursor
             mouseY.set(e.clientY - 16);
@@ -38,7 +42,7 @@ export default function CustomCursor() {
 
     return (
         <motion.div
-            className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference text-white"
+            className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference text-white custom-cursor-element"
             style={{
                 x: mouseX,
                 y: mouseY,
