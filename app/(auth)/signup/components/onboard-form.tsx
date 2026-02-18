@@ -78,7 +78,8 @@ export default function OnboardForm({
 
   const handleSubmit = async (data: FormType) => {
     const selectedPlace = places.find((p) => p.place_id === Number(data.place));
-    if (!selectedPlace || !timezone) {
+    console.log(selectedPlace,timezone);
+    if (!selectedPlace || timezone === undefined) {
       form.setError("place", {
         message: "Please select a valid place",
       });
