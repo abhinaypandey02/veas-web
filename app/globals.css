@@ -78,30 +78,6 @@ html.lenis body {
   pointer-events: none;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  body {
-    cursor: none;
-  }
-
-  /* Hide default cursor on interactive elements */
-  a,
-  button,
-  [role="button"],
-  input[type="submit"],
-  label[for],
-  select,
-  [onclick] {
-    cursor: none;
-  }
-}
-
-@media (hover: none),
-(pointer: coarse) {
-  .custom-cursor-element {
-    display: none !important;
-  }
-}
-
 /* Utilities for editorial look */
 @utility font-editorial {
   font-family: var(--font-serif);
