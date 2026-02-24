@@ -5,7 +5,7 @@ import getCurrentUser from "@/app/api/(graphql)/User/resolvers/get-current-user"
 
 export default function ProfilePage() {
   return (
-    <main className="grow min-h-0">
+    <main className="grow min-h-0 overflow-y-auto">
       <Injector
         fetch={async () => ({
           planetsData: await getPlanets.authCall(),
