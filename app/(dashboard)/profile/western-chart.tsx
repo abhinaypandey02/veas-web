@@ -94,12 +94,12 @@ interface WesternChartProps {
 
 export default function WesternChart({ planets }: WesternChartProps) {
   // SVG dimensions and center
-  const size = 600;
+  const size = 700;
   const center = size / 2;
-  const outerRadius = 240;
-  const midRadius = 190;
-  const innerRadius = 140;
-  const coreRadius = 90;
+  const outerRadius = 330;
+  const midRadius = 210;
+  const innerRadius = 155;
+  const coreRadius = 100;
 
   const startHouse = 1;
   // House 1 starts at "9 o'clock" which is 270 degrees in SVG coordinates (where 0 is top)
@@ -156,12 +156,11 @@ export default function WesternChart({ planets }: WesternChartProps) {
   });
 
   return (
-    <div className="flex justify-center w-full max-w-[500px] mx-auto items-center p-4 md:p-8 bg-primary/5 rounded-2xl">
+    <div className="flex justify-center w-full sm:max-w-[500px] mx-auto items-center p-0 sm:p-4 md:p-8 bg-primary/5 rounded-2xl overflow-hidden">
       <svg
-        width="100%"
-        height="100%"
         viewBox={`0 0 ${size} ${size}`}
-        className="text-primary font-light"
+        className="text-primary font-light w-full h-auto"
+        style={{ aspectRatio: '1 / 1' }}
       >
         {/* Outer Ring (Signs) */}
         {houses.map((h) => {
@@ -172,6 +171,16 @@ export default function WesternChart({ planets }: WesternChartProps) {
             (outerRadius + midRadius) / 2,
             midAngle,
           );
+
+          // Normalize the rotation so text is always right-side-up
+          let rotation = midAngle + 90;
+          // Normalize to 0-360
+          rotation = ((rotation % 360) + 360) % 360;
+          // If the text would be upside-down (between 90 and 270), flip it
+          const isFlipped = rotation > 90 && rotation < 270;
+          if (isFlipped) {
+            rotation += 180;
+          }
 
           return (
             <g key={`sign-${h.houseNum}`}>
@@ -192,18 +201,18 @@ export default function WesternChart({ planets }: WesternChartProps) {
               />
               {/* Sign Symbol and Text */}
               <g
-                transform={`translate(${textPos.x}, ${textPos.y}) rotate(${midAngle + 90})`}
-                className="opacity-80 flex flex-col items-center"
+                transform={`translate(${textPos.x}, ${textPos.y}) rotate(${rotation})`}
+                className="opacity-80"
               >
-                <g transform="translate(-12, -20)">
-                  <ZodiacIcon sign={h.signName} width={24} height={24} />
+                <g transform={`translate(-10, ${isFlipped ? 2 : -18})`}>
+                  <ZodiacIcon sign={h.signName} width={20} height={20} />
                 </g>
                 <text
                   x={0}
-                  y={12}
+                  y={isFlipped ? -8 : 10}
                   textAnchor="middle"
                   dominantBaseline="middle"
-                  className="text-[10px] fill-current opacity-80 uppercase tracking-widest font-medium"
+                  className="text-[9px] fill-current opacity-80 uppercase tracking-wide font-medium"
                 >
                   {h.signName}
                 </text>
