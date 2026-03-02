@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 
 export const { GET } = initGoogleAuth({
   redirectURL: process.env.NEXT_PUBLIC_BASE_URL + "/dashboard",
+  errorRedirectURL: process.env.NEXT_PUBLIC_BASE_URL + "/signup",
   getUserIdFromEmail: async ({ email, name }, data) => {
     if (!email) return null;
 
