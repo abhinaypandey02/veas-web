@@ -17,7 +17,7 @@ export const genderEnum = pgEnum(
 
 export const UserTable = pgTable("users", {
   id: serial("id").primaryKey(),
-  password: text("password").notNull(),
+  password: text("password"),
   email: text("email").notNull(),
   name: text("name").notNull(),
   chartId: integer("chart_id")

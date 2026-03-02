@@ -56,6 +56,18 @@ function SignUpDetailsForm({
 
   return (
     <div className=" ">
+      <a
+        href={
+          process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENDPOINT +
+          "?data=" +
+          JSON.stringify(onboardingData)
+        }
+        className={"px-4 block mb-6"}
+      >
+        <Button loading={isSubmitting} invert className="w-full ">
+          Continue with Google
+        </Button>
+      </a>
       <Form form={form} onSubmit={handleSubmit} className="space-y-4 px-4">
         <Input
           name="name"
