@@ -20,6 +20,7 @@ type Documents = {
     "\n  mutation SubmitFeedback($input: SubmitFeedbackInput!) {\n    submitFeedback(input: $input)\n  }\n": typeof types.SubmitFeedbackDocument,
     "\n  #graphql\n  query GetSummary($input: GetSummaryInput!) {\n    getSummary(input: $input)\n  }\n": typeof types.GetSummaryDocument,
     "\n  query GetCurrentUser {\n    getCurrentUser {\n      id\n      email\n      name\n      placeOfBirth\n      timezoneOffset\n      gender\n      dateOfBirth\n      placeOfBirthLat\n      placeOfBirthLong\n    }\n  }\n": typeof types.GetCurrentUserDocument,
+    "\n  query GetChats {\n    getChats {\n      message\n      role\n      createdAt\n    }\n  }\n": typeof types.GetChatsDocument,
 };
 const documents: Documents = {
     "\n  #graphql\n  mutation OnboardUser($input: OnboardUserInput!) {\n    onboardUser(input: $input)\n  }\n": types.OnboardUserDocument,
@@ -28,6 +29,7 @@ const documents: Documents = {
     "\n  mutation SubmitFeedback($input: SubmitFeedbackInput!) {\n    submitFeedback(input: $input)\n  }\n": types.SubmitFeedbackDocument,
     "\n  #graphql\n  query GetSummary($input: GetSummaryInput!) {\n    getSummary(input: $input)\n  }\n": types.GetSummaryDocument,
     "\n  query GetCurrentUser {\n    getCurrentUser {\n      id\n      email\n      name\n      placeOfBirth\n      timezoneOffset\n      gender\n      dateOfBirth\n      placeOfBirthLat\n      placeOfBirthLong\n    }\n  }\n": types.GetCurrentUserDocument,
+    "\n  query GetChats {\n    getChats {\n      message\n      role\n      createdAt\n    }\n  }\n": types.GetChatsDocument,
 };
 
 /**
@@ -68,6 +70,10 @@ export function gql(source: "\n  #graphql\n  query GetSummary($input: GetSummary
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query GetCurrentUser {\n    getCurrentUser {\n      id\n      email\n      name\n      placeOfBirth\n      timezoneOffset\n      gender\n      dateOfBirth\n      placeOfBirthLat\n      placeOfBirthLong\n    }\n  }\n"): (typeof documents)["\n  query GetCurrentUser {\n    getCurrentUser {\n      id\n      email\n      name\n      placeOfBirth\n      timezoneOffset\n      gender\n      dateOfBirth\n      placeOfBirthLat\n      placeOfBirthLong\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query GetChats {\n    getChats {\n      message\n      role\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  query GetChats {\n    getChats {\n      message\n      role\n      createdAt\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
