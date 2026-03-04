@@ -1,18 +1,3 @@
-export async function searchLocation(query: string) {
-  const response = await fetch(
-    `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=5`,
-  ).then((res) => res.json() as Promise<SearchPlaceResponse[]>);
-
-  return response;
-}
-export async function searchTimezone(lat: number, lon: number) {
-  const response = await fetch(`/api/timezone?lat=${lat}&lon=${lon}`).then(
-    (res) => res.json() as Promise<number>,
-  );
-
-  return response;
-}
-
 export interface SearchPlaceResponse {
   lat: string;
   type: string;
@@ -21,6 +6,26 @@ export interface SearchPlaceResponse {
   name: string;
   display_name: string;
   addresstype: string;
+}
+
+export async function searchLocation(
+  query: string,
+): Promise<SearchPlaceResponse[]> {
+  const response = await fetch(
+    `https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=5`,
+  ).then((res) => res.json() as Promise<SearchPlaceResponse[]>);
+  return response;
+}
+
+export async function searchTimezone(
+  lat: number,
+  lon: number,
+): Promise<number> {
+  const baseUrl = process.env.EXPO_PUBLIC_GRAPHQL_BASE_URL || "";
+  const response = await fetch(
+    `${baseUrl}/api/timezone?lat=${lat}&lon=${lon}`,
+  ).then((res) => res.json() as Promise<number>);
+  return response;
 }
 
 export interface SearchTimezoneResponse {

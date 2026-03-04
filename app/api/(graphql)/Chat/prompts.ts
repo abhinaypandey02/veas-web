@@ -1,4 +1,4 @@
-import { getLocalTime } from "@/utils/location";
+import { getLocalTime } from "@/mobile/utils/location";
 import { UserChartDB, UserDB } from "../User/db";
 
 export const ASTROLOGER_PERSONALITY = `────────── IDENTITY ──────────

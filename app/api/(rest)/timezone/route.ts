@@ -1,4 +1,4 @@
-import { SearchTimezoneResponse } from "@/utils/location";
+import { SearchTimezoneResponse } from "@/mobile/utils/location";
 import { NextResponse } from "next/server";
 
 export const GET = async (request: Request) => {

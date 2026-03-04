@@ -8,7 +8,7 @@ import {
   generateTransitSummaries,
   generateDashaSummaries,
 } from "@/app/api/lib/charts/utils/summaries";
-import { getLocalTime } from "@/utils/location";
+import { getLocalTime } from "@/mobile/utils/location";
 import { GetChartsResponse } from "@/app/api/lib/charts/types";
 
 interface CreateUserChartInput {

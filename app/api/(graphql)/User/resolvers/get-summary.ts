@@ -13,7 +13,7 @@ import {
   getChartSummary,
   generateChartSummaries,
 } from "@/app/api/lib/charts/utils/summaries";
-import { getLocalTime } from "@/utils/location";
+import { getLocalTime } from "@/mobile/utils/location";
 
 @InputType("GetSummaryInput")
 export class GetSummaryInput {

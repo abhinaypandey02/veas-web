@@ -18,7 +18,7 @@ import {
   searchTimezone,
   getUTCDate,
   getLocalTime,
-} from "@/utils/location";
+} from "@/mobile/utils/location";
 import type { QueryResponseType } from "naystack/graphql";
 import type getCurrentUser from "@/app/api/(graphql)/User/resolvers/get-current-user";
 import { Gender } from "@/__generated__/graphql";

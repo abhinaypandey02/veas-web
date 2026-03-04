@@ -8,7 +8,7 @@ import {
   SearchPlaceResponse,
   searchTimezone,
   getUTCDate,
-} from "@/utils/location";
+} from "@/mobile/utils/location";
 import { useForm } from "react-hook-form";
 import Form from "@/components/form";
 import { Button } from "@/components/button";
