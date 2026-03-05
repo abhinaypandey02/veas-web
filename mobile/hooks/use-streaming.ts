@@ -1,12 +1,10 @@
 import { useCallback } from "react";
 import { useToken } from "naystack/auth/email/client";
-import { ChatStreamRole, ERROR_MESSAGES } from "@/constants/chat";
-
-const API_BASE_URL = process.env.EXPO_PUBLIC_GRAPHQL_BASE_URL || "";
+import { ChatStreamRole } from "@/constants/chat";
 
 export function useStreaming(path: string) {
   const token = useToken();
-  const url = `${API_BASE_URL}${path}`;
+  const url = `${process.env.EXPO_PUBLIC_GRAPHQL_BASE_URL}${path}`;
 
   return useCallback(
     (
@@ -21,7 +19,7 @@ export function useStreaming(path: string) {
         onResponse: (message: string) => void;
         onError: (message: string) => void;
         onComplete: () => void;
-      }
+      },
     ) => {
       const xhr = new XMLHttpRequest();
       let lastIndex = 0;
@@ -76,13 +74,13 @@ export function useStreaming(path: string) {
 
       xhr.onerror = () => {
         onError(
-          "Sorry, something went wrong while generating a response. Please try again."
+          "Sorry, something went wrong while generating a response. Please try again.",
         );
         onComplete();
       };
 
       xhr.send(body);
     },
-    [token, url]
+    [token, url],
   );
 }

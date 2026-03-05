@@ -35,12 +35,12 @@ export async function processChat(
   await db.insert(ChatTable).values([
     {
       userId,
-      role: ChatRole.user,
+      role: ChatRole.User,
       message: newMessage,
     },
     {
       userId,
-      role: ChatRole.assistant,
+      role: ChatRole.Assistant,
       message: newResponse,
     },
   ]);
@@ -61,11 +61,11 @@ export async function processChat(
     .where(
       and(
         lte(ChatTable.createdAt, lastCreatedAt),
-        ne(ChatTable.role, ChatRole.summary),
+        ne(ChatTable.role, ChatRole.Summary),
         eq(ChatTable.userId, userId),
       ),
     );
-  if (!previousMessages.some((m) => m.role === ChatRole.summary)) {
+  if (!previousMessages.some((m) => m.role === ChatRole.Summary)) {
     await addUserChatSummary(userId, summary.text);
   } else {
     await db
@@ -74,14 +74,14 @@ export async function processChat(
         message: summary.text,
       })
       .where(
-        and(eq(ChatTable.role, ChatRole.summary), eq(ChatTable.userId, userId)),
+        and(eq(ChatTable.role, ChatRole.Summary), eq(ChatTable.userId, userId)),
       );
   }
 }
 export function addUserChatSummary(userId: number, summary: string) {
   return db.insert(ChatTable).values({
     userId,
-    role: ChatRole.summary,
+    role: ChatRole.Summary,
     message: summary,
     createdAt: new Date(2000, 1, 1),
   });

@@ -44,9 +44,8 @@ function OnboardForm({
 
   const [placeQuery, setPlaceQuery] = useState("");
   const [places, setPlaces] = useState<SearchPlaceResponse[]>([]);
-  const [selectedPlace, setSelectedPlace] = useState<SearchPlaceResponse | null>(
-    null,
-  );
+  const [selectedPlace, setSelectedPlace] =
+    useState<SearchPlaceResponse | null>(null);
   const [loadingPlaces, setLoadingPlaces] = useState(false);
   const [loadingTimezone, setLoadingTimezone] = useState(false);
   const [timezone, setTimezone] = useState<number | undefined>();
@@ -83,10 +82,7 @@ function OnboardForm({
   useEffect(() => {
     if (!selectedPlace) return;
     setLoadingTimezone(true);
-    searchTimezone(
-      parseFloat(selectedPlace.lat),
-      parseFloat(selectedPlace.lon),
-    )
+    searchTimezone(parseFloat(selectedPlace.lat), parseFloat(selectedPlace.lon))
       .then((tz) => setTimezone(tz))
       .finally(() => setLoadingTimezone(false));
   }, [selectedPlace]);

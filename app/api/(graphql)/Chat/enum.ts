@@ -1,7 +1,7 @@
 export enum ChatRole {
-  summary = "summary",
-  user = "user",
-  assistant = "assistant",
+  Summary = "Summary",
+  User = "User",
+  Assistant = "Assistant",
 }
 
 export { ChatStreamRole } from "../../../../mobile/constants/chat";

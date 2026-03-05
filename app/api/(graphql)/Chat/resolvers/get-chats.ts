@@ -12,7 +12,7 @@ export default query(
       .where(
         and(
           eq(ChatTable.userId, ctx.userId),
-          ne(ChatTable.role, ChatRole.summary),
+          ne(ChatTable.role, ChatRole.Summary),
         ),
       )
       .orderBy(ChatTable.id);

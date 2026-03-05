@@ -34,9 +34,9 @@ export type Chat = {
 };
 
 export enum ChatRole {
-  Assistant = 'assistant',
-  Summary = 'summary',
-  User = 'user'
+  Assistant = 'Assistant',
+  Summary = 'Summary',
+  User = 'User'
 }
 
 export type CurrentMahadasha = {

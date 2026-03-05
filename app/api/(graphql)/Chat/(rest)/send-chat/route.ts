@@ -66,12 +66,12 @@ export const POST = async (req: NextRequest) => {
       messages: [
         ...chats.map((chat) => ({
           role:
-            chat.role === ChatRole.assistant
-              ? (ChatRole.assistant as const)
-              : (ChatRole.user as const),
+            chat.role === ChatRole.Assistant
+              ? (ChatRole.Assistant.toLowerCase() as "assistant")
+              : (ChatRole.User.toLowerCase() as "user"),
           content: chat.message,
         })),
-        { role: ChatRole.user, content: message },
+        { role: ChatRole.User.toLowerCase() as "user", content: message },
       ],
     });
   } catch (error) {

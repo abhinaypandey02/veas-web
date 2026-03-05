@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { QueryResponseType } from "naystack/graphql";
 import type getChats from "@/app/api/(graphql)/Chat/resolvers/get-chats";
-import { ChatRole } from "@/app/api/(graphql)/Chat/enum";
+import { ChatRole } from "@/__generated__/graphql";
 import { Input } from "@/components/input";
 import { useForm } from "react-hook-form";
 import Form from "@/components/form";
@@ -88,12 +88,12 @@ export function ChatWindow({
       {
         message: userMessage,
         createdAt: userDate,
-        role: ChatRole.user,
+        role: ChatRole.User,
       },
       {
         message: "",
         createdAt: assistantMessageId,
-        role: ChatRole.assistant,
+        role: ChatRole.Assistant,
       },
     ]);
     stream(userMessage, {
@@ -136,7 +136,9 @@ export function ChatWindow({
 
       {/* Fixed Top Bar */}
       <div className="shrink-0 flex items-center justify-center px-4 py-3 border-b border-black/5 bg-white/80 backdrop-blur-md z-20">
-        <h1 className="font-editorial text-lg font-medium text-[#1a1a1a]">Chat</h1>
+        <h1 className="font-editorial text-lg font-medium text-[#1a1a1a]">
+          Chat
+        </h1>
       </div>
 
       {/* Messages Area */}
@@ -156,29 +158,31 @@ export function ChatWindow({
               .map((message, i) => (
                 <div
                   key={chat.createdAt + chat.role + i}
-                  className={`flex ${chat.role === ChatRole.user
-                    ? "justify-end"
-                    : "justify-start"
-                    }`}
+                  className={`flex ${
+                    chat.role === ChatRole.User
+                      ? "justify-end"
+                      : "justify-start"
+                  }`}
                 >
                   <div
-                    className={`max-w-[85%] md:max-w-[70%] px-6 py-4 text-sm rounded-[2rem] shadow-sm ${chat.role !== ChatRole.user
-                      ? "bg-[#FDFCF8] text-[#1a1a1a] border border-black/5 rounded-tl-none"
-                      : "bg-[#1a1a1a] text-[#FDFCF8] rounded-tr-none"
-                      }`}
+                    className={`max-w-[85%] md:max-w-[70%] px-6 py-4 text-sm rounded-[2rem] shadow-sm ${
+                      chat.role !== ChatRole.User
+                        ? "bg-[#FDFCF8] text-[#1a1a1a] border border-black/5 rounded-tl-none"
+                        : "bg-[#1a1a1a] text-[#FDFCF8] rounded-tr-none"
+                    }`}
                   >
                     <div
                       className={cn(
                         "whitespace-pre-wrap wrap-break-word ",
-                        chat.role !== ChatRole.user
+                        chat.role !== ChatRole.User
                           ? "font-serif text-[15px] leading-relaxed"
                           : "font-sans text-[15px]",
                       )}
                       dangerouslySetInnerHTML={
                         message
                           ? {
-                            __html: renderRichText(message),
-                          }
+                              __html: renderRichText(message),
+                            }
                           : undefined
                       }
                     >
@@ -233,7 +237,11 @@ export function ChatWindow({
       )}
 
       {/* Input bar - above bottom nav */}
-      <Form form={form} onSubmit={handleSendMessage} className="shrink-0 p-4 mb-32 relative z-10">
+      <Form
+        form={form}
+        onSubmit={handleSendMessage}
+        className="shrink-0 p-4 mb-32 relative z-10"
+      >
         <div className="flex items-end gap-2 max-w-4xl mx-auto relative">
           <div className="flex-1 relative">
             <Input
@@ -255,14 +263,14 @@ export function ChatWindow({
           {isLoading
             ? null
             : message?.trim() && (
-              <button
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-[#1a1a1a] hover:bg-black/5 p-2 rounded-full transition-colors"
-                type="submit"
-                disabled={isLoading}
-              >
-                <ArrowRightIcon size={24} weight="light" />
-              </button>
-            )}
+                <button
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#1a1a1a] hover:bg-black/5 p-2 rounded-full transition-colors"
+                  type="submit"
+                  disabled={isLoading}
+                >
+                  <ArrowRightIcon size={24} weight="light" />
+                </button>
+              )}
         </div>
       </Form>
     </div>

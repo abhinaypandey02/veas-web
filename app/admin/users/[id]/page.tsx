@@ -33,9 +33,7 @@ async function fetchUser(paramsPromise: Promise<{ id: string }>) {
     db
       .select({ totalMessages: count() })
       .from(ChatTable)
-      .where(
-        and(eq(ChatTable.userId, id), eq(ChatTable.role, ChatRole.user)),
-      ),
+      .where(and(eq(ChatTable.userId, id), eq(ChatTable.role, ChatRole.User))),
     db
       .select({
         dateOfBirth: UserChartTable.dateOfBirth,
@@ -60,10 +58,5 @@ export default function UserDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  return (
-    <Injector
-      fetch={() => fetchUser(params)}
-      Component={UserDetail}
-    />
-  );
+  return <Injector fetch={() => fetchUser(params)} Component={UserDetail} />;
 }

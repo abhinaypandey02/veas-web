@@ -243,9 +243,9 @@ type Chat {
 }
 
 enum ChatRole {
-  assistant
-  summary
-  user
+  Assistant
+  Summary
+  User
 }
 
 type CurrentMahadasha {
