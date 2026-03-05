@@ -1,3 +1,5 @@
+import { addEnv } from "naystack/env";
+
 import {
   DarkTheme,
   DefaultTheme,
@@ -16,6 +18,10 @@ import { ApolloWrapper } from "naystack/graphql/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
+
+addEnv("GRAPHQL_ENDPOINT", process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT!);
+addEnv("EMAIL_AUTH_ENDPOINT", process.env.EXPO_PUBLIC_EMAIL_AUTH_ENDPOINT!);
+addEnv("BASE_URL", process.env.EXPO_PUBLIC_BASE_URL!);
 
 export default function LayoutWrapper() {
   return (
