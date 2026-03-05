@@ -22,3 +22,13 @@ export const GET_CURRENT_USER = gql(`
     }
   }
 `);
+
+export const GET_CHATS = gql(`
+  query GetChats {
+    getChats {
+      message
+      role
+      createdAt
+    }
+  }
+`);

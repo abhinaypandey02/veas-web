@@ -4,8 +4,4 @@ export enum ChatRole {
   assistant = "assistant",
 }
 
-export enum ChatStreamRole {
-  Tool,
-  Response,
-  Error,
-}
+export { ChatStreamRole } from "../../../../mobile/constants/chat";

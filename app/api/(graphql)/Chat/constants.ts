@@ -1,7 +1,4 @@
-export const MAXIMUM_MESSAGES = {
-  BETA: 5,
-};
-
-export const ERROR_MESSAGES = {
-  BETA: "BETA_LIMIT_REACHED",
-};
+export {
+  MAXIMUM_MESSAGES,
+  ERROR_MESSAGES,
+} from "../../../../mobile/constants/chat";
