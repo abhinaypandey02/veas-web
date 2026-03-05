@@ -9,28 +9,25 @@ import { UserChartTable, UserRawChartTable, UserTable } from "../../../User/db";
 import { decompressChartData } from "@/app/api/lib/charts/utils/compress";
 import { ChatStreamRole } from "../../enum";
 import { ERROR_MESSAGES, MAXIMUM_MESSAGES } from "../../constants";
+import { getCorsHeaders } from "@/app/api/lib/cors";
 
 const ALLOWED_ORIGINS = ["https://app.veasapp.com", "http://localhost:8081"];
 
-function getCorsHeaders(req: NextRequest) {
-  const origin = req.headers.get("origin") ?? "";
-  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : "";
-  return {
-    "Access-Control-Allow-Origin": allowedOrigin,
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
-  };
-}
-
 export const OPTIONS = async (req: NextRequest) => {
-  return new NextResponse(null, { status: 204, headers: getCorsHeaders(req) });
+  return new NextResponse(null, {
+    status: 204,
+    headers: getCorsHeaders(req, ALLOWED_ORIGINS),
+  });
 };
 
 export const POST = async (req: NextRequest) => {
-  const corsHeaders = getCorsHeaders(req);
+  const corsHeaders = getCorsHeaders(req, ALLOWED_ORIGINS);
   const ctx = await getContext(req);
   if (!ctx?.userId)
-    return new NextResponse("Unauthorized", { status: 401, headers: corsHeaders });
+    return new NextResponse("Unauthorized", {
+      status: 401,
+      headers: corsHeaders,
+    });
   const message = await req.text();
 
   const chats = await db
@@ -58,11 +55,18 @@ export const POST = async (req: NextRequest) => {
       eq(UserTable.chartId, UserRawChartTable.chartId),
     );
 
-  if (!data) return new NextResponse("User not found", { status: 404, headers: corsHeaders });
+  if (!data)
+    return new NextResponse("User not found", {
+      status: 404,
+      headers: corsHeaders,
+    });
   const { user_charts, user_raw_charts, users: user } = data;
   const chartData = await decompressChartData(user_raw_charts.rawChart);
   if (!chartData)
-    return new NextResponse("Chart data not found", { status: 404, headers: corsHeaders });
+    return new NextResponse("Chart data not found", {
+      status: 404,
+      headers: corsHeaders,
+    });
 
   let _controller: ReadableStreamDefaultController<Uint8Array>;
   const encoder = new TextEncoder();
