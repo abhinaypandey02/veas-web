@@ -162,9 +162,10 @@ export default function ChatScreen() {
           );
         },
         onError: (errMsg) => {
-          if (errMsg === ERROR_MESSAGES.CHAT_LIMIT_REACHED) {
+          if (errMsg === ERROR_MESSAGES.FREE_LIMIT_REACHED) {
             setFeedbackOpen(true);
-            return;
+          } else if (errMsg === ERROR_MESSAGES.PRO_LIMIT_REACHED) {
+            setFeedbackOpen(true);
           } else {
             setErrorMessage(errMsg);
           }

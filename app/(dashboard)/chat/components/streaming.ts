@@ -69,8 +69,11 @@ export function useStreaming(url: string) {
           }
         })
         .catch((error) => {
-          if (error.message === ERROR_MESSAGES.CHAT_LIMIT_REACHED) {
-            return onError(ERROR_MESSAGES.CHAT_LIMIT_REACHED);
+          if (
+            error.message === ERROR_MESSAGES.FREE_LIMIT_REACHED ||
+            error.message === ERROR_MESSAGES.PRO_LIMIT_REACHED
+          ) {
+            return onError(error.message);
           }
           return onError(
             "Sorry, something went wrong while generating a response. Please try again.",
