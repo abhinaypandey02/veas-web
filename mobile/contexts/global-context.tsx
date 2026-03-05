@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { useToken } from "naystack/auth/email/client";
 import { useAuthQuery } from "naystack/graphql/client";
 import { GetCurrentUserQuery } from "@/__generated__/graphql";
@@ -13,9 +13,13 @@ type CurrentUser = NonNullable<GetCurrentUserQuery["getCurrentUser"]>;
 
 interface GlobalState {
   currentUser: CurrentUser | null;
+  updateCurrentUser: (fields: Partial<CurrentUser>) => void;
 }
 
-const GlobalContext = createContext<GlobalState>({ currentUser: null });
+const GlobalContext = createContext<GlobalState>({
+  currentUser: null,
+  updateCurrentUser: () => {},
+});
 
 export function useGlobalState() {
   return useContext(GlobalContext);
@@ -29,6 +33,10 @@ export function GlobalStateProvider({
   const token = useToken();
   const [getUser] = useAuthQuery(GET_CURRENT_USER);
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+
+  const updateCurrentUser = useCallback((fields: Partial<CurrentUser>) => {
+    setCurrentUser((prev) => (prev ? { ...prev, ...fields } : prev));
+  }, []);
 
   useEffect(() => {
     configureRevenueCat();
@@ -50,7 +58,7 @@ export function GlobalStateProvider({
   }, [token]);
 
   return (
-    <GlobalContext.Provider value={{ currentUser }}>
+    <GlobalContext.Provider value={{ currentUser, updateCurrentUser }}>
       {children}
     </GlobalContext.Provider>
   );
