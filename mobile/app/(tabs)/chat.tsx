@@ -17,11 +17,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthQuery, useAuthMutation } from "naystack/graphql/client";
 import { ChatRole } from "@/__generated__/graphql";
 import { MAXIMUM_MESSAGES, ERROR_MESSAGES } from "@/constants/chat";
-import { GET_CHATS, GET_CURRENT_USER } from "@/constants/graphql/queries";
+import { GET_CHATS } from "@/constants/graphql/queries";
 import { SUBMIT_FEEDBACK } from "@/constants/graphql/mutations";
+import { useGlobalState } from "@/contexts/global-context";
 import { useStreaming } from "@/hooks/use-streaming";
 import { parseRichText } from "@/utils/chat";
 import { Fonts } from "@/constants/theme";
+import { PaywallModal } from "@/components/PaywallModal";
 
 interface ChatMessage {
   message: string;
@@ -47,8 +49,8 @@ const SATISFACTION_OPTIONS = [
 ];
 
 export default function ChatScreen() {
+  const { currentUser } = useGlobalState();
   const [getChats, { data: chatsData }] = useAuthQuery(GET_CHATS);
-  const [getUser, { data: userData }] = useAuthQuery(GET_CURRENT_USER);
   const [submitFeedback, { loading: feedbackLoading }] =
     useAuthMutation(SUBMIT_FEEDBACK);
 
@@ -59,6 +61,7 @@ export default function ChatScreen() {
   const [toolMessage, setToolMessage] = useState<string>();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [firstTouch, setFirstTouch] = useState(false);
+  const [paywallOpen, setPaywallOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [feedbackScore, setFeedbackScore] = useState("");
   const [feedbackText, setFeedbackText] = useState("");
@@ -73,7 +76,6 @@ export default function ChatScreen() {
   // Fetch initial data
   useEffect(() => {
     getChats();
-    getUser();
   }, []);
 
   // Set initial chats from GraphQL data
@@ -163,7 +165,8 @@ export default function ChatScreen() {
         },
         onError: (errMsg) => {
           if (errMsg === ERROR_MESSAGES.FREE_LIMIT_REACHED) {
-            setFeedbackOpen(true);
+            setChats((prev) => prev.slice(0, -1));
+            setPaywallOpen(true);
           } else if (errMsg === ERROR_MESSAGES.PRO_LIMIT_REACHED) {
             setFeedbackOpen(true);
           } else {
@@ -200,7 +203,7 @@ export default function ChatScreen() {
     setFeedbackText("");
   };
 
-  const userName = userData?.getCurrentUser?.name || "";
+  const userName = currentUser?.name || "";
 
   const renderMessageBubble = (
     chat: ChatMessage,
@@ -372,6 +375,12 @@ export default function ChatScreen() {
         {/* Extra space for bottom tab bar */}
         <View style={{ height: 80 }} />
       </KeyboardAvoidingView>
+
+      {/* Paywall Modal */}
+      <PaywallModal
+        visible={paywallOpen}
+        onClose={() => setPaywallOpen(false)}
+      />
 
       {/* Feedback Modal */}
       <Modal

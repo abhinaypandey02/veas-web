@@ -18,6 +18,7 @@ import { ApolloWrapper } from "naystack/graphql/client";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
+import { GlobalStateProvider } from "@/contexts/global-context";
 
 addEnv("GRAPHQL_ENDPOINT", process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT!);
 addEnv("EMAIL_AUTH_ENDPOINT", process.env.EXPO_PUBLIC_EMAIL_AUTH_ENDPOINT!);
@@ -39,7 +40,9 @@ export default function LayoutWrapper() {
       }
     >
       <ApolloWrapper>
-        <RootLayout />
+        <GlobalStateProvider>
+          <RootLayout />
+        </GlobalStateProvider>
       </ApolloWrapper>
     </AuthWrapper>
   );
