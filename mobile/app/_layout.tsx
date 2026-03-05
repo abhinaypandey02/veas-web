@@ -20,13 +20,17 @@ import { ActivityIndicator, View } from "react-native";
 export default function LayoutWrapper() {
   return (
     <AuthWrapper
-      onTokenUpdate={(token) => {
-        if (token) {
-          AsyncStorage.setItem("refresh", token);
-        } else {
-          AsyncStorage.removeItem("refresh");
-        }
-      }}
+      onTokenUpdate={
+        !!process.env.EXPO_PUBLIC_IS_BROWSER
+          ? undefined
+          : (token) => {
+              if (token) {
+                AsyncStorage.setItem("refresh", token);
+              } else {
+                AsyncStorage.removeItem("refresh");
+              }
+            }
+      }
     >
       <ApolloWrapper>
         <RootLayout />
@@ -41,7 +45,11 @@ function RootLayout() {
   const segments = useSegments();
   const router = useRouter();
 
-  useAuthFetch(() => AsyncStorage.getItem("refresh"));
+  useAuthFetch(
+    !!process.env.EXPO_PUBLIC_IS_BROWSER
+      ? undefined
+      : () => AsyncStorage.getItem("refresh"),
+  );
 
   useEffect(() => {
     // token === undefined means still loading
