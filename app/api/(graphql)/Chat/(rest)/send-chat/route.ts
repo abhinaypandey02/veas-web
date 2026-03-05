@@ -10,9 +10,27 @@ import { decompressChartData } from "@/app/api/lib/charts/utils/compress";
 import { ChatStreamRole } from "../../enum";
 import { ERROR_MESSAGES, MAXIMUM_MESSAGES } from "../../constants";
 
+const ALLOWED_ORIGINS = ["https://app.veasapp.com", "http://localhost:8081"];
+
+function getCorsHeaders(req: NextRequest) {
+  const origin = req.headers.get("origin") ?? "";
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : "";
+  return {
+    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  };
+}
+
+export const OPTIONS = async (req: NextRequest) => {
+  return new NextResponse(null, { status: 204, headers: getCorsHeaders(req) });
+};
+
 export const POST = async (req: NextRequest) => {
+  const corsHeaders = getCorsHeaders(req);
   const ctx = await getContext(req);
-  if (!ctx?.userId) return new NextResponse("Unauthorized", { status: 401 });
+  if (!ctx?.userId)
+    return new NextResponse("Unauthorized", { status: 401, headers: corsHeaders });
   const message = await req.text();
 
   const chats = await db
@@ -26,6 +44,7 @@ export const POST = async (req: NextRequest) => {
   if (chats.length >= MAXIMUM_MESSAGES.BETA * 2) {
     return new NextResponse(ERROR_MESSAGES.BETA, {
       status: 403,
+      headers: corsHeaders,
     });
   }
 
@@ -39,11 +58,11 @@ export const POST = async (req: NextRequest) => {
       eq(UserTable.chartId, UserRawChartTable.chartId),
     );
 
-  if (!data) return new NextResponse("User not found", { status: 404 });
+  if (!data) return new NextResponse("User not found", { status: 404, headers: corsHeaders });
   const { user_charts, user_raw_charts, users: user } = data;
   const chartData = await decompressChartData(user_raw_charts.rawChart);
   if (!chartData)
-    return new NextResponse("Chart data not found", { status: 404 });
+    return new NextResponse("Chart data not found", { status: 404, headers: corsHeaders });
 
   let _controller: ReadableStreamDefaultController<Uint8Array>;
   const encoder = new TextEncoder();
@@ -80,6 +99,7 @@ export const POST = async (req: NextRequest) => {
       "Sorry, something went wrong while starting the chat.",
       {
         status: 500,
+        headers: corsHeaders,
       },
     );
   }
@@ -135,6 +155,7 @@ export const POST = async (req: NextRequest) => {
   return new NextResponse(transformedStream, {
     headers: {
       "Content-Type": "text/plain; charset=utf-8",
+      ...corsHeaders,
     },
   });
 };
