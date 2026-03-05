@@ -21,7 +21,7 @@ export async function searchTimezone(
   lat: number,
   lon: number,
 ): Promise<number> {
-  const baseUrl = process.env.EXPO_PUBLIC_GRAPHQL_BASE_URL || "";
+  const baseUrl = process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT || "";
   const response = await fetch(
     `${baseUrl}/api/timezone?lat=${lat}&lon=${lon}`,
   ).then((res) => res.json() as Promise<number>);
