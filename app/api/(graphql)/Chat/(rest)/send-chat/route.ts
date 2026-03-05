@@ -8,7 +8,6 @@ import { getContext } from "naystack/auth";
 import { UserChartTable, UserRawChartTable, UserTable } from "../../../User/db";
 import { decompressChartData } from "@/app/api/lib/charts/utils/compress";
 import { ChatStreamRole } from "../../enum";
-import { ERROR_MESSAGES } from "../../constants";
 import { getCorsHeaders } from "@/app/api/lib/cors";
 import { getAvailableUsage } from "@/app/api/(graphql)/Chat/(rest)/send-chat/utils";
 
@@ -37,10 +36,10 @@ export const POST = async (req: NextRequest) => {
     )
     .orderBy(ChatTable.createdAt, ChatTable.id);
 
-  const availableUsage = await getAvailableUsage(ctx.userId);
+  const error = await getAvailableUsage(ctx.userId);
 
-  if (availableUsage <= 0) {
-    return new NextResponse(ERROR_MESSAGES.CHAT_LIMIT_REACHED, {
+  if (error) {
+    return new NextResponse(error, {
       status: 403,
       headers: corsHeaders,
     });

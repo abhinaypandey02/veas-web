@@ -1,7 +1,7 @@
 import { db } from "@/app/api/lib/db";
 import { ChatRole, ChatTable } from "@/app/api/(graphql)/Chat/db";
 import { and, eq, gte } from "drizzle-orm";
-import { MAXIMUM_MESSAGES } from "@/mobile/constants/chat";
+import { ERROR_MESSAGES, MAXIMUM_MESSAGES } from "@/mobile/constants/chat";
 import { SubscriptionTable } from "@/app/api/(graphql)/Subscription/db";
 import { SubscriptionType } from "@/app/api/(graphql)/Subscription/enum";
 
@@ -13,7 +13,7 @@ export async function getAvailableUsage(id: number) {
     .limit(MAXIMUM_MESSAGES.PRO_DAILY_LIMIT);
 
   const availableFreeTier = MAXIMUM_MESSAGES.FREE_TIER - totalChats.length;
-  if (availableFreeTier > 0) return availableFreeTier;
+  if (availableFreeTier > 0) return null;
 
   const lastDay = new Date();
   lastDay.setDate(lastDay.getDate() - 1);
@@ -24,7 +24,7 @@ export async function getAvailableUsage(id: number) {
   const freeLimit =
     MAXIMUM_MESSAGES.FREE_DAILY_LIMIT - chatsInLast24Hours.length;
 
-  if (freeLimit > 0) return freeLimit;
+  if (freeLimit > 0) return null;
 
   const [sub] = await db
     .select({
@@ -38,11 +38,14 @@ export async function getAvailableUsage(id: number) {
       ),
     );
 
-  if (!sub) return 0;
+  if (!sub) return ERROR_MESSAGES.FREE_LIMIT_REACHED;
 
   if (sub.type === SubscriptionType.Pro) {
-    return MAXIMUM_MESSAGES.PRO_DAILY_LIMIT - chatsInLast24Hours.length;
+    const proUsage =
+      MAXIMUM_MESSAGES.PRO_DAILY_LIMIT - chatsInLast24Hours.length;
+    if (proUsage > 0) return null;
+    return ERROR_MESSAGES.PRO_LIMIT_REACHED;
   }
 
-  return 0;
+  return ERROR_MESSAGES.FREE_LIMIT_REACHED;
 }
