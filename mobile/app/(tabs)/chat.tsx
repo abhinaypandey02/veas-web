@@ -165,8 +165,9 @@ export default function ChatScreen() {
           if (errMsg === ERROR_MESSAGES.FREE_TIER_LIMIT_REACHED) {
             setFeedbackOpen(true);
             return;
+          } else {
+            setErrorMessage(errMsg);
           }
-          setErrorMessage(errMsg);
         },
         onComplete: () => {
           setFirstTouch(false);

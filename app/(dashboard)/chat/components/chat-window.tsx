@@ -111,8 +111,7 @@ export function ChatWindow({
         if (message === ERROR_MESSAGES.FREE_TIER_LIMIT_REACHED) {
           setFeedbackOpen(true);
           return;
-        }
-        setErrorMessage(message);
+        } else setErrorMessage(message);
       },
       onComplete: () => {
         setFirstTouch(false);
