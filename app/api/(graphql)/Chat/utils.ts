@@ -8,6 +8,7 @@ import { getChatSystemPrompt } from "./prompts";
 import { GetChartsResponse } from "../../lib/charts/types";
 import { getTools } from "../../lib/charts/utils/tools";
 import { UserChartDB, UserDB } from "../User/db";
+import { MAX_TOKEN_LIMIT } from "@/mobile/constants/chat";
 
 export const getAstrologerAssistant = (
   user: UserDB,
@@ -21,6 +22,7 @@ export const getAstrologerAssistant = (
     tools: getTools(chartData, onToolCall),
     instructions: getChatSystemPrompt(user, userChart),
     providerOptions: undefined,
+    maxOutputTokens: MAX_TOKEN_LIMIT,
   });
 
 const MAXIMUM_MESSAGES = 15;

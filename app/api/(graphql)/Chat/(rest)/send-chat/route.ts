@@ -72,11 +72,20 @@ export const POST = async (req: NextRequest) => {
   let _controller: ReadableStreamDefaultController<Uint8Array>;
   const encoder = new TextEncoder();
 
+  let isCallingTool = false;
+
   const astrologer = getAstrologerAssistant(
     user,
     user_charts,
     chartData,
     (message) => {
+      if (!isCallingTool)
+        _controller.enqueue(encoder.encode(getEncodedMessage("\n\n")));
+
+      isCallingTool = true;
+
+      console.log(message);
+
       _controller.enqueue(
         encoder.encode(getEncodedMessage(message, ChatStreamRole.Tool)),
       );
@@ -133,6 +142,10 @@ export const POST = async (req: NextRequest) => {
             }
             controller.close();
             break;
+          }
+
+          if (value) {
+            isCallingTool = false;
           }
 
           // Accumulate the text
