@@ -1,12 +1,20 @@
-import { ChatDB } from "@/app/api/(graphql)/Chat/db";
+import { db } from "@/app/api/lib/db";
+import { ChatRole, ChatTable } from "@/app/api/(graphql)/Chat/db";
+import { and, eq } from "drizzle-orm";
 import { ERROR_MESSAGES, MAXIMUM_MESSAGES } from "@/mobile/constants/chat";
-import { SubscriptionDB } from "@/app/api/(graphql)/Subscription/db";
 import { SubscriptionType } from "@/app/api/(graphql)/Subscription/enum";
+import { SubscriptionDB } from "@/app/api/(graphql)/Subscription/db";
 
 export async function getAvailableUsage(
-  totalChats: ChatDB[],
-  sub?: SubscriptionDB | null,
+  id: number,
+  sub: SubscriptionDB | null,
 ) {
+  const totalChats = await db
+    .select()
+    .from(ChatTable)
+    .where(and(eq(ChatTable.role, ChatRole.User), eq(ChatTable.userId, id)))
+    .limit(MAXIMUM_MESSAGES.PRO_DAILY_LIMIT);
+
   const availableFreeTier = MAXIMUM_MESSAGES.FREE_TIER - totalChats.length;
   if (availableFreeTier > 0) return null;
 

@@ -56,7 +56,7 @@ export const POST = async (req: NextRequest) => {
     });
   const { user_charts, user_raw_charts, users: user, subscription } = data;
 
-  const error = await getAvailableUsage(chats, subscription);
+  const error = await getAvailableUsage(ctx.userId, subscription);
 
   if (error) {
     return new NextResponse(error, {
@@ -91,7 +91,6 @@ export const POST = async (req: NextRequest) => {
         encoder.encode(getEncodedMessage(message, ChatStreamRole.Tool)),
       );
     },
-    false,
   );
 
   let stream;
