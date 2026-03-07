@@ -9,8 +9,9 @@ import { UserChartTable, UserRawChartTable, UserTable } from "../../../User/db";
 import { decompressChartData } from "@/app/api/lib/charts/utils/compress";
 import { ChatStreamRole } from "../../enum";
 import { getCorsHeaders } from "@/app/api/lib/cors";
-import { getAvailableUsage } from "@/app/api/(graphql)/Chat/(rest)/send-chat/utils";
 import { MESSAGE_CHAR_LIMIT } from "@/mobile/constants/chat";
+import { SubscriptionTable } from "@/app/api/(graphql)/Subscription/db";
+import { getAvailableUsage } from "@/app/api/(graphql)/Chat/(rest)/send-chat/utils";
 
 export const OPTIONS = async (req: NextRequest) => {
   return new NextResponse(null, {
@@ -37,15 +38,6 @@ export const POST = async (req: NextRequest) => {
     )
     .orderBy(ChatTable.createdAt, ChatTable.id);
 
-  const error = await getAvailableUsage(ctx.userId);
-
-  if (error) {
-    return new NextResponse(error, {
-      status: 403,
-      headers: corsHeaders,
-    });
-  }
-
   const [data] = await db
     .select()
     .from(UserTable)
@@ -54,14 +46,25 @@ export const POST = async (req: NextRequest) => {
     .innerJoin(
       UserRawChartTable,
       eq(UserTable.chartId, UserRawChartTable.chartId),
-    );
+    )
+    .leftJoin(SubscriptionTable, eq(SubscriptionTable.userId, UserTable.id));
 
   if (!data)
     return new NextResponse("User not found", {
       status: 404,
       headers: corsHeaders,
     });
-  const { user_charts, user_raw_charts, users: user } = data;
+  const { user_charts, user_raw_charts, users: user, subscription } = data;
+
+  const error = await getAvailableUsage(chats, subscription);
+
+  if (error) {
+    return new NextResponse(error, {
+      status: 403,
+      headers: corsHeaders,
+    });
+  }
+
   const chartData = await decompressChartData(user_raw_charts.rawChart);
   if (!chartData)
     return new NextResponse("Chart data not found", {
@@ -83,8 +86,6 @@ export const POST = async (req: NextRequest) => {
         _controller.enqueue(encoder.encode(getEncodedMessage("\n\n")));
 
       isCallingTool = true;
-
-      console.log(message);
 
       _controller.enqueue(
         encoder.encode(getEncodedMessage(message, ChatStreamRole.Tool)),

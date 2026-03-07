@@ -5,7 +5,7 @@ export enum ChatStreamRole {
 }
 
 export const MESSAGE_CHAR_LIMIT = 200;
-export const MAX_TOKEN_LIMIT = 250;
+export const MAX_TOKEN_LIMIT = 450;
 
 export const MAXIMUM_MESSAGES = {
   FREE_TIER: 5,
