@@ -9,7 +9,7 @@ export async function getAvailableUsage(id: number) {
   const totalChats = await db
     .select()
     .from(ChatTable)
-    .where(and(eq(ChatTable.role, ChatRole.User), eq(ChatTable.id, id)))
+    .where(and(eq(ChatTable.role, ChatRole.User), eq(ChatTable.userId, id)))
     .limit(MAXIMUM_MESSAGES.PRO_DAILY_LIMIT);
 
   const availableFreeTier = MAXIMUM_MESSAGES.FREE_TIER - totalChats.length;
@@ -20,7 +20,7 @@ export async function getAvailableUsage(id: number) {
   const chatsInLast24Hours = totalChats.filter(
     (chat) => chat.createdAt > lastDay,
   );
-
+  console.log(chatsInLast24Hours);
   const freeLimit =
     MAXIMUM_MESSAGES.FREE_DAILY_LIMIT - chatsInLast24Hours.length;
 
