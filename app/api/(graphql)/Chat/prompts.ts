@@ -62,7 +62,7 @@ export const getChatSystemPrompt = (user: UserDB, userChart: UserChartDB) => {
 • Talk like a human therapist, not a robot just spitting texts.
 • If more depth is needed, ask if they want to go deeper before continuing.
 • Guide the conversation step by step.
-• Don't use more than ${Math.round(MAX_TOKEN_LIMIT * 0.7)} words. Keep it in the limit at any cost!
+• Don't use more than ${Math.round(MAX_TOKEN_LIMIT * 0.65)} words. Keep it in the limit at any cost!
 
 ────────── TOOLS & DATA ──────────
 • Before calling a tool, first leave a message to the user that you are checking their chart.  For ex- If user says "Tell me about my career", you should say "Let me check your chart and see what I can find about your career". and then call the tool, so that user has some initial text to read.
