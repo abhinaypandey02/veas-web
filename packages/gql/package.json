@@ -1,0 +1,19 @@
+{
+  "name": "@veas/gql",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./queries/index.ts",
+    "./types": "./__generated__/graphql.ts"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^6.1.0",
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "graphql": "^16.12.0"
+  },
+  "scripts": {
+    "compile": "graphql-codegen",
+    "watch": "graphql-codegen -w"
+  }
+}

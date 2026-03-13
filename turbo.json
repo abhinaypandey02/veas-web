@@ -1,0 +1,23 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "web#build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**"],
+      "env": ["GOOGLE_GENERATIVE_AI_API_KEY","GROQ_API_KEY","REFRESH_KEY","SIGNING_KEY","POSTGRES_URL","OPENAI_API_KEY","GOOGLE_CLIENT_ID","GOOGLE_CLIENT_SECRET"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "compile": {},
+    "tsc": {
+      "dependsOn": ["^tsc"]
+    }
+  }
+}
