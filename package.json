@@ -3,9 +3,10 @@
   "private": true,
   "scripts": {
     "build": "turbo run build --env-mode=loose",
-    "dev": "dotenv -- turbo run dev --env-mode=loose",
+    "dev": "dotenv -- turbo run dev --env-mode=loose --filter=web",
+    "dev-mobile": "dotenv -- turbo run dev --env-mode=loose --filter=mobile",
     "lint": "turbo run lint --env-mode=loose",
-    "compile": "turbo run compile",
+    "compile": "turbo run compile && pnpm i",
     "tsc": "turbo run tsc"
   },
   "devDependencies": {

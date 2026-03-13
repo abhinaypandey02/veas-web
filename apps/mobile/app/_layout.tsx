@@ -26,6 +26,7 @@ addEnv("EMAIL_AUTH_ENDPOINT", process.env.EXPO_PUBLIC_EMAIL_AUTH_ENDPOINT!);
 addEnv("BASE_URL", process.env.EXPO_PUBLIC_BASE_URL!);
 
 export default function LayoutWrapper() {
+    console.log(process.env.EXPO_PUBLIC_EMAIL_AUTH_ENDPOINT)
   return (
     <AuthWrapper
       onTokenUpdate={

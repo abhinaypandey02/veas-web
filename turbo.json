@@ -19,7 +19,13 @@
       "cache": false,
       "persistent": true
     },
-    "compile": {},
+    "dev-mobile": {
+      "dependsOn": ["^dev"],
+      "cache": false,
+      "persistent": true
+    },
+    "compile": {
+    },
     "tsc": {
       "dependsOn": ["^tsc"]
     }

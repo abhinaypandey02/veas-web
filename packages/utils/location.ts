@@ -22,7 +22,7 @@ export async function searchTimezone(
   lon: number,
 ): Promise<number> {
   const baseUrl = process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT || "";
-  return fetch(`${baseUrl}/api/timezone?lat=${lat}&lon=${lon}`).then(
+  return fetch(`${baseUrl}/timezone?lat=${lat}&lon=${lon}`).then(
     (res) => res.json() as Promise<number>,
   );
 }
