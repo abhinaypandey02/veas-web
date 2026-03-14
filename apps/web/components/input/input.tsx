@@ -85,7 +85,7 @@ function Input({
     getBaseClassName(
       rest.variant || Variants.PRIMARY,
       rest.type === "checkbox" || rest.type === "radio",
-      !!rest.type?.startsWith("date"),
+      !!rest.type?.startsWith("date")||!!rest.type?.includes('time'),
       loading,
     ),
     rest.className,
