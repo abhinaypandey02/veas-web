@@ -1,9 +1,13 @@
 import Purchases, { LOG_LEVEL } from "react-native-purchases";
 
 export const RC_ENTITLEMENT_ID = "Veas Pro";
-export const RC_API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_API_KEY!;
+export const RC_API_KEY = process.env.EXPO_PUBLIC_REVENUECAT_API_KEY ?? "";
 
 export function configureRevenueCat() {
+  if (!RC_API_KEY) {
+    console.warn("[RevenueCat] API key is missing, skipping configuration");
+    return;
+  }
   if (__DEV__) {
     Purchases.setLogLevel(LOG_LEVEL.DEBUG);
   }

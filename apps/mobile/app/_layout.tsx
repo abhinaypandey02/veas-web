@@ -20,9 +20,15 @@ import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { GlobalStateProvider } from "@/contexts/global-context";
 
-addEnv("GRAPHQL_ENDPOINT", process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT!);
-addEnv("EMAIL_AUTH_ENDPOINT", process.env.EXPO_PUBLIC_EMAIL_AUTH_ENDPOINT!);
-addEnv("BASE_URL", process.env.EXPO_PUBLIC_BASE_URL!);
+if (process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT) {
+  addEnv("GRAPHQL_ENDPOINT", process.env.EXPO_PUBLIC_GRAPHQL_ENDPOINT);
+}
+if (process.env.EXPO_PUBLIC_EMAIL_AUTH_ENDPOINT) {
+  addEnv("EMAIL_AUTH_ENDPOINT", process.env.EXPO_PUBLIC_EMAIL_AUTH_ENDPOINT);
+}
+if (process.env.EXPO_PUBLIC_BASE_URL) {
+  addEnv("BASE_URL", process.env.EXPO_PUBLIC_BASE_URL);
+}
 
 export default function LayoutWrapper() {
   return (
