@@ -16,7 +16,7 @@
       "env": {
         "EXPO_PUBLIC_GRAPHQL_ENDPOINT": "https://veasapp.com/api",
         "EXPO_PUBLIC_EMAIL_AUTH_ENDPOINT": "https://veasapp.com/api/email",
-        "EXPO_PUBLIC_REVENUECAT_API_KEY": "test_MqTsmpzGsquMXtGqoEDBDLsafZg"
+        "EXPO_PUBLIC_REVENUECAT_API_KEY": "REPLACE_WITH_PRODUCTION_APPLE_KEY"
       }
     }
   },

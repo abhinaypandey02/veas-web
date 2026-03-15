@@ -8,6 +8,13 @@ export function configureRevenueCat() {
     console.warn("[RevenueCat] API key is missing, skipping configuration");
     return;
   }
+  if (!__DEV__ && RC_API_KEY.startsWith("test_")) {
+    console.error(
+      "[RevenueCat] Test API key detected in production build. " +
+        "Replace EXPO_PUBLIC_REVENUECAT_API_KEY with your production key (appl_...)."
+    );
+    return;
+  }
   if (__DEV__) {
     Purchases.setLogLevel(LOG_LEVEL.DEBUG);
   }
