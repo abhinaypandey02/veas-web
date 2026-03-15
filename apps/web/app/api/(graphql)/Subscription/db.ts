@@ -4,6 +4,7 @@ import {
   integer,
   pgEnum,
   timestamp,
+  unique,
 } from "drizzle-orm/pg-core";
 import { SubscriptionType } from "./enum";
 import { UserTable } from "@/app/api/(graphql)/User/db";
@@ -21,6 +22,8 @@ export const SubscriptionTable = pgTable("subscription", {
   type: subscriptionTypeEnum("type").notNull(),
   validTill: timestamp("valid_till").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
-});
+}, (table) => [
+  unique().on(table.userId),
+]);
 
 export type SubscriptionDB = typeof SubscriptionTable.$inferSelect;
