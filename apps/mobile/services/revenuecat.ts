@@ -7,7 +7,10 @@ const RC_API_KEY =
     ? (process.env.EXPO_PUBLIC_REVENUECAT_APPLE_API_KEY ?? "")
     : (process.env.EXPO_PUBLIC_REVENUECAT_GOOGLE_API_KEY ?? "");
 
+let isConfigured = false;
+
 export function configureRevenueCat() {
+  if (isConfigured) return;
   if (!RC_API_KEY) {
     console.warn("[RevenueCat] API key is missing, skipping configuration");
     return;
@@ -23,6 +26,7 @@ export function configureRevenueCat() {
     Purchases.setLogLevel(LOG_LEVEL.DEBUG);
   }
   Purchases.configure({ apiKey: RC_API_KEY });
+  isConfigured = true;
 }
 
 export async function identifyRevenueCatUser(userId: string) {
